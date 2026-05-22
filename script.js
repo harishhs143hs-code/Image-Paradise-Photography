@@ -185,7 +185,7 @@ loader.style.display='none';
     if (e.key === 'ArrowRight') lbR.click();
   });
 
-  /* ── TESTIMONIAL SLIDER ──────────────────────── */
+  /*── TESTIMONIAL SLIDER ──────────────────────── */
   const ttrack   = document.getElementById('ttrack');
   const tdotsEl  = document.getElementById('tdots');
   const tcards   = ttrack.querySelectorAll('.tcard');
@@ -209,16 +209,18 @@ loader.style.display='none';
 
  /* ── CONTACT FORM ────────────────────────────── */
 
-const eForm=document.getElementById('eForm');
-const fsubBtn=document.getElementById('fsub');
+/* ── CONTACT FORM ────────────────────────────── */
 
-function setErr(id,errId,msg){
+const eForm = document.getElementById('eForm');
+const fsubBtn = document.getElementById('fsub');
+
+function setErr(id, errId, msg){
 document.getElementById(id)?.classList.add('bad');
 const el=document.getElementById(errId);
 if(el)el.textContent=msg;
 }
 
-function clrErr(id,errId){
+function clrErr(id, errId){
 document.getElementById(id)?.classList.remove('bad');
 const el=document.getElementById(errId);
 if(el)el.textContent='';
@@ -234,25 +236,17 @@ const email=document.getElementById('f_email')?.value.trim();
 const session=document.getElementById('f_session')?.value;
 const msg=document.getElementById('f_msg')?.value.trim();
 
-if(!fname){
-setErr('f_fname','fe_fname','Required');
-ok=false;
-}else clrErr('f_fname','fe_fname');
+if(!fname){setErr('f_fname','fe_fname','Required');ok=false;}
+else clrErr('f_fname','fe_fname');
 
-if(!lname){
-setErr('f_lname','fe_lname','Required');
-ok=false;
-}else clrErr('f_lname','fe_lname');
+if(!lname){setErr('f_lname','fe_lname','Required');ok=false;}
+else clrErr('f_lname','fe_lname');
 
-if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-setErr('f_email','fe_email','Valid email required');
-ok=false;
-}else clrErr('f_email','fe_email');
+if(!email){setErr('f_email','fe_email','Required');ok=false;}
+else clrErr('f_email','fe_email');
 
-if(!session){
-setErr('f_session','fe_session','Select one');
-ok=false;
-}else clrErr('f_session','fe_session');
+if(!session){setErr('f_session','fe_session','Select one');ok=false;}
+else clrErr('f_session','fe_session');
 
 if(!msg||msg.length<20){
 setErr('f_msg','fe_msg','Minimum 20 characters');
@@ -263,12 +257,27 @@ return ok;
 
 }
 
+if(eForm){
+
+eForm.addEventListener('submit',(e)=>{
+
+if(!validate()){
+e.preventDefault();
+return;
+}
+
+fsubBtn.disabled=true;
+
+});
+
+}
+
 ['f_fname','f_lname','f_email','f_session','f_msg']
 .forEach(id=>{
 document.getElementById(id)
 ?.addEventListener('blur',validate);
 });
-   
+    
 /* ── WEB3FORMS SUBMIT ───────────────────────── */
 if (eForm) {
 
