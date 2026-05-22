@@ -415,32 +415,42 @@ content="website">
     </div>
 
     <div class="cform-wrap" data-reveal="fade-left" data-delay="100">
-      <form id="eForm" novalidate>
-        <div class="f2col">
+<form
+id="eForm"
+action="https://api.web3forms.com/submit"
+method="POST">
+
+<input
+type="hidden"
+name="access_key"
+value="63a5b850-8986-415e-989d-cb1d0f6ac37e">        <div class="f2col">
           <div class="fg">
             <label>First Name *</label>
-            <input id="f_fname" type="text" placeholder="Aysha" required>
+            <input id="f_fname"
+              name="first_name" type="text" placeholder="Aysha" required>
             <span class="fe" id="fe_fname"></span>
           </div>
           <div class="fg">
             <label>Last Name *</label>
-            <input id="f_lname" type="text" placeholder="Yunus" required>
+            <input id="f_fname"
+name="last_name"type="text" placeholder="Yunus" required>
             <span class="fe" id="fe_lname"></span>
           </div>
         </div>
         <div class="fg">
           <label>Email Address *</label>
-          <input id="f_email" type="email" placeholder="@gmail.com" required>
+         <input id="f_email" name="email" type="email"> 
+            placeholder="@gmail.com" required>
           <span class="fe" id="fe_email"></span>
         </div>
         <div class="fg">
           <label>WhatsApp Number</label>
-          <input id="f_phone" type="tel" placeholder="+91 ">
+          <input id="f_phone" name="phone" type="tel">" placeholder="+91 ">
         </div>
         <div class="f2col">
           <div class="fg">
             <label>Session Type *</label>
-            <select id="f_session" required>
+           <select id="f_session" name="session">" required>
               <option value="">Select...</option>
               <option>Wedding Photography</option>
               <option>Engagement Session</option>
@@ -454,12 +464,12 @@ content="website">
           </div>
           <div class="fg">
             <label>Event Date</label>
-            <input id="f_date" type="text" placeholder="e.g. March 2026">
+            <input id="f_date" name="event_date" type="text">placeholder="e.g. March 2026">
           </div>
         </div>
         <div class="fg">
           <label>Budget Range</label>
-          <select id="f_budget">
+        <select id="f_budget" name="budget">
             <option value="">Select...</option>
             <option>₹25,000 – ₹50,000</option>
             <option>₹50,000 – ₹1,00,000</option>
@@ -469,7 +479,7 @@ content="website">
         </div>
         <div class="fg">
           <label>Your Vision *</label>
-          <textarea id="f_msg" rows="4" placeholder="Dream venue, style, must-have shots..." required></textarea>
+          <textarea id="f_msg" name="message"> rows="4" placeholder="Dream venue, style, must-have shots..." required></textarea>
           <span class="fe" id="fe_msg"></span>
         </div>
         <label class="fcheck">
