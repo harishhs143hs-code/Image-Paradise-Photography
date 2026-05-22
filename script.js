@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pct = Math.min(pct + Math.random() * 20, 95);
     fillEl.style.width = pct + '%';
   }, 80);
-window.addEventListener('load', () => {
+   window.addEventListener('load', () => {
 
 clearInterval(loadTimer);
 
@@ -24,7 +24,11 @@ fillEl.style.width='100%';
 setTimeout(() => {
 
 if(loader){
+
+loader.classList.add('out');
+
 loader.style.display='none';
+
 }
 
 document.body.style.overflow='';
@@ -32,6 +36,20 @@ document.body.style.overflow='';
 },500);
 
 });
+});
+
+/* SAFETY */
+
+setTimeout(()=>{
+
+if(loader){
+
+loader.style.display='none';
+
+}
+
+},3000);
+
    setTimeout(() => {
 
 if(loader){
