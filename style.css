@@ -71,10 +71,10 @@ a:hover ~ .cursor, button:hover ~ .cursor { width: 18px; height: 18px; }
 #nav.slim { padding: .8rem 4rem; box-shadow: 0 4px 24px rgba(216,27,96,.08); }
 
 .brand{display:flex;align-items:center;position:absolute;left:30px;top:50%;transform:translateY(-50%);}
-./* Desktop */ @media (min-width: 76px){ .brand{ left:30px; } 
-.brand-logo{ width:60px; height:80px; } .brand-text{ font-size:1.2rem; } }
-/* Mobile */ @media (max-width: 100px){ .brand{ left:10px; } 
-.brand-logo{ width:25px; height:25px; } .brand-text{ font-size:0.9rem; } }
+./* Desktop */ @media (min-width:768px){ .brand{ left:30px; } 
+.brand-logo{ width:60px; height:60px; } .brand-text{ font-size:1.2rem; } }
+/* Mobile */ @media (max-width: 767px){ .brand{ left:10px; } 
+.brand-logo{ width:35px; height:35px; } .brand-text{ font-size:0.9rem; } }
 .brand-text { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
 .brand-text span { color: var(--pk); }
 
