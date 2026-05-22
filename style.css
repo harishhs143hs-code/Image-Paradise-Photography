@@ -69,38 +69,6 @@ a:hover ~ .cursor, button:hover ~ .cursor { width: 18px; height: 18px; }
   transition: padding var(--t), box-shadow var(--t);
 }
 #nav.slim { padding: .8rem 4rem; box-shadow: 0 4px 24px rgba(216,27,96,.08); }
-.brand{
-  display:flex;
-  align-items:center;
-  position:absolute;
-  left:30px;
-  top:50%;
-  transform:translateY(-50%);
-}
-.brand img{
-  height:25px;
-  width:30px;
-  display:block;
-  object-fit:contain;
-}
-
-.brand-logo{
-  width:25px;
-  height:25px;
-  object-fit:contain;
-}
-
-.brand-text{
-  font-family:var(--serif);
-  font-size:1.1rem;
-  font-weight:700;
-  color:var(--ink);
-  letter-spacing:-.01em;
-}
-
-.brand-text span{
-  color:var(--pk);
-}
 .nav-menu { display: flex; list-style: none; align-items: center; gap: 2rem; }
 .nav-menu a { font-size: .8rem; font-weight: 500; color: var(--muted); position: relative; transition: color .3s; }
 .nav-menu a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background: var(--pk); transition: width .3s; }
