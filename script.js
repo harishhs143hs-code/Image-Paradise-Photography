@@ -13,7 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
     pct = Math.min(pct + Math.random() * 20, 95);
     fillEl.style.width = pct + '%';
   }, 80);
-  window.addEventListener('load', () => {
+window.addEventListener('load', () => {
+
+clearInterval(loadTimer);
+
+if(fillEl){
+fillEl.style.width='100%';
+}
+
+setTimeout(() => {
+
+if(loader){
+loader.style.display='none';
+}
+
+document.body.style.overflow='';
+
+},500);
+
+});
+   setTimeout(() => {
+
+if(loader){
+loader.style.display='none';
+}
+
+},4000);
     clearInterval(loadTimer);
     fillEl.style.width = '100%';
     setTimeout(() => loader.classList.add('out'), 500);
