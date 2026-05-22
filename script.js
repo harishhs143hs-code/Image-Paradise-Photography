@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (!target) return;
-      e.preventDefault();
+      fetch('/api/contact')
       window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - nav.offsetHeight, behavior: 'smooth' });
     });
   });
@@ -216,12 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id)?.addEventListener('blur', validate);
   });
 
-  eForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!validate()) return;
-    fsubBtn.disabled = true;
-    fsubBtn.querySelector('span, #btnTxt') && (fsubBtn.textContent = 'Sending...');
+eForm.addEventListener('submit', e => {
 
+if (!validate()) {
+e.preventDefault();
+return;
+}
+
+fsubBtn.disabled = true;
+
+});
     const payload = {
       firstName:   document.getElementById('f_fname').value.trim(),
       lastName:    document.getElementById('f_lname').value.trim(),
