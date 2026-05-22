@@ -243,22 +243,29 @@ return ok;
 document.getElementById(id)
 ?.addEventListener('blur',validate);
 });
+   
+/* ── WEB3FORMS SUBMIT ───────────────────────── */
+if (eForm) {
 
-if(eForm){
+eForm.addEventListener('submit', (e) => {
 
-eForm.addEventListener('submit',(e)=>{
-
-if(!validate()){
-
+if (!validate()) {
 e.preventDefault();
 return;
-
 }
 
-fsubBtn.disabled=true;
+fsubBtn.disabled = true;
+
+const txt = fsubBtn.textContent;
+fsubBtn.textContent = 'Sending...';
+
+setTimeout(() => {
+fsubBtn.textContent = txt;
+}, 3000);
 
 });
 
+}
 }
   /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
