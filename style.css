@@ -70,13 +70,14 @@ a:hover ~ .cursor, button:hover ~ .cursor { width: 18px; height: 18px; }
 }
 #nav.slim { padding: .8rem 4rem; box-shadow: 0 4px 24px rgba(216,27,96,.08); }
 
-.brand{display:flex;align-items:center;position:absolute;left:30px;top:50%;transform:translateY(-50%);}
-./* Desktop */ @media (min-width:768px){ .brand{ left:30px; } 
-.brand-logo{ width:60px; height:60px; } .brand-text{ font-size:1.2rem; } }
-/* Mobile */ @media (max-width: 767px){ .brand{ left:10px; } 
-.brand-logo{ width:35px; height:35px; } .brand-text{ font-size:0.9rem; } }
-.brand-text { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
-.brand-text span { color: var(--pk); }
+/* BRAND CONTAINER */ .brand{ display:flex; align-items:center; gap:10px; position:absolute; left:20px; top:50%; transform:translateY(-50%); } 
+/* LOGO IMAGE */ .brand img, .brand-logo{ width:100%; height:100%; object-fit:contain; display:block; } 
+/* LOGO BOX */ .brand-logo{ width:55px; height:55px; flex-shrink:0; } 
+/* BRAND TEXT */ .brand-text{ font-family:var(--serif); font-size:1.1rem; font-weight:700; color:var(--ink); letter-spacing:-0.01em; white-space:nowrap; } 
+.brand-text span{ color:var(--pk); } /* DESKTOP */ @media (min-width:768px){.brand{ left:30px; } 
+.brand-logo{ width:60px; height:60px; } .brand-text{ font-size:1.2rem; } } /*
+MOBILE */ @media (max-width:767px){ .brand{ left:12px; } 
+.brand-logo{ width:40px; height:40px; } .brand-text{ font-size:0.9rem; } }
 
 .nav-menu { display: flex; list-style: none; align-items: center; gap: 2rem; }
 .nav-menu a { font-size: .8rem; font-weight: 500; color: var(--muted); position: relative; transition: color .3s; }
