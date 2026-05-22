@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (!target) return;
-
+      e.preventDefault();
       window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - nav.offsetHeight, behavior: 'smooth' });
     });
   });
@@ -216,18 +216,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id)?.addEventListener('blur', validate);
   });
 
-eForm.addEventListener('submit', e => {
+  eForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) return;
+    fsubBtn.disabled = true;
+    fsubBtn.querySelector('span, #btnTxt') && (fsubBtn.textContent = 'Sending...');
 
-if (!validate()) {
-e.preventDefault();
-return;
-}
+    const payload = {
+      firstName:   document.getElementById('f_fname').value.trim(),
+      lastName:    document.getElementById('f_lname').value.trim(),
+      email:       document.getElementById('f_email').value.trim(),
+      phone:       document.getElementById('f_phone').value.trim(),
+      sessionType: document.getElementById('f_session').value,
+      date:        document.getElementById('f_date').value.trim(),
+      budget:      document.getElementById('f_budget').value,
+      message:     document.getElementById('f_msg').value.trim(),
+      newsletter:  document.getElementById('f_news').checked,
+      submittedAt: new Date().toISOString()
+    };
 
-fsubBtn.disabled = true;
+    try {
+      const res = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      await res.json();
+    } catch(_) {}
 
-});
-   
-   V HIGHLIGHT ────────────────────── */
+    eForm.style.display = 'none';
+    fSuc.classList.add('on');
+    fsubBtn.disabled = false;
+  });
+
+  /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-menu a:not(.nav-enquire)');
   new IntersectionObserver(entries => {
