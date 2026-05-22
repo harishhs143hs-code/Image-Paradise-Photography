@@ -72,7 +72,7 @@ a:hover ~ .cursor, button:hover ~ .cursor { width: 18px; height: 18px; }
 
 .brand{display:flex;align-items:center;position:absolute;left:30px;top:50%;transform:translateY(-50%);}
 .brand img{height:50px;width:auto;display:block;object-fit:contain;}
-.brand-logo { width: 34px; height: 34px; object-fit: contain; }
+.brand-logo { width: 25px; height: 25px; object-fit: contain; }
 .brand-text { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
 .brand-text span { color: var(--pk); }
 
