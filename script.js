@@ -182,69 +182,84 @@ document.addEventListener('DOMContentLoaded', () => {
   const tAuto = setInterval(() => tGo(tCur + 1), 4500);
   window.addEventListener('resize', () => tGo(tCur));
 
-  /* ── CONTACT FORM ────────────────────────────── */
-  const eForm   = document.getElementById('eForm');
-  const fSuc    = document.getElementById('fSuccess');
-  const fsubBtn = document.getElementById('fsub');
+ /* ── CONTACT FORM ────────────────────────────── */
 
-  function setErr(id, errId, msg) {
-    document.getElementById(id)?.classList.add('bad');
-    const e = document.getElementById(errId); if (e) e.textContent = msg;
-  }
-  function clrErr(id, errId) {
-    document.getElementById(id)?.classList.remove('bad');
-    const e = document.getElementById(errId); if (e) e.textContent = '';
-  }
+const eForm=document.getElementById('eForm');
+const fsubBtn=document.getElementById('fsub');
 
-  function validate() {
-    let ok = true;
-    const fname   = document.getElementById('f_fname')?.value.trim();
-    const lname   = document.getElementById('f_lname')?.value.trim();
-    const email   = document.getElementById('f_email')?.value.trim();
-    const session = document.getElementById('f_session')?.value;
-    const msg     = document.getElementById('f_msg')?.value.trim();
+function setErr(id,errId,msg){
+document.getElementById(id)?.classList.add('bad');
+const el=document.getElementById(errId);
+if(el)el.textContent=msg;
+}
 
-    if (!fname)  { setErr('f_fname','fe_fname','First name required'); ok=false; } else clrErr('f_fname','fe_fname');
-    if (!lname)  { setErr('f_lname','fe_lname','Last name required');  ok=false; } else clrErr('f_lname','fe_lname');
-    if (!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr('f_email','fe_email','Valid email required'); ok=false; } else clrErr('f_email','fe_email');
-    if (!session) { setErr('f_session','fe_session','Please select a session'); ok=false; } else clrErr('f_session','fe_session');
-    if (!msg||msg.length<20) { setErr('f_msg','fe_msg','Write at least 20 characters'); ok=false; } else clrErr('f_msg','fe_msg');
-    return ok;
-  }
+function clrErr(id,errId){
+document.getElementById(id)?.classList.remove('bad');
+const el=document.getElementById(errId);
+if(el)el.textContent='';
+}
 
-  ['f_fname','f_lname','f_email','f_session','f_msg'].forEach(id => {
-    document.getElementById(id)?.addEventListener('blur', validate);
-  });
+function validate(){
 
-  eForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!validate()) return;
-    fsubBtn.disabled = true;
-    fsubBtn.querySelector('span, #btnTxt') && (fsubBtn.textContent = 'Sending...');
+let ok=true;
 
-    const payload = {
-      firstName:   document.getElementById('f_fname').value.trim(),
-      lastName:    document.getElementById('f_lname').value.trim(),
-      email:       document.getElementById('f_email').value.trim(),
-      phone:       document.getElementById('f_phone').value.trim(),
-      sessionType: document.getElementById('f_session').value,
-      date:        document.getElementById('f_date').value.trim(),
-      budget:      document.getElementById('f_budget').value,
-      message:     document.getElementById('f_msg').value.trim(),
-      newsletter:  document.getElementById('f_news').checked,
-      submittedAt: new Date().toISOString()
-    };
+const fname=document.getElementById('f_fname')?.value.trim();
+const lname=document.getElementById('f_lname')?.value.trim();
+const email=document.getElementById('f_email')?.value.trim();
+const session=document.getElementById('f_session')?.value;
+const msg=document.getElementById('f_msg')?.value.trim();
 
-    try {
-      const res = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      await res.json();
-    } catch(_) {}
+if(!fname){
+setErr('f_fname','fe_fname','Required');
+ok=false;
+}else clrErr('f_fname','fe_fname');
 
-    eForm.style.display = 'none';
-    fSuc.classList.add('on');
-    fsubBtn.disabled = false;
-  });
+if(!lname){
+setErr('f_lname','fe_lname','Required');
+ok=false;
+}else clrErr('f_lname','fe_lname');
 
+if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+setErr('f_email','fe_email','Valid email required');
+ok=false;
+}else clrErr('f_email','fe_email');
+
+if(!session){
+setErr('f_session','fe_session','Select one');
+ok=false;
+}else clrErr('f_session','fe_session');
+
+if(!msg||msg.length<20){
+setErr('f_msg','fe_msg','Minimum 20 characters');
+ok=false;
+}else clrErr('f_msg','fe_msg');
+
+return ok;
+
+}
+
+['f_fname','f_lname','f_email','f_session','f_msg']
+.forEach(id=>{
+document.getElementById(id)
+?.addEventListener('blur',validate);
+});
+
+if(eForm){
+
+eForm.addEventListener('submit',(e)=>{
+
+if(!validate()){
+
+e.preventDefault();
+return;
+
+}
+
+fsubBtn.disabled=true;
+
+});
+
+}
   /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-menu a:not(.nav-enquire)');
