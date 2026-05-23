@@ -571,3 +571,37 @@ grid-template-columns:1fr;
   .hero-headline { font-size: 2.6rem; }
   .footer-top { grid-template-columns: 1fr; }
 }
+
+/* FIX CONTACT TEXT VISIBILITY */
+
+#contact .cinfo h2{
+color:#111 !important;
+}
+
+#contact .cinfo p{
+color:#444 !important;
+}
+
+#contact .ci-row label{
+color:#777 !important;
+}
+
+#contact .ci-row p{
+color:#111 !important;
+font-weight:600;
+}
+
+#contact .soc{
+color:#111 !important;
+border-color:#D81B60;
+}
+
+#contact .soc:hover{
+background:#D81B60;
+color:#fff !important;
+}
+
+.ci-icon{
+background:#FCE4EC !important;
+color:#D81B60 !important;
+}
