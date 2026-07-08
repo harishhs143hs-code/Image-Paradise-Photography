@@ -1,0 +1,24 @@
+{
+  "name": "Image Paradise Photography",
+  "short_name": "Image Paradise",
+  "description": "Best Wedding Photographer in Chennai - Candid Wedding Photography, Pre-Wedding Shoots, Bridal Portraits & Album Design",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8FB",
+  "theme_color": "#D81B60",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["photography", "wedding", "lifestyle"],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

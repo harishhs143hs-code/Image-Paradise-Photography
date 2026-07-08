@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Primary Meta Tags -->
+  <title>Wedding Photography Blog Chennai | Tips, Venues & Guides | Image Paradise</title>
+  <meta name="title" content="Wedding Photography Blog Chennai | Tips, Venues & Guides | Image Paradise">
+  <meta name="description" content="Expert wedding photography tips, venue guides, and planning advice for Chennai couples. Learn about candid photography, pre-wedding shoots, and wedding planning in Tamil Nadu.">
+  <meta name="keywords" content="wedding photography blog, wedding tips chennai, wedding venues chennai, wedding planning guide, tamil wedding tips, candid photography tips">
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://image-paradise-photography.vercel.app/blog">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://image-paradise-photography.vercel.app/blog">
+  <meta property="og:title" content="Wedding Photography Blog | Image Paradise Photography">
+  <meta property="og:description" content="Expert wedding photography tips, venue guides, and planning advice for Chennai couples.">
+  <meta property="og:image" content="https://image-paradise-photography.vercel.app/images/08.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Image Paradise Photography Blog",
+    "description": "Wedding photography tips, venue guides, and planning advice for Chennai couples",
+    "url": "https://image-paradise-photography.vercel.app/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Image Paradise Photography"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .blog-page { padding: 8rem 4rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .blog-hero { text-align: center; margin-bottom: 3rem; }
+    .blog-hero h1 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); color: var(--ink); margin-bottom: 1rem; }
+    .blog-hero p { color: var(--muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    .blog-categories { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+    .category-btn { padding: 0.5rem 1.2rem; border: 1.5px solid var(--border); border-radius: 100px; background: transparent; font-family: var(--sans); font-size: 0.85rem; color: var(--muted); cursor: pointer; transition: all 0.3s; }
+    .category-btn:hover, .category-btn.active { background: var(--pk); border-color: var(--pk); color: white; }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
+    .blog-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
+    .blog-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .blog-card-image { height: 200px; background: var(--pk-pale); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .blog-card-image img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-card-content { padding: 1.5rem; }
+    .blog-card-meta { display: flex; gap: 1rem; margin-bottom: 0.75rem; font-size: 0.8rem; color: var(--muted); }
+    .blog-card-category { color: var(--pk); font-weight: 500; }
+    .blog-card h2 { font-family: var(--serif); font-size: 1.25rem; color: var(--ink); margin-bottom: 0.75rem; line-height: 1.4; }
+    .blog-card h2 a { text-decoration: none; color: inherit; transition: color 0.3s; }
+    .blog-card h2 a:hover { color: var(--pk); }
+    .blog-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+    .blog-card-link { color: var(--pk); font-weight: 500; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .blog-card-link:hover { text-decoration: underline; }
+    .blog-empty { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+    .breadcrumb { padding: 1rem 0; font-size: 0.9rem; color: var(--muted); }
+    .breadcrumb a { color: var(--pk); text-decoration: none; }
+    .load-more { text-align: center; margin-top: 3rem; }
+    .load-more button { background: var(--pk); color: white; padding: 0.85rem 2rem; border-radius: 100px; border: none; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: background 0.3s; }
+    .load-more button:hover { background: var(--pk2); }
+    @media (max-width: 768px) {
+      .blog-page { padding: 6rem 1.5rem 3rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="navbar" role="banner">
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="/" class="brand" aria-label="Image Paradise Photography Home">
+    <img src="images/Logo with Text Png.png" alt="Image Paradise Photography" width="150" height="30">
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-menu" id="navMenu" role="menubar">
+    <li role="none"><a href="/#portfolio" role="menuitem">Portfolio</a></li>
+    <li role="none"><a href="/#about" role="menuitem">About</a></li>
+    <li role="none"><a href="/#services" role="menuitem">Packages</a></li>
+    <li role="none"><a href="/#testimonials" role="menuitem">Reviews</a></li>
+    <li role="none"><a href="/#contact" class="nav-enquire" role="menuitem">Enquire Now</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="blog-page">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &gt; <span>Blog</span>
+  </nav>
+
+  <!-- Hero -->
+  <section class="blog-hero">
+    <h1>Wedding Photography Blog</h1>
+    <p>Tips, guides, and inspiration for planning your perfect wedding in Chennai</p>
+  </section>
+
+  <!-- Categories -->
+  <div class="blog-categories" role="tablist" aria-label="Blog categories">
+    <button class="category-btn active" data-category="all" role="tab">All Posts</button>
+    <button class="category-btn" data-category="wedding-photography-tips" role="tab">Wedding Tips</button>
+    <button class="category-btn" data-category="wedding-venues" role="tab">Venues</button>
+    <button class="category-btn" data-category="pre-wedding" role="tab">Pre-Wedding</button>
+    <button class="category-btn" data-category="bride-groom-guide" role="tab">Bride & Groom</button>
+  </div>
+
+  <!-- Blog Grid -->
+  <div class="blog-grid" id="blogGrid">
+    <!-- Blog cards will be loaded dynamically -->
+  </div>
+
+  <!-- Load More -->
+  <div class="load-more" id="loadMore" style="display: none;">
+    <button id="loadMoreBtn">Load More Posts</button>
+  </div>
+</main>
+
+<button class="btt" id="btt" title="Back to top">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Initialize Supabase client
+  const supabaseUrl = 'https://kpfhkemgjzmopgxzrklx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwZmhrZW1nanptb3BneHpya2x4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0MTg1MjMsImV4cCI6MjA3Mzk5NDUyM30.OZv3x0R3tYIqx5z8mK_8dVWZ5JG3hOGZa3FhVLJ1XaE';
+
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  let currentPage = 0;
+  const postsPerPage = 6;
+  let currentCategory = 'all';
+  let allPosts = [];
+
+  // Format date
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-IN', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  // Truncate text
+  function truncateText(text, maxLength = 120) {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  }
+
+  // Create blog card HTML
+  function createBlogCard(post) {
+    const imageHtml = post.featured_image
+      ? `<img src="${post.featured_image}" alt="${post.title}" loading="lazy">`
+      : `<img src="images/08.jpg" alt="${post.title}" loading="lazy">`;
+
+    const categoryHtml = post.blog_categories
+      ? `<span class="blog-card-category">${post.blog_categories.name}</span>`
+      : '';
+
+    return `
+      <article class="blog-card">
+        <div class="blog-card-image">
+          ${imageHtml}
+        </div>
+        <div class="blog-card-content">
+          <div class="blog-card-meta">
+            ${categoryHtml}
+            <span class="blog-card-date">${formatDate(post.published_at || post.created_at)}</span>
+          </div>
+          <h2><a href="/blog-post.html?slug=${post.slug}">${post.title}</a></h2>
+          <p>${truncateText(post.excerpt || post.content.replace(/<[^>]*>/g, ''))}</p>
+          <a href="/blog-post.html?slug=${post.slug}" class="blog-card-link">Read More →</a>
+        </div>
+      </article>
+    `;
+  }
+
+  // Load blog posts
+  async function loadBlogPosts(category = 'all', append = false) {
+    if (!append) {
+      currentPage = 0;
+      document.getElementById('blogGrid').innerHTML = '<div class="blog-empty">Loading posts...</div>';
+    }
+
+    let query = supabase
+      .from('blog_posts')
+      .select(`
+        id, title, slug, excerpt, content, featured_image, published_at, created_at,
+        blog_categories (id, name, slug)
+      `)
+      .eq('published', true)
+      .order('published_at', { ascending: false })
+      .range(currentPage * postsPerPage, (currentPage + 1) * postsPerPage - 1);
+
+    if (category !== 'all') {
+      const { data: catData } = await supabase
+        .from('blog_categories')
+        .select('id')
+        .eq('slug', category)
+        .maybeSingle();
+
+      if (catData) {
+        query = query.eq('category_id', catData.id);
+      }
+    }
+
+    const { data: posts, error } = await query;
+
+    if (error) {
+      console.error('Error loading posts:', error);
+      document.getElementById('blogGrid').innerHTML = '<div class="blog-empty">Unable to load posts. Please try again later.</div>';
+      return;
+    }
+
+    if (!posts || posts.length === 0) {
+      if (!append) {
+        document.getElementById('blogGrid').innerHTML = '<div class="blog-empty">No blog posts found.</div>';
+      }
+      document.getElementById('loadMore').style.display = 'none';
+      return;
+    }
+
+    const html = posts.map(createBlogCard).join('');
+
+    if (append) {
+      document.getElementById('blogGrid').insertAdjacentHTML('beforeend', html);
+    } else {
+      document.getElementById('blogGrid').innerHTML = html;
+    }
+
+    // Show/hide load more button
+    document.getElementById('loadMore').style.display = posts.length === postsPerPage ? 'block' : 'none';
+    currentPage++;
+  }
+
+  // Category filter click handlers
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.category;
+      loadBlogPosts(currentCategory);
+    });
+  });
+
+  // Load more button handler
+  document.getElementById('loadMoreBtn').addEventListener('click', () => {
+    loadBlogPosts(currentCategory, true);
+  });
+
+  // Initialize
+  loadBlogPosts();
+</script>
+<script src="script.js"></script>
+</body>
+</html>

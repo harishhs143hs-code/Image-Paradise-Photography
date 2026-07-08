@@ -272,4 +272,96 @@ fsubBtn.disabled=true;
     entries.forEach(en => { if (en.isIntersecting) navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+en.target.id?'var(--pk)':''; }); });
   }, { rootMargin: '-40% 0px -55% 0px' }).observe(s));
 
+  /* ── PERFORMANCE: LAZY LOAD IMAGES ────────────────────── */
+  const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+  const imgObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+        }
+        img.onload = () => img.classList.add('loaded');
+        img.onerror = () => {
+          img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23FCE4EC" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D81B60" font-family="sans-serif"%3EImage%3C/text%3E%3C/svg%3E';
+        };
+        observer.unobserve(img);
+      }
+    });
+  }, { rootMargin: '50px 0px' });
+  lazyImages.forEach(img => imgObserver.observe(img));
+
+  /* ── PERFORMANCE: PRELOAD CRITICAL IMAGES ────────────────────── */
+  const criticalImages = document.querySelectorAll('img[fetchpriority="high"]');
+  criticalImages.forEach(img => {
+    if (!img.complete && img.loading !== 'eager') {
+      img.loading = 'eager';
+    }
+  });
+
+  /* ── ACCESSIBILITY: ARROW KEY NAVIGATION ────────────────────── */
+  const menuLinks = menu?.querySelectorAll('a');
+  if (menuLinks) {
+    Array.from(menuLinks).forEach((link, index, links) => {
+      link.addEventListener('keydown', e => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const next = links[(index + 1) % links.length];
+          next?.focus();
+        }
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const prev = links[(index - 1 + links.length) % links.length];
+          prev?.focus();
+        }
+      });
+    });
+  }
+
+  /* ── ACCESSIBILITY: UPDATE ARIA STATES ────────────────────── */
+  if (ham) {
+    ham.addEventListener('click', () => {
+      const isOpen = menu.classList.contains('open');
+      ham.setAttribute('aria-expanded', isOpen);
+    });
+  }
+
+  /* ── PERFORMANCE: DEBOUNCE UTILITY ────────────────────── */
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  /* ── PERFORMANCE: THROTTLE UTILITY ────────────────────── */
+  function throttle(func, limit) {
+    let inThrottle;
+    return function executedFunction(...args) {
+      if (!inThrottle) {
+        func(...args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    };
+  }
+
+  /* ── PERFORMANCE: REPORT LARGEST CONTENTFUL PAINT ────────────────────── */
+  if ('PerformanceObserver' in window) {
+    try {
+      const lcpObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        const lastEntry = entries[entries.length - 1];
+        console.log('LCP:', lastEntry.startTime.toFixed(2), 'ms');
+      });
+      lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+    } catch (e) {}
+  }
+
 });
