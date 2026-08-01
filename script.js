@@ -21,15 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (introOverlay && introVideo) {
     document.body.style.overflow = 'hidden';
-    introVideo.addEventListener('ended', dismissIntro);
-    introSkipBtn.addEventListener('click', dismissIntro);
+
+    let introDismissed = false;
+    function dismissIntroOnce() {
+      if (introDismissed) return;
+      introDismissed = true;
+      dismissIntro();
+    }
+
+    introVideo.addEventListener('ended', dismissIntroOnce);
+    introVideo.addEventListener('error', dismissIntroOnce); // failsafe: broken/missing video file
+    introSkipBtn.addEventListener('click', dismissIntroOnce);
     introMuteBtn.addEventListener('click', () => {
       introVideo.muted = !introVideo.muted;
       muteIcon.style.display   = introVideo.muted ? '' : 'none';
       unmuteIcon.style.display = introVideo.muted ? 'none' : '';
       introMuteBtn.setAttribute('aria-label', introVideo.muted ? 'Unmute video' : 'Mute video');
     });
-    introVideo.play().catch(() => dismissIntro());
+    introVideo.play().catch(dismissIntroOnce);
+
+    // failsafe: if nothing has happened within 4s (slow network, stalled load,
+    // autoplay silently blocked, etc.) never leave a visitor stuck on a black screen
+    setTimeout(dismissIntroOnce, 4000);
   }
 
   /* ── CUSTOM CURSOR ───────────────────────────── */
