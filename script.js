@@ -5,19 +5,32 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── LOADER ──────────────────────────────────── */
-  const loader   = document.getElementById('pageLoader');
-  const fillEl   = document.getElementById('loaderFill');
-  let pct = 0;
-  const loadTimer = setInterval(() => {
-    pct = Math.min(pct + Math.random() * 20, 95);
-    fillEl.style.width = pct + '%';
-  }, 80);
-  window.addEventListener('load', () => {
-    clearInterval(loadTimer);
-    fillEl.style.width = '100%';
-    setTimeout(() => loader.classList.add('out'), 500);
-  });
+  /* ── VIDEO INTRO ────────────────────────────── */
+  const introOverlay = document.getElementById('videoIntro');
+  const introVideo   = document.getElementById('introVideo');
+  const introSkipBtn = document.getElementById('introSkip');
+  const introMuteBtn = document.getElementById('introMute');
+  const muteIcon     = document.getElementById('muteIcon');
+  const unmuteIcon   = document.getElementById('unmuteIcon');
+
+  function dismissIntro() {
+    introOverlay.classList.add('out');
+    introVideo.pause();
+    document.body.style.overflow = '';
+  }
+
+  if (introOverlay && introVideo) {
+    document.body.style.overflow = 'hidden';
+    introVideo.addEventListener('ended', dismissIntro);
+    introSkipBtn.addEventListener('click', dismissIntro);
+    introMuteBtn.addEventListener('click', () => {
+      introVideo.muted = !introVideo.muted;
+      muteIcon.style.display   = introVideo.muted ? '' : 'none';
+      unmuteIcon.style.display = introVideo.muted ? 'none' : '';
+      introMuteBtn.setAttribute('aria-label', introVideo.muted ? 'Unmute video' : 'Mute video');
+    });
+    introVideo.play().catch(() => dismissIntro());
+  }
 
   /* ── CUSTOM CURSOR ───────────────────────────── */
   const cur  = document.getElementById('cursor');
@@ -256,10 +269,27 @@ return;
 }
 
 fsubBtn.disabled=true;
+if(window.trackEvent) window.trackEvent('form_submit','Enquiry Form','Detailed Enquiry');
 
 });
 
 }
+
+  /* ── QUICK ENQUIRY ────────────────────────── */
+  window.openWhatsAppQuick = function() {
+    const name  = document.getElementById('qe_name')?.value.trim();
+    const phone = document.getElementById('qe_phone')?.value.trim();
+    const errEl = document.getElementById('qeError');
+    if (!name || !phone) {
+      errEl.textContent = 'Please enter your name and WhatsApp number.';
+      return false;
+    }
+    errEl.textContent = '';
+    const msg = encodeURIComponent('Hi, I\u2019m ' + name + '. I\u2019m interested in booking a photography session. My WhatsApp: ' + phone);
+    if(window.trackEvent) window.trackEvent('whatsapp_click','Quick Enquiry','Quick Enquiry Form');
+    window.open('https://wa.me/917708510143?text=' + msg, '_blank', 'noopener');
+    return false;
+  };
   /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-menu a:not(.nav-enquire)');
@@ -363,5 +393,13 @@ fsubBtn.disabled=true;
       lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
     } catch (e) {}
   }
+
+  /* ── ANALYTICS: CLICK EVENTS ─────────────────────────────────────────── */
+  document.getElementById('waFloat')?.addEventListener('click', () => {
+    if(window.trackEvent) window.trackEvent('whatsapp_click','WhatsApp Float','Float Button');
+  });
+  document.getElementById('phoneLink')?.addEventListener('click', () => {
+    if(window.trackEvent) window.trackEvent('phone_click','Contact','Phone Number');
+  });
 
 });
