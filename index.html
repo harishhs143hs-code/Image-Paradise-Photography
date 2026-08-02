@@ -28,22 +28,22 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://image-paradise-photography.vercel.app/">
-  <meta property="og:title" content="Image Paradise Photography">
-  <meta property="og:description" content="Creating Timeless Memories Through Premium Photography &amp; Cinematic Videography.">
-  <meta property="og:image" content="https://image-paradise-photography.vercel.app/images/og-image.png">
+  <meta property="og:title" content="Best Wedding Photographer Chennai | Image Paradise Photography">
+  <meta property="og:description" content="Award-winning wedding photographer in Chennai. 500+ weddings, 6+ years experience. Candid photography, cinematic films, pre-wedding shoots & luxury albums.">
+  <meta property="og:image" content="https://image-paradise-photography.vercel.app/images/08.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Image Paradise Photography">
+  <meta property="og:image:alt" content="Image Paradise Photography - Wedding Photographer Chennai">
   <meta property="og:site_name" content="Image Paradise Photography">
   <meta property="og:locale" content="en_IN">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://image-paradise-photography.vercel.app/">
-  <meta name="twitter:title" content="Image Paradise Photography">
-  <meta name="twitter:description" content="Creating Timeless Memories Through Premium Photography &amp; Cinematic Videography.">
-  <meta name="twitter:image" content="https://image-paradise-photography.vercel.app/images/og-image.png">
-  <meta name="twitter:image:alt" content="Image Paradise Photography">
+  <meta name="twitter:title" content="Best Wedding Photographer Chennai | Image Paradise Photography">
+  <meta name="twitter:description" content="Award-winning wedding photographer in Chennai. 500+ weddings, candid photography, cinematic films, pre-wedding shoots.">
+  <meta name="twitter:image" content="https://image-paradise-photography.vercel.app/images/08.jpg">
+  <meta name="twitter:image:alt" content="Image Paradise Photography - Wedding Photographer Chennai">
 
   <!-- Geographic Meta Tags for Local SEO -->
   <meta name="geo.region" content="IN-TN">
@@ -268,13 +268,13 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX'); // <-- replace G-XXXXXXXXXX with your GA4 Measurement ID
+    gtag('config', 'G-XXXXXXXXXX');
     window.trackEvent = function(action, category, label) {
       gtag('event', action, { event_category: category, event_label: label });
     };
   </script>
 
-  <!-- Meta Pixel — PASTE YOUR PIXEL ID where it says YOUR_PIXEL_ID below -->
+  <!-- Meta Pixel - Add your Pixel ID -->
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -284,8 +284,8 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'YOUR_PIXEL_ID'); // <-- replace YOUR_PIXEL_ID with your Meta Pixel ID
-    fbq('track', 'PageView');
+    // fbq('init', 'YOUR_PIXEL_ID');
+    // fbq('track', 'PageView');
   </script>
 
   <link rel="stylesheet" href="style.css">
@@ -296,24 +296,12 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- VIDEO INTRO -->
-<div class="video-intro" id="videoIntro" role="dialog" aria-label="Intro video" aria-modal="true">
-  <video
-    id="introVideo"
-    class="intro-video"
-    src="/videos/intro.mp4"
-    autoplay
-    muted
-    playsinline
-    preload="auto"
-    aria-hidden="true"
-  ></video>
-  <div class="intro-ui">
-    <button class="intro-mute" id="introMute" aria-label="Unmute video">
-      <svg id="muteIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-      <svg id="unmuteIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-    </button>
-    <button class="intro-skip" id="introSkip" aria-label="Skip intro">Skip Intro &#8250;</button>
+<!-- LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <img src="images/Logo.png" class="loader-logo" alt="Image Paradise Photography">
+    <div class="loader-name">Image Paradise Photography</div>
+    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
   </div>
 </div>
 
@@ -321,10 +309,7 @@
 <header class="navbar" role="banner">
 <nav id="nav" role="navigation" aria-label="Main navigation">
   <a href="#hero" class="brand" aria-label="Image Paradise Photography Home">
-    <picture>
-      <source srcset="images/Logo with Text Png.webp" type="image/webp">
-      <img src="images/Logo-text-opt.png" alt="Image Paradise Photography - Wedding Photographer Chennai" width="150" height="30">
-    </picture>
+    <img src="images/Logo with Text Png.png" alt="Image Paradise Photography - Wedding Photographer Chennai" width="150" height="30">
   </a>
   <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -366,10 +351,7 @@
   <div class="hero-right" data-reveal="fade-left" data-delay="200">
     <div class="hero-collage">
       <div class="hc-main">
-        <picture>
-          <source srcset="images/08.webp" type="image/webp">
-          <img src="images/08-opt.jpg" alt="Elegant bridal portrait by Image Paradise Photography - Best wedding photographer in Chennai" loading="eager" width="800" height="600" fetchpriority="high">
-        </picture>
+        <img src="images/08.jpg" alt="Elegant bridal portrait by Image Paradise Photography - Best wedding photographer in Chennai" loading="eager" width="800" height="600" fetchpriority="high">
       </div>
       <div class="hero-badge" aria-label="5.0 star Google reviews rating">
         <div class="badge-star" aria-hidden="true">★</div>
@@ -395,7 +377,7 @@
 <!-- ══════════ PORTFOLIO ══════════ -->
 <section id="portfolio" aria-labelledby="portfolio-heading">
   <header class="sec-head">
-    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo-opt.png" alt="" aria-hidden="true">Our Portfolio</div>
+    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo.png" alt="" aria-hidden="true">Our Portfolio</div>
     <h2 id="portfolio-heading" data-reveal="fade-up" data-delay="80">Stories we've <em>beautifully told</em></h2>
     <p data-reveal="fade-up" data-delay="160">Every photograph is a love letter to the moment - Wedding photography in Chennai</p>
   </header>
@@ -412,80 +394,56 @@
 
     <div class="g-item g-tall" data-c="wedding" data-reveal="fade-up" data-delay="0">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/DSC06228.webp" type="image/webp">
-          <img src="images/DSC06228-opt.JPG" alt="Traditional Tamil wedding ceremony photography in Chennai - Candid moments captured by Image Paradise" loading="lazy" width="400" height="600">
-        </picture>
+        <img src="images/DSC06228.JPG" alt="Traditional Tamil wedding ceremony photography in Chennai - Candid moments captured by Image Paradise" loading="lazy" width="400" height="600">
         <div class="g-overlay"><p>Wedding Ceremony</p><span>Traditional Tamil Wedding · Chennai 2024</span></div>
       </div>
     </div>
 
     <div class="g-item" data-c="portrait" data-reveal="fade-up" data-delay="60">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/DSC09905.webp" type="image/webp">
-          <img src="images/DSC09905-opt.JPG" alt="Golden hour bridal portrait photography Chennai - Beautiful candid bridal photoshoot" loading="lazy" width="400" height="300">
-        </picture>
+        <img src="images/DSC09905.JPG" alt="Golden hour bridal portrait photography Chennai - Beautiful candid bridal photoshoot" loading="lazy" width="400" height="300">
         <div class="g-overlay"><p>Bridal Radiance</p><span>Bridal Portrait Session · Chennai 2024</span></div>
       </div>
     </div>
 
     <div class="g-item g-tall" data-c="portrait" data-reveal="fade-up" data-delay="120">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/DSC01915.webp" type="image/webp">
-          <img src="images/DSC01915-opt.JPG" alt="Studio portrait session Chennai - Professional portrait photography Tamil Nadu" loading="lazy" width="400" height="600">
-        </picture>
+        <img src="images/DSC01915.JPG" alt="Studio portrait session Chennai - Professional portrait photography Tamil Nadu" loading="lazy" width="400" height="600">
         <div class="g-overlay"><p>Studio Elegance</p><span>Portrait Session · Chennai 2026</span></div>
       </div>
     </div>
 
     <div class="g-item g-wide" data-c="engagement" data-reveal="fade-up" data-delay="0">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/gallery1.webp" type="image/webp">
-          <img src="images/gallery1-opt.jpeg" alt="Engagement photography couple Chennai - Romantic pre-wedding photos at garden" loading="lazy" width="800" height="400">
-        </picture>
+        <img src="images/gallery1.jpeg" alt="Engagement photography couple Chennai - Romantic pre-wedding photos at garden" loading="lazy" width="800" height="400">
         <div class="g-overlay"><p>Engaged</p><span>Engagement Session · Chennai 2026</span></div>
       </div>
     </div>
 
     <div class="g-item" data-c="family" data-reveal="fade-up" data-delay="80">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/MPS_6098.webp" type="image/webp">
-          <img src="images/MPS_6098-opt.JPG" alt="Family portrait photography Chennai - Birthday celebration family photoshoot" loading="lazy" width="400" height="300">
-        </picture>
+        <img src="images/MPS_6098.JPG" alt="Family portrait photography Chennai - Birthday celebration family photoshoot" loading="lazy" width="400" height="300">
         <div class="g-overlay"><p>Family Celebration</p><span>Family Portrait · Tamil Nadu 2025</span></div>
       </div>
     </div>
 
     <div class="g-item" data-c="wedding" data-reveal="fade-up" data-delay="0">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/AR_02707.webp" type="image/webp">
-          <img src="images/AR_02707-opt.JPG" alt="Candid wedding couple outdoor photography - South Indian wedding photographer" loading="lazy" width="400" height="300">
-        </picture>
+        <img src="images/AR_02707.JPG" alt="Candid wedding couple outdoor photography - South Indian wedding photographer" loading="lazy" width="400" height="300">
         <div class="g-overlay"><p>The Sacred Union</p><span>Wedding Photography · Tamil Nadu 2025</span></div>
       </div>
     </div>
 
     <div class="g-item g-tall" data-c="portrait" data-reveal="fade-up" data-delay="60">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/DSC06422.webp" type="image/webp">
-          <img src="images/DSC06422-opt.JPG" alt="Pre-wedding couple portrait Chennai - Romantic couple photoshoot" loading="lazy" width="400" height="600">
-        </picture>
+        <img src="images/DSC06422.JPG" alt="Pre-wedding couple portrait Chennai - Romantic couple photoshoot" loading="lazy" width="400" height="600">
         <div class="g-overlay"><p>Timeless Together</p><span>Couple Portrait · 2026</span></div>
       </div>
     </div>
 
     <div class="g-item g-wide" data-c="engagement" data-reveal="fade-up" data-delay="120">
       <div class="g-wrap">
-        <picture>
-          <source srcset="images/DSC07067.webp" type="image/webp">
-          <img src="images/DSC07067-opt.JPG" alt="Pre-wedding studio photography Chennai - Creative couple photoshoot" loading="lazy" width="800" height="400">
-        </picture>
+        <img src="images/DSC07067.JPG" alt="Pre-wedding studio photography Chennai - Creative couple photoshoot" loading="lazy" width="800" height="400">
         <div class="g-overlay"><p>Before the Forever</p><span>Pre-Wedding Shoot · Chennai 2025</span></div>
       </div>
     </div>
@@ -507,10 +465,7 @@
   <div class="about-inner">
     <div class="about-photos" data-reveal="fade-right">
       <div class="ap-main">
-        <picture>
-      <source srcset="images/DSC05261.webp" type="image/webp">
-      <img src="images/DSC05261-opt.JPG" alt="Image Paradise Photography team capturing wedding moments - Best wedding photographer in Chennai" loading="lazy" width="500" height="700">
-    </picture>
+        <img src="images/DSC05261.JPG" alt="Image Paradise Photography team capturing wedding moments - Best wedding photographer in Chennai" loading="lazy" width="500" height="700">
         <div class="ap-years" aria-label="6+ Years of Excellence"><span>6+</span>Years of<br>Excellence</div>
       </div>
       <div class="ap-stack">
@@ -520,7 +475,7 @@
       </div>
     </div>
     <div class="about-copy" data-reveal="fade-left" data-delay="120">
-      <div class="sec-badge light"><img src="images/Logo-opt.png" alt="">About Us</div>
+      <div class="sec-badge light"><img src="images/Logo.png" alt="">About Us</div>
       <h2>We photograph <em>love</em><br>in its purest form</h2>
       <div class="pink-bar"></div>
       <p>Based in Chennai, Image Paradise Photography specialises in wedding and portrait photography — crafting images that feel as intimate and genuine as the moments they capture.</p>
@@ -539,7 +494,7 @@
 <!-- ══════════ SERVICES ══════════ -->
 <section id="services">
   <header class="sec-head">
-    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo-opt.png" alt="">Our Packages</div>
+    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo.png" alt="">Our Packages</div>
     <h2 data-reveal="fade-up" data-delay="80">Choose your <em>perfect</em> package</h2>
   </header>
   <div class="pkg-row">
@@ -601,7 +556,7 @@
 <section id="testimonials">
   <div class="testi-glow"></div>
   <header class="sec-head">
-    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo-opt.png" alt="">Kind Words</div>
+    <div class="sec-badge" data-reveal="fade-up"><img src="images/Logo.png" alt="">Kind Words</div>
     <h2 data-reveal="fade-up" data-delay="80">What our couples <em>say</em></h2>
   </header>
   <div class="tslider" data-reveal="fade-up" data-delay="160">
@@ -651,7 +606,7 @@
 <section id="contact">
   <div class="contact-grid">
     <div class="cinfo" data-reveal="fade-right">
-      <div class="sec-badge light"><img src="images/Logo-opt.png" alt="">Enquire Now</div>
+      <div class="sec-badge light"><img src="images/Logo.png" alt="">Enquire Now</div>
       <h2>Let's create<br><em>something beautiful</em><br>together</h2>
       <p>Tell us about your special day and we'll get back to you within 24 hours.</p>
       <div class="ci-rows">
@@ -661,7 +616,7 @@
         </div>
         <div class="ci-row">
           <div class="ci-icon">☎</div>
-          <div><label>Phone </label><p><a href="tel:+917708510143" class="phone-link" id="phoneLink">7708510143</a></p></div>
+          <div><label>Phone </label><p>7708510143</p></div>
         </div>
         <div class="ci-row">
           <div class="ci-icon">⊙</div>
@@ -669,47 +624,20 @@
         </div>
       </div>
       <div class="soc-row">
-        <a href="https://www.instagram.com/imageparadisephotography" class="soc" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/imageparadisephotography" class="soc" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://in.pinterest.com/imageparadisephotography" class="soc" target="_blank" rel="noopener">Pinterest</a>
+        <a href="#" class="soc">Instagram</a>
+        <a href="#" class="soc">Facebook</a>
+        <a href="#" class="soc">Pinterest</a>
       </div>
       <!-- preview strip of real photos -->
       <div class="ci-photo-strip">
-        <picture>
-          <source srcset="images/DSC06228.webp" type="image/webp">
-          <img src="images/DSC06228-opt.JPG" alt="" width="80" height="80" loading="lazy">
-        </picture>
-        <picture>
-          <source srcset="images/gallery1.webp" type="image/webp">
-          <img src="images/gallery1-opt.jpeg" alt="" width="80" height="80" loading="lazy">
-        </picture>
-        <picture>
-          <source srcset="images/AR_02707.webp" type="image/webp">
-          <img src="images/AR_02707-opt.JPG" alt="" width="80" height="80" loading="lazy">
-        </picture>
-        <picture>
-          <source srcset="images/DSC09905.webp" type="image/webp">
-          <img src="images/DSC09905-opt.JPG" alt="" width="80" height="80" loading="lazy">
-        </picture>
+        <img src="images/gallery2.jpg" alt="">
+        <img src="images/gallery1.jpg" alt="">
+        <img src="images/gallery5.jpg" alt="">
+        <img src="images/gallery6.jpg" alt="">
       </div>
     </div>
 
     <div class="cform-wrap" data-reveal="fade-left" data-delay="100">
-
-<!-- QUICK ENQUIRY -->
-<div class="quick-enquiry" id="quickEnquiry">
-  <h3 class="qe-title">Quick Enquiry</h3>
-  <p class="qe-sub">Just your name and number — we'll reach out right away.</p>
-  <div class="qe-fields">
-    <input type="text" id="qe_name" placeholder="Your Name" aria-label="Your name" maxlength="60">
-    <input type="tel" id="qe_phone" placeholder="WhatsApp Number (+91...)" aria-label="WhatsApp number" maxlength="15">
-    <a id="qeBtn" href="#" class="qe-btn" target="_blank" rel="noopener" onclick="return openWhatsAppQuick()">Chat on WhatsApp</a>
-  </div>
-  <div class="qe-error" id="qeError"></div>
-</div>
-
-<div class="qe-divider"><span>or fill the detailed form below</span></div>
-
 <form
 id="eForm"
 action="https://api.web3forms.com/submit"
@@ -876,11 +804,6 @@ id="fsub">
 Send Enquiry
 
 </button>
-<div class="f-success" id="fSuccess">
-  <div class="fs-ring"><span class="fs-check">✓</span></div>
-  <h3>Enquiry Sent!</h3>
-  <p>Thank you! We'll get back to you within 24 hours.</p>
-</div>
 
 </form>
 
@@ -891,16 +814,13 @@ Send Enquiry
 <footer>
   <div class="footer-top">
     <div class="ft-brand">
-      <picture>
-        <source srcset="images/Logo.webp" type="image/webp">
-        <img src="images/Logo-opt.png" alt="Image Paradise Photography" class="ft-logo">
-      </picture>
+      <img src="images/Logo.png" alt="Image Paradise Photography" class="ft-logo">
       <h3>Image Paradise<br>Photography</h3>
       <p>Capturing love, preserving paradise.<br>Chennai · Available across India &amp; Beyond.</p>
     </div>
     <div class="ft-col"><h4>Explore</h4><a href="#portfolio">Portfolio</a><a href="#about">About</a><a href="#services">Packages</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a></div>
     <div class="ft-col"><h4>Sessions</h4><a href="#contact">Wedding</a><a href="#contact">Portraits</a><a href="#contact">Engagement</a><a href="#contact">Pre-Wedding</a><a href="#contact">Maternity</a></div>
-    <div class="ft-col"><h4>Connect</h4><a href="https://www.instagram.com/imageparadisephotography" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/imageparadisephotography" target="_blank" rel="noopener">Facebook</a><a href="https://in.pinterest.com/imageparadisephotography" target="_blank" rel="noopener">Pinterest</a><a href="mailto:imageparadise2020@gmail.com">Email Us</a></div>
+    <div class="ft-col"><h4>Connect</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Pinterest</a><a href="#">YouTube</a><a href="mailto:hello@imageparadisephotography.com">Email Us</a></div>
   </div>
   <!-- footer photo strip -->
   <div class="footer-strip">
@@ -908,17 +828,9 @@ Send Enquiry
   </div>
   <div class="footer-btm">
     <p>&copy; 2026 Image Paradise Photography · Chennai, India · All rights reserved</p>
-    <picture>
-      <source srcset="images/Logo.webp" type="image/webp">
-      <img src="images/Logo-opt.png" alt="" class="ft-btm-logo">
-    </picture>
+    <img src="images/Logo.png" alt="" class="ft-btm-logo">
   </div>
 </footer>
-
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/917708510143?text=Hi%2C%20I'm%20interested%20in%20booking%20a%20photography%20session." class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
 
 <button class="btt" id="btt" title="Back to top">↑</button>
 
