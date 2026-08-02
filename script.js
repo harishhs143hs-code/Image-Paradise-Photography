@@ -5,36 +5,44 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── HERO VIDEO (plays automatically inside the header on page load) ── */
-  const heroVideo   = document.getElementById('heroVideo');
-  const heroMuteBtn = document.getElementById('heroVideoMute');
-  const heroMuteIcon   = document.getElementById('heroMuteIcon');
-  const heroUnmuteIcon = document.getElementById('heroUnmuteIcon');
+  /* ── VIDEO INTRO ────────────────────────────── */
+  const introOverlay = document.getElementById('videoIntro');
+  const introVideo   = document.getElementById('introVideo');
+  const introSkipBtn = document.getElementById('introSkip');
+  const introMuteBtn = document.getElementById('introMute');
+  const muteIcon     = document.getElementById('muteIcon');
+  const unmuteIcon   = document.getElementById('unmuteIcon');
 
-  if (heroVideo) {
-    // Some browsers only honor autoplay once muted+playsinline are set
-    // via JS as well as markup — belt and braces.
-    heroVideo.muted = true;
-    heroVideo.play().catch(() => {
-      // Autoplay was blocked (rare, but happens on some mobile browsers).
-      // Fall back to starting playback on first user interaction.
-      const startOnInteraction = () => {
-        heroVideo.play().catch(() => {});
-        document.removeEventListener('touchstart', startOnInteraction);
-        document.removeEventListener('click', startOnInteraction);
-      };
-      document.addEventListener('touchstart', startOnInteraction, { once: true });
-      document.addEventListener('click', startOnInteraction, { once: true });
-    });
+  function dismissIntro() {
+    introOverlay.classList.add('out');
+    introVideo.pause();
+    document.body.style.overflow = '';
+  }
 
-    if (heroMuteBtn) {
-      heroMuteBtn.addEventListener('click', () => {
-        heroVideo.muted = !heroVideo.muted;
-        heroMuteIcon.style.display   = heroVideo.muted ? '' : 'none';
-        heroUnmuteIcon.style.display = heroVideo.muted ? 'none' : '';
-        heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Unmute video' : 'Mute video');
-      });
+  if (introOverlay && introVideo) {
+    document.body.style.overflow = 'hidden';
+
+    let introDismissed = false;
+    function dismissIntroOnce() {
+      if (introDismissed) return;
+      introDismissed = true;
+      dismissIntro();
     }
+
+    introVideo.addEventListener('ended', dismissIntroOnce);
+    introVideo.addEventListener('error', dismissIntroOnce); // failsafe: broken/missing video file
+    introSkipBtn.addEventListener('click', dismissIntroOnce);
+    introMuteBtn.addEventListener('click', () => {
+      introVideo.muted = !introVideo.muted;
+      muteIcon.style.display   = introVideo.muted ? '' : 'none';
+      unmuteIcon.style.display = introVideo.muted ? 'none' : '';
+      introMuteBtn.setAttribute('aria-label', introVideo.muted ? 'Unmute video' : 'Mute video');
+    });
+    introVideo.play().catch(dismissIntroOnce);
+
+    // failsafe: if nothing has happened within 4s (slow network, stalled load,
+    // autoplay silently blocked, etc.) never leave a visitor stuck on a black screen
+    setTimeout(dismissIntroOnce, 4000);
   }
 
   /* ── CUSTOM CURSOR ───────────────────────────── */
