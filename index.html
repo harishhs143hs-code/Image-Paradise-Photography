@@ -296,27 +296,6 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- VIDEO INTRO -->
-<div class="video-intro" id="videoIntro" role="dialog" aria-label="Intro video" aria-modal="true">
-  <video
-    id="introVideo"
-    class="intro-video"
-    src="/videos/intro.mp4"
-    autoplay
-    muted
-    playsinline
-    preload="auto"
-    aria-hidden="true"
-  ></video>
-  <div class="intro-ui">
-    <button class="intro-mute" id="introMute" aria-label="Unmute video">
-      <svg id="muteIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-      <svg id="unmuteIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-    </button>
-    <button class="intro-skip" id="introSkip" aria-label="Skip intro">Skip Intro &#8250;</button>
-  </div>
-</div>
-
 <!-- NAV -->
 <header class="navbar" role="banner">
 <nav id="nav" role="navigation" aria-label="Main navigation">
@@ -365,11 +344,23 @@
 
   <div class="hero-right" data-reveal="fade-left" data-delay="200">
     <div class="hero-collage">
-      <div class="hc-main">
-        <picture>
-          <source srcset="images/08.webp" type="image/webp">
-          <img src="images/08-opt.jpg" alt="Elegant bridal portrait by Image Paradise Photography - Best wedding photographer in Chennai" loading="eager" width="800" height="600" fetchpriority="high">
-        </picture>
+      <div class="hc-main hc-video-wrap">
+        <video
+          id="heroVideo"
+          class="hc-video"
+          poster="images/08-opt.jpg"
+          src="/videos/intro.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-label="Image Paradise Photography cinematic showreel"
+        ></video>
+        <button class="hero-video-mute" id="heroVideoMute" aria-label="Unmute video">
+          <svg id="heroMuteIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          <svg id="heroUnmuteIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        </button>
       </div>
       <div class="hero-badge" aria-label="5.0 star Google reviews rating">
         <div class="badge-star" aria-hidden="true">★</div>
