@@ -1,7 +1,6 @@
 /* ══════════════════════════════════════════════════
    IMAGE PARADISE PHOTOGRAPHY — JAVASCRIPT
    ══════════════════════════════════════════════════ */
-'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
 
