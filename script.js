@@ -4,6 +4,27 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── HERO PROMO VIDEO ────────────────────────── */
+  const heroVideo   = document.getElementById('heroVideo');
+  const heroMuteBtn = document.getElementById('heroVideoMute');
+  const heroMuteLbl = heroMuteBtn ? heroMuteBtn.querySelector('.hero-video-mute-label') : null;
+
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.play().catch(() => {
+      const start = () => { heroVideo.play().catch(() => {}); };
+      document.addEventListener('touchstart', start, { once: true });
+      document.addEventListener('click',      start, { once: true });
+    });
+    if (heroMuteBtn) {
+      heroMuteBtn.addEventListener('click', () => {
+        heroVideo.muted = !heroVideo.muted;
+        if (heroMuteLbl) heroMuteLbl.textContent = heroVideo.muted ? 'Sound off' : 'Sound on';
+        heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Unmute promo video' : 'Mute promo video');
+      });
+    }
+  }
+
   /* ── LOADER ──────────────────────────────────── */
   const loader   = document.getElementById('pageLoader');
   const fillEl   = document.getElementById('loaderFill');

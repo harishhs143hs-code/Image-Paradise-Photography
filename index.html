@@ -350,8 +350,23 @@
 
   <div class="hero-right" data-reveal="fade-left" data-delay="200">
     <div class="hero-collage">
-      <div class="hc-main">
-        <img src="images/08.jpg" alt="Elegant bridal portrait by Image Paradise Photography - Best wedding photographer in Chennai" loading="eager" width="800" height="600" fetchpriority="high">
+      <div class="hc-main hc-video-wrap">
+        <video
+          id="heroVideo"
+          class="hc-video"
+          poster="images/08.jpg"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="Image Paradise Photography promo video"
+        >
+          <source src="/videos/promo.mp4" type="video/mp4">
+        </video>
+        <button class="hero-video-mute" id="heroVideoMute" type="button" aria-label="Unmute promo video">
+          <span class="hero-video-mute-label">Sound off</span>
+        </button>
       </div>
       <div class="hero-badge" aria-label="5.0 star Google reviews rating">
         <div class="badge-star" aria-hidden="true">★</div>
