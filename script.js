@@ -28,16 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── LOADER ──────────────────────────────────── */
   const loader   = document.getElementById('pageLoader');
   const fillEl   = document.getElementById('loaderFill');
-  let pct = 0;
-  const loadTimer = setInterval(() => {
-    pct = Math.min(pct + Math.random() * 20, 95);
-    fillEl.style.width = pct + '%';
-  }, 80);
-  window.addEventListener('load', () => {
-    clearInterval(loadTimer);
-    fillEl.style.width = '100%';
-    setTimeout(() => loader.classList.add('out'), 500);
-  });
+  if (loader && fillEl) {
+    let pct = 0;
+    const loadTimer = setInterval(() => {
+      pct = Math.min(pct + Math.random() * 20, 95);
+      fillEl.style.width = pct + '%';
+    }, 80);
+    window.addEventListener('load', () => {
+      clearInterval(loadTimer);
+      fillEl.style.width = '100%';
+      setTimeout(() => loader.classList.add('out'), 500);
+    });
+  }
 
   /* ── CUSTOM CURSOR ───────────────────────────── */
   const cur  = document.getElementById('cursor');
