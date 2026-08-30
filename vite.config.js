@@ -18,6 +18,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
+        notFound: '404.html',
         blog: 'blog.html',
         blogPost: 'blog-post.html',
         preWedding: 'pre-wedding-shoot-chennai.html',
