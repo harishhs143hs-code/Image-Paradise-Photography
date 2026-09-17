@@ -1,0 +1,144 @@
+/* IMAGE PARADISE — EDITORIAL EXPERIENCE LAYER
+   Inspired by premium photography-site information architecture.
+   Brand colors + logo remain unchanged. Portfolio content remains untouched.
+*/
+
+:root{
+  --xp-max: 1380px;
+  --xp-gutter: clamp(20px,4vw,64px);
+  --xp-line: rgba(216,27,96,.14);
+  --xp-shadow: 0 30px 90px rgba(18,5,9,.10);
+}
+
+html{scroll-padding-top:88px}
+body{background:var(--pk-bg)}
+
+/* Premium announcement / utility strip */
+.xp-utility{display:flex;justify-content:center;align-items:center;gap:16px;min-height:34px;padding:7px 18px;background:var(--dark);color:#fff;font-size:10px;letter-spacing:.18em;text-transform:uppercase;text-align:center}
+.xp-utility span{opacity:.72}
+.xp-utility b{color:var(--pk-lt);font-weight:500}
+
+/* Header refinement */
+.navbar{border-bottom:1px solid transparent;transition:background .45s ease,border-color .45s ease,box-shadow .45s ease,transform .45s ease}
+.navbar:has(.slim){background:rgba(255,248,251,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom-color:var(--xp-line);box-shadow:0 10px 40px rgba(18,5,9,.06)}
+.brand img{transition:transform .4s ease}
+.brand:hover img{transform:translateY(-1px)}
+.nav-menu a{position:relative}
+.nav-menu a:not(.nav-enquire)::after{content:"";position:absolute;left:14px;right:14px;bottom:7px;height:1px;background:var(--pk);transform:scaleX(0);transform-origin:right;transition:transform .35s ease}
+.nav-menu a:not(.nav-enquire):hover::after{transform:scaleX(1);transform-origin:left}
+
+/* Editorial hero */
+#hero{min-height:min(900px,100svh);position:relative;isolation:isolate}
+#hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 82% 18%,rgba(216,27,96,.10),transparent 28%),radial-gradient(circle at 12% 82%,rgba(136,14,79,.07),transparent 26%);pointer-events:none}
+#hero::after{content:"";position:absolute;right:clamp(18px,4vw,70px);bottom:42px;width:1px;height:96px;background:linear-gradient(to bottom,var(--pk),transparent);opacity:.5;pointer-events:none}
+.hero-left{max-width:680px}
+.hero-headline{font-size:clamp(52px,6.4vw,102px);line-height:.92;letter-spacing:-.055em}
+.hero-headline em{color:var(--pk);font-weight:400}
+.hero-body{max-width:590px;font-size:15px;color:var(--muted)}
+.hero-collage{filter:drop-shadow(0 34px 70px rgba(18,5,9,.14))}
+.hc-main{border:1px solid rgba(255,255,255,.34)}
+.hero-badge{box-shadow:0 18px 50px rgba(18,5,9,.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+
+/* Editorial manifesto inserted between hero and portfolio */
+.xp-manifesto{max-width:var(--xp-max);margin:0 auto;padding:clamp(90px,12vw,170px) var(--xp-gutter) clamp(80px,10vw,130px);display:grid;grid-template-columns:.75fr 1.6fr;gap:clamp(40px,9vw,150px);align-items:end}
+.xp-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--pk);font-weight:700}
+.xp-manifesto h2{font-family:var(--serif);font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:.98;letter-spacing:-.045em;max-width:900px}
+.xp-manifesto h2 em{color:var(--pk);font-weight:400}
+.xp-manifesto-copy{max-width:620px;margin-top:28px;color:var(--muted);font-size:15px;line-height:1.9}
+.xp-rule{height:1px;background:linear-gradient(90deg,var(--pk),transparent);margin-top:34px;max-width:360px}
+
+/* Category navigation — reference-style information architecture */
+.xp-category-bar{max-width:var(--xp-max);margin:0 auto;padding:0 var(--xp-gutter) 34px;display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:1px solid var(--xp-line)}
+.xp-category-label{font-family:var(--serif);font-size:24px}
+.xp-category-links{display:flex;gap:26px;flex-wrap:wrap;justify-content:flex-end}
+.xp-category-links a{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:color .25s ease}
+.xp-category-links a:hover{color:var(--pk)}
+
+/* Make existing portfolio feel like a curated archive without changing its content */
+#portfolio{padding-top:clamp(75px,9vw,130px)}
+#portfolio .sec-head{max-width:var(--xp-max);margin-left:auto;margin-right:auto;padding-left:var(--xp-gutter);padding-right:var(--xp-gutter)}
+#portfolio .gallery{max-width:var(--xp-max);margin-left:auto;margin-right:auto}
+#portfolio .g-wrap{box-shadow:0 18px 55px rgba(18,5,9,.07);transition:transform .7s cubic-bezier(.2,.7,.2,1),box-shadow .7s ease}
+#portfolio .g-item:hover .g-wrap{transform:translateY(-5px);box-shadow:0 30px 80px rgba(18,5,9,.15)}
+#portfolio .g-overlay{backdrop-filter:blur(2px)}
+
+/* Service architecture */
+#services{position:relative}
+#services::before{content:"SERVICES";position:absolute;top:7%;right:4%;font-size:clamp(60px,11vw,170px);font-family:var(--serif);font-weight:700;color:rgba(216,27,96,.035);pointer-events:none}
+.pkg{transition:transform .45s ease,box-shadow .45s ease,border-color .45s ease}
+.pkg:hover{transform:translateY(-8px);box-shadow:var(--xp-shadow);border-color:rgba(216,27,96,.28)}
+.pkg.featured{box-shadow:0 25px 80px rgba(136,14,79,.16)}
+.pkg-cta{transition:background .3s ease,color .3s ease,transform .3s ease}
+.pkg-cta:hover{transform:translateY(-2px)}
+
+/* Testimonial editorial treatment */
+#testimonials{position:relative;overflow:hidden}
+#testimonials::after{content:"“";position:absolute;right:4%;top:4%;font-family:var(--serif);font-size:clamp(180px,28vw,430px);line-height:.7;color:rgba(216,27,96,.035);pointer-events:none}
+.tcard{transition:transform .45s ease,box-shadow .45s ease}
+.tcard:hover{transform:translateY(-5px);box-shadow:var(--xp-shadow)}
+
+/* Conversion section */
+#contact{position:relative;overflow:hidden}
+#contact::before{content:"LET'S CREATE";position:absolute;right:-2%;top:8%;font-family:var(--serif);font-size:clamp(70px,12vw,190px);line-height:.8;color:rgba(255,255,255,.035);pointer-events:none}
+.cform-wrap{box-shadow:0 30px 100px rgba(18,5,9,.15)}
+.fg input,.fg textarea,.fg select{transition:border-color .25s ease,box-shadow .25s ease,background .25s ease}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--pk);box-shadow:0 0 0 4px rgba(216,27,96,.09);background:#fff}
+.fsub{position:relative;overflow:hidden}
+.fsub::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transform:translateX(-120%);transition:transform .65s ease}
+.fsub:hover::after{transform:translateX(120%)}
+
+/* FAQ / studio info block */
+.xp-faq{max-width:var(--xp-max);margin:0 auto;padding:clamp(90px,11vw,150px) var(--xp-gutter)}
+.xp-faq-head{display:grid;grid-template-columns:.8fr 1.6fr;gap:60px;margin-bottom:50px}
+.xp-faq h2{font-family:var(--serif);font-size:clamp(42px,5vw,78px);font-weight:400;line-height:1}
+.xp-faq h2 em{color:var(--pk)}
+.xp-faq-intro{color:var(--muted);max-width:560px;line-height:1.9}
+.xp-faq-list{border-top:1px solid var(--xp-line)}
+.xp-faq-item{border-bottom:1px solid var(--xp-line)}
+.xp-faq-q{width:100%;padding:24px 0;background:none;border:0;display:flex;justify-content:space-between;gap:20px;text-align:left;font:500 15px var(--sans);color:var(--ink);cursor:pointer}
+.xp-faq-q span:last-child{color:var(--pk);font-size:22px;line-height:1}
+.xp-faq-a{max-height:0;overflow:hidden;transition:max-height .45s ease,padding .45s ease;color:var(--muted);font-size:14px;line-height:1.8;padding-right:70px}
+.xp-faq-item.open .xp-faq-a{max-height:180px;padding-bottom:24px}
+.xp-faq-item.open .xp-faq-q span:last-child{transform:rotate(45deg)}
+
+/* Locations / service footprint */
+.xp-locations{background:var(--dark);color:#fff;padding:clamp(75px,9vw,120px) var(--xp-gutter)}
+.xp-locations-inner{max-width:var(--xp-max);margin:auto;display:grid;grid-template-columns:1fr 1.5fr;gap:70px;align-items:end}
+.xp-locations h2{font-family:var(--serif);font-size:clamp(44px,5vw,78px);font-weight:400;line-height:.98}
+.xp-locations h2 em{color:var(--pk-lt)}
+.xp-locations p{color:rgba(255,255,255,.62);line-height:1.9;max-width:600px}
+.xp-location-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.xp-location-grid span{border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:9px 14px;color:rgba(255,255,255,.75);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+/* Footer refinement */
+footer{border-top:1px solid var(--xp-line)}
+.ft-col a{transition:color .25s ease,transform .25s ease}
+.ft-col a:hover{color:var(--pk);transform:translateX(3px)}
+
+/* Floating mobile actions */
+.xp-mobile-rail{display:none}
+
+@media(max-width:767px){
+  .xp-utility{font-size:8px;letter-spacing:.12em;min-height:30px}
+  .xp-utility span{display:none}
+  .xp-manifesto{grid-template-columns:1fr;gap:20px;padding-top:78px;padding-bottom:72px}
+  .xp-manifesto h2{font-size:clamp(40px,12vw,58px)}
+  .xp-manifesto-copy{font-size:14px}
+  .xp-category-bar{display:block;padding-bottom:24px}
+  .xp-category-label{margin-bottom:18px}
+  .xp-category-links{justify-content:flex-start;gap:14px 20px}
+  #hero{min-height:auto;padding-top:92px}
+  .hero-headline{font-size:clamp(43px,12.5vw,62px)}
+  .xp-faq{padding-top:78px;padding-bottom:80px}
+  .xp-faq-head{grid-template-columns:1fr;gap:22px;margin-bottom:35px}
+  .xp-faq h2{font-size:clamp(42px,12vw,58px)}
+  .xp-faq-q{font-size:14px;padding:21px 0}
+  .xp-faq-a{padding-right:15px;font-size:13px}
+  .xp-locations{padding-top:78px;padding-bottom:78px}
+  .xp-locations-inner{grid-template-columns:1fr;gap:28px}
+  .xp-locations h2{font-size:clamp(45px,12vw,62px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
