@@ -1,0 +1,324 @@
+/*
+ * IMAGE PARADISE PHOTOGRAPHY — MOBILE PREMIUM EXPERIENCE
+ * Additive layer: preserves the existing brand palette and desktop design.
+ * Focus: thumb-friendly controls, cinematic spacing, safe-area support,
+ * readable type, stable media sizing, and premium mobile interactions.
+ */
+
+/* Mobile browsers: prevent accidental horizontal drift and improve tap feel. */
+html { overflow-x: clip; -webkit-text-size-adjust: 100%; }
+body { overflow-x: clip; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+@media (max-width: 767px) {
+  :root {
+    --mobile-gutter: clamp(18px, 5vw, 24px);
+    --mobile-radius: 18px;
+  }
+
+  body {
+    cursor: auto;
+    font-size: 15px;
+    line-height: 1.65;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Keep every interactive target comfortable for touch. */
+  a, button { min-height: 44px; }
+
+  /* ── HEADER / MOBILE NAV ───────────────────── */
+  .navbar {
+    height: auto;
+    min-height: 64px;
+    padding-top: env(safe-area-inset-top);
+    background: rgba(255,248,251,.88);
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    border-bottom: 1px solid rgba(216,27,96,.10);
+  }
+
+  .navbar nav, #nav {
+    min-height: 64px;
+    padding: 10px var(--mobile-gutter);
+    gap: 12px;
+  }
+
+  .brand img { width: 132px; height: auto; }
+
+  .hamburger {
+    width: 46px;
+    height: 46px;
+    min-height: 46px;
+    margin-left: auto;
+    border-radius: 14px;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+  }
+
+  .hamburger span { width: 21px; }
+
+  .nav-menu {
+    top: calc(100% + 8px);
+    left: var(--mobile-gutter);
+    right: var(--mobile-gutter);
+    width: auto;
+    padding: 10px;
+    border: 1px solid rgba(216,27,96,.12);
+    border-radius: 20px;
+    background: rgba(255,255,255,.97);
+    box-shadow: 0 20px 55px rgba(45,16,32,.16);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+  }
+
+  .nav-menu li a {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 13px;
+    font-size: 15px;
+  }
+
+  .nav-menu li a:active { background: var(--pk-pale); }
+  .nav-enquire { justify-content: center; margin-top: 4px; }
+
+  /* ── HERO: portrait-first editorial composition ── */
+  #hero {
+    min-height: auto;
+    padding: calc(84px + env(safe-area-inset-top)) var(--mobile-gutter) 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .hero-left, .hero-right { width: 100%; }
+
+  .hero-tag {
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px 11px;
+    border-radius: 999px;
+    font-size: 10px;
+    letter-spacing: .06em;
+    line-height: 1.35;
+  }
+
+  .hero-headline {
+    margin-top: 16px;
+    font-size: clamp(40px, 12.5vw, 58px);
+    line-height: .99;
+    letter-spacing: -.045em;
+    max-width: 11ch;
+  }
+
+  .hero-body {
+    margin-top: 18px;
+    max-width: 40rem;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .hero-btns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .hero-btns a {
+    min-height: 52px;
+    width: 100%;
+    justify-content: center;
+    border-radius: 14px;
+  }
+
+  .hero-counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(216,27,96,.12);
+  }
+
+  .hero-counters .hc { text-align: left; min-width: 0; }
+  .hero-counters .count { font-size: clamp(22px, 7vw, 31px); }
+  .hero-counters .hc label { display: block; font-size: 9px; line-height: 1.35; }
+  .hero-counters .hc-div { display: none; }
+
+  .hero-right { order: -1; }
+
+  .hero-collage {
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(45,16,32,.18);
+  }
+
+  .hc-main, .hc-video-wrap, .hc-video { width: 100%; height: 100%; }
+  .hc-video { object-fit: cover; }
+
+  .hero-badge {
+    right: 12px;
+    bottom: 12px;
+    padding: 9px 11px;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(18,5,9,.20);
+  }
+
+  .hero-badge strong { font-size: 15px; }
+  .hero-badge span { font-size: 8px; }
+  .badge-star { font-size: 17px; }
+
+  .hero-video-mute {
+    right: 12px;
+    top: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 999px;
+    background: rgba(18,5,9,.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .hero-video-mute-label { font-size: 9px; }
+  .hero-scroll { display: none; }
+
+  /* ── MARQUEE ───────────────────────────────── */
+  .marquee { overflow: hidden; padding: 12px 0; }
+  .mq-track { font-size: 10px; letter-spacing: .14em; }
+
+  /* ── SECTION SYSTEM ────────────────────────── */
+  section:not(#hero) {
+    scroll-margin-top: 76px;
+  }
+
+  .sec-head {
+    padding-left: var(--mobile-gutter);
+    padding-right: var(--mobile-gutter);
+  }
+
+  .sec-head h2 {
+    font-size: clamp(32px, 9.5vw, 46px);
+    line-height: 1.04;
+    letter-spacing: -.035em;
+  }
+
+  .sec-head p {
+    font-size: 13px;
+    line-height: 1.65;
+    max-width: 34rem;
+  }
+
+  /* ── FILTERS: horizontal touch rail ────────── */
+  .filter-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 4px var(--mobile-gutter) 10px;
+    margin-right: 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .filter-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  /* ── PORTFOLIO: controlled single-column editorial feed ── */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-left: var(--mobile-gutter);
+    padding-right: var(--mobile-gutter);
+  }
+
+  .g-item, .g-item.g-tall, .g-item.g-wide {
+    grid-column: auto;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+
+  .g-item.g-wide { aspect-ratio: 16 / 10; }
+  .g-wrap { border-radius: var(--mobile-radius); overflow: hidden; }
+  .g-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Always reveal enough context on touch devices; hover does not exist. */
+  .g-overlay {
+    opacity: 1;
+    transform: none;
+    background: linear-gradient(180deg, transparent 45%, rgba(18,5,9,.74) 100%);
+    align-items: flex-end;
+    padding: 18px;
+  }
+
+  .g-overlay p { font-size: 15px; }
+  .g-overlay span { font-size: 10px; }
+
+  /* ── LIGHTBOX ──────────────────────────────── */
+  .lightbox { padding: max(12px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom)); }
+  .lb-stage { width: 100%; height: 78svh; }
+  .lb-stage img { max-width: 100%; max-height: 78svh; object-fit: contain; }
+  .lb-x, .lb-l, .lb-r { min-width: 46px; min-height: 46px; border-radius: 50%; }
+  .lb-x { top: max(12px, env(safe-area-inset-top)); right: 12px; }
+  .lb-l { left: 10px; }
+  .lb-r { right: 10px; }
+
+  /* ── MOBILE CTA / FLOATING WHATSAPP ────────── */
+  .whatsapp-float {
+    width: 54px;
+    height: 54px;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 1100;
+    box-shadow: 0 12px 30px rgba(18,5,9,.20);
+  }
+
+  /* ── FORMS / CARDS / BUTTONS ───────────────── */
+  input, textarea, select { font-size: 16px !important; }
+  .btn-pink, .btn-outline, .nav-enquire { min-height: 48px; }
+
+  /* ── LOADER ────────────────────────────────── */
+  .page-loader { padding: 24px; }
+  .loader-logo { width: 82px; }
+  .loader-name { font-size: 12px; letter-spacing: .12em; }
+  .loader-track { width: min(180px, 60vw); }
+
+  /* Reduce expensive decoration on smaller devices without losing polish. */
+  .hero-left::before, .hero-right::before { display: none !important; }
+
+  /* Respect system accessibility settings. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  /* The layer remains inert on desktop except for accessibility safety. */
+  body { cursor: auto; }
+}
+
+/* Keyboard users should always have a visible focus indicator. */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid rgba(216,27,96,.45);
+  outline-offset: 3px;
+}

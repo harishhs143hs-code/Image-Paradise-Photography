@@ -1,0 +1,277 @@
+/* IMAGE PARADISE — MOBILE LUXURY EXPERIENCE
+   Additive layer: preserves the existing brand palette and typography.
+   Mobile is treated as the primary client experience.
+*/
+
+:root {
+  --mobile-gutter: clamp(18px, 5vw, 28px);
+  --mobile-radius: 18px;
+  --mobile-shadow: 0 18px 50px rgba(18,5,9,.10);
+}
+
+/* Touch + accessibility foundations */
+html { -webkit-text-size-adjust: 100%; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
+:focus-visible { outline: 2px solid var(--pk); outline-offset: 4px; }
+
+/* Premium fixed mobile action rail */
+.mobile-action-rail {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    cursor: auto;
+    padding-bottom: 76px;
+  }
+
+  .cursor, .cursor-ring { display: none !important; }
+
+  /* Navigation: thumb-friendly, calm and compact */
+  .navbar {
+    height: 68px;
+    padding: 0 var(--mobile-gutter);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .navbar nav, .navbar > nav {
+    min-height: 68px;
+  }
+  .brand img {
+    width: 132px;
+    height: auto;
+  }
+  .hamburger {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-content: center;
+  }
+  .nav-menu {
+    width: min(92vw, 390px);
+    right: var(--mobile-gutter);
+    left: auto;
+    padding: 12px;
+    border-radius: 22px;
+    box-shadow: 0 24px 70px rgba(18,5,9,.18);
+  }
+  .nav-menu a {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 14px;
+  }
+  .nav-enquire { justify-content: center; }
+
+  /* Hero becomes a cinematic phone-first composition */
+  #hero {
+    min-height: auto;
+    padding: 94px var(--mobile-gutter) 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .hero-left, .hero-right { width: 100%; }
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: .10em;
+    line-height: 1.45;
+  }
+  .hero-headline {
+    font-size: clamp(38px, 11vw, 58px);
+    line-height: .98;
+    letter-spacing: -.045em;
+    margin: 16px 0 18px;
+  }
+  .hero-body {
+    max-width: 39rem;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .hero-btns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .hero-btns a {
+    min-height: 52px;
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .hc {
+    min-width: 0;
+    text-align: center;
+  }
+  .hc .count { font-size: 24px; }
+  .hc label { font-size: 9px; line-height: 1.3; display: block; }
+  .hc-div { display: none; }
+
+  .hero-right { order: 2; }
+  .hero-collage { width: 100%; }
+  .hc-main {
+    min-height: 58vh;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--mobile-shadow);
+  }
+  .hc-video { width: 100%; height: 100%; object-fit: cover; }
+  .hero-badge {
+    right: 12px;
+    bottom: 12px;
+    transform: scale(.88);
+    transform-origin: bottom right;
+  }
+  .hero-scroll { display: none; }
+
+  /* Horizontal category scroller: easy one-thumb interaction */
+  .filter-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 4px var(--mobile-gutter) 10px;
+    margin-left: calc(var(--mobile-gutter) * -1);
+    margin-right: calc(var(--mobile-gutter) * -1);
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 17px;
+    border-radius: 999px;
+  }
+
+  /* Sections use deliberate phone gutters */
+  #portfolio, #about, #services, #testimonials, #contact {
+    padding-left: var(--mobile-gutter);
+    padding-right: var(--mobile-gutter);
+  }
+  .sec-head { margin-bottom: 28px; }
+  .sec-head h2 {
+    font-size: clamp(32px, 9vw, 48px);
+    line-height: 1.04;
+  }
+  .sec-head p { font-size: 13px; }
+
+  /* Gallery: editorial, edge-to-edge media rhythm */
+  .gallery {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .g-item, .g-item.g-tall, .g-item.g-wide {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-height: 0;
+  }
+  .g-wrap {
+    border-radius: var(--mobile-radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(18,5,9,.07);
+  }
+  .g-item.g-tall .g-wrap { aspect-ratio: 4 / 5; }
+  .g-item:not(.g-tall) .g-wrap { aspect-ratio: 4 / 3; }
+  .g-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .g-overlay {
+    opacity: 1;
+    transform: none;
+    background: linear-gradient(180deg, transparent 38%, rgba(18,5,9,.78));
+  }
+  .g-overlay p { font-size: 17px; }
+  .g-overlay span { font-size: 10px; }
+
+  /* Mobile lightbox: maximize the image, not chrome */
+  .lightbox { padding: 12px; }
+  .lb-stage { width: 100%; height: 78vh; }
+  .lb-x, .lb-l, .lb-r {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+  }
+
+  /* Cards become comfortable to scroll with one hand */
+  .service-card, .package-card, .testimonial-card, .about-card {
+    border-radius: var(--mobile-radius);
+  }
+  .services-grid, .packages-grid, .testimonial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  /* Floating WhatsApp becomes a compact thumb target */
+  .whatsapp-float {
+    width: 54px;
+    height: 54px;
+    right: 14px;
+    bottom: 86px;
+    z-index: 1100;
+  }
+  .whatsapp-float svg { width: 25px; height: 25px; }
+
+  /* Persistent conversion rail — hidden when existing mobile menu/action UI exists */
+  .mobile-action-rail {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    z-index: 1050;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 8px;
+    padding: 7px;
+    border: 1px solid rgba(216,27,96,.14);
+    border-radius: 18px;
+    background: rgba(255,255,255,.90);
+    box-shadow: 0 14px 45px rgba(18,5,9,.16);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .mobile-action-rail a {
+    min-height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .mobile-action-rail .rail-call {
+    border: 1px solid rgba(216,27,96,.16);
+    color: var(--pk2);
+  }
+  .mobile-action-rail .rail-enquire {
+    color: var(--white);
+    background: linear-gradient(135deg, var(--pk), var(--pk2));
+  }
+
+  /* Avoid accidental iOS zoom in form controls */
+  input, textarea, select { font-size: 16px !important; }
+
+  /* Respect devices with notches */
+  .navbar { padding-top: env(safe-area-inset-top); }
+  .mobile-action-rail { padding-bottom: 7px; }
+}
+
+@media (min-width: 768px) {
+  .mobile-action-rail { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
