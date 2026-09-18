@@ -324,10 +324,10 @@
       <em>capture moments,</em>
       <span>we <b>craft</b> memories.</span>
     </h1>
-    <p class="hero-body" data-reveal="fade-up" data-delay="240">South India's most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.</p>
+    <p class="hero-body" data-reveal="fade-up" data-delay="240">Candid wedding photography and cinematic films, crafted in Chennai for couples across Tamil Nadu and beyond. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.</p>
     <div class="hero-btns" data-reveal="fade-up" data-delay="360">
       <a href="#portfolio" class="btn-pink" aria-label="View our wedding photography portfolio">View Our Work <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <a href="#contact" class="btn-outline" aria-label="Book wedding photography session">Book a Session</a>
+      <a href="#contact" class="btn-outline" aria-label="Book wedding photography session">Check Your Date</a>
     </div>
     <div class="hero-counters" data-reveal="fade-up" data-delay="480" aria-label="Our achievements">
       <div class="hc"><span class="count" data-to="6">0</span><span>+</span><label>Years Experience</label></div>
@@ -613,7 +613,7 @@
     <div class="cinfo" data-reveal="fade-right">
       <div class="sec-badge light"><img src="images/Logo-opt.png" alt="" loading="lazy" width="24" height="24">Enquire Now</div>
       <h2>Let's create<br><em>something beautiful</em><br>together</h2>
-      <p>Tell us about your special day and we'll get back to you within 24 hours.</p>
+      <p>Tell us your date and celebration details. We’ll check availability and get back to you within 24 hours.</p>
       <div class="ci-rows">
         <div class="ci-row">
           <div class="ci-icon">✉</div>
@@ -713,13 +713,16 @@ required>
 </div>
 
 <div class="fg">
-<label>WhatsApp Number</label>
+<label>WhatsApp Number *</label>
 
 <input
 id="f_phone"
 name="phone"
 type="tel"
-placeholder="+91">
+placeholder="+91 7708510143"
+inputmode="tel"
+autocomplete="tel"
+required>
 </div>
 
 <div class="f2col">
@@ -750,14 +753,15 @@ required>
 
 <div class="fg">
 
-<label>Event Date</label>
+<label>Event Date *</label>
 
 <input
 id="f_date"
 name="event_date"
 type="date"
 autocomplete="off"
-aria-label="Event date">
+aria-label="Event date"
+required>
 
 </div>
 
@@ -765,7 +769,7 @@ aria-label="Event date">
 
 <div class="fg">
 
-<label>Budget Range</label>
+<label>Budget Range</label><small class="form-hint">Optional — helps us suggest the right coverage.</small>
 
 <select
 id="f_budget"
@@ -783,13 +787,13 @@ name="budget">
 
 <div class="fg">
 
-<label>Your Vision *</label>
+<label>Tell us about your day *</label>
 
 <textarea
 id="f_msg"
 name="message"
 rows="4"
-placeholder="Dream venue, style, must-have shots..."
+placeholder="Venue, guest count, coverage needs, or anything you already have in mind..."
 required></textarea>
 
 <span class="fe" id="fe_msg"></span>
@@ -797,6 +801,8 @@ required></textarea>
 </div>
 
 
+
+<div class="form-next-steps" aria-label="What happens next"><strong>What happens next</strong><span>01 · We check your date</span><span>02 · We discuss your coverage</span><span>03 · We guide you to booking</span></div>
 
 <button
 type="submit"
