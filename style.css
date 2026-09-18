@@ -3,3 +3,7 @@
 @import url('./luxury-experience.css');
 @import url('./experience.css');
 @import url('./flagship-overrides.css');
+
+/* CONVERSION + FORM POLISH */
+.form-hint{display:block;margin-top:6px;font-size:11px;color:var(--muted);line-height:1.5}.form-next-steps{display:grid;gap:7px;margin:4px 0 18px;padding:16px 18px;border:1px solid rgba(216,27,96,.12);border-radius:14px;background:rgba(252,228,236,.38)}.form-next-steps strong{font-family:var(--serif);font-size:18px;color:var(--ink);margin-bottom:2px}.form-next-steps span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:767px){.form-next-steps{padding:14px}.fsub{min-height:54px!important}.whatsapp-float{bottom:145px!important}.mobile-action-rail{bottom:max(10px,env(safe-area-inset-bottom))!important}}
