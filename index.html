@@ -134,11 +134,6 @@
     "@id": "https://image-paradise-photography.vercel.app/#website",
     "name": "Image Paradise Photography",
     "url": "https://image-paradise-photography.vercel.app/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://image-paradise-photography.vercel.app/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
   }
   </script>
 
@@ -262,17 +257,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
-  <!-- Google Analytics 4 - Add your measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-    window.trackEvent = function(action, category, label) {
-      gtag('event', action, { event_category: category, event_label: label });
-    };
-  </script>
+  <!-- Analytics is intentionally disabled until a real measurement ID is configured. -->
 
   <!-- Meta Pixel - Add your Pixel ID -->
   <script>
@@ -770,8 +755,9 @@ required>
 <input
 id="f_date"
 name="event_date"
-type="text"
-placeholder="e.g. March 2026">
+type="date"
+autocomplete="off"
+aria-label="Event date">
 
 </div>
 
@@ -810,13 +796,7 @@ required></textarea>
 
 </div>
 
-<label class="fcheck">
-<input type="checkbox" id="f_news">
-<span class="fcb"></span>
 
-Subscribe for photography tips &amp; behind-the-scenes
-
-</label>
 
 <button
 type="submit"
@@ -842,7 +822,7 @@ Send Enquiry
     </div>
     <div class="ft-col"><h4>Explore</h4><a href="#portfolio">Portfolio</a><a href="#about">About</a><a href="#services">Packages</a><a href="#testimonials">Reviews</a><a href="#contact">Contact</a></div>
     <div class="ft-col"><h4>Sessions</h4><a href="#contact">Wedding</a><a href="#contact">Portraits</a><a href="#contact">Engagement</a><a href="#contact">Pre-Wedding</a><a href="#contact">Maternity</a></div>
-    <div class="ft-col"><h4>Connect</h4><a href="https://www.instagram.com/imageparadisephotography" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/imageparadisephotography" target="_blank" rel="noopener">Facebook</a><a href="https://in.pinterest.com/imageparadisephotography" target="_blank" rel="noopener">Pinterest</a><a href="#">YouTube</a><a href="mailto:imageparadise2020@gmail.com">Email Us</a></div>
+    <div class="ft-col"><h4>Connect</h4><a href="https://www.instagram.com/imageparadisephotography" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/imageparadisephotography" target="_blank" rel="noopener">Facebook</a><a href="https://in.pinterest.com/imageparadisephotography" target="_blank" rel="noopener">Pinterest</a><a href="https://wa.me/917708510143?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20photography" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:imageparadise2020@gmail.com">Email Us</a></div>
   </div>
   <!-- footer photo strip -->
   <div class="footer-strip">
