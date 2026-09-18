@@ -288,14 +288,17 @@ if(fsubBtn) fsubBtn.disabled=true;
   /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-menu a:not(.nav-enquire)');
-  new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting)
-        navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+en.target.id ? 'var(--pk)' : ''; });
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' }).observe && secs.forEach(s => new IntersectionObserver(entries => {
-    entries.forEach(en => { if (en.isIntersecting) navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+en.target.id?'var(--pk)':''; }); });
-  }, { rootMargin: '-40% 0px -55% 0px' }).observe(s));
+  if (secs.length && navAs.length) {
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        navAs.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#'+en.target.id);
+        });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    secs.forEach(s => sectionObserver.observe(s));
+  }
 
   /* ── PERFORMANCE: LAZY LOAD IMAGES ────────────────────── */
   const lazyImages = document.querySelectorAll('img[loading="lazy"]');
