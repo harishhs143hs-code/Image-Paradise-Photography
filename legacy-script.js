@@ -72,18 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const btt      = document.getElementById('btt');
 
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('slim', window.scrollY > 60);
-    btt.classList.toggle('show', window.scrollY > 400);
+    nav?.classList.toggle('slim', window.scrollY > 60);
+    btt?.classList.toggle('show', window.scrollY > 400);
   }, { passive: true });
 
-  ham.addEventListener('click', () => {
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  });
-  menu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => { menu.classList.remove('open'); document.body.style.overflow = ''; });
-  });
-  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  if (ham && menu) {
+    ham.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => { menu.classList.remove('open'); document.body.style.overflow = ''; });
+    });
+  }
+  btt?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
   /* ── SMOOTH SCROLL ───────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -185,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── TESTIMONIAL SLIDER ──────────────────────── */
   const ttrack   = document.getElementById('ttrack');
   const tdotsEl  = document.getElementById('tdots');
+  if (!ttrack || !tdotsEl) return;
   const tcards   = ttrack.querySelectorAll('.tcard');
   const tTotal   = tcards.length;
   let tCur = 0;
@@ -277,7 +280,7 @@ return;
 
 }
 
-fsubBtn.disabled=true;
+if(fsubBtn) fsubBtn.disabled=true;
 
 });
 
