@@ -644,3 +644,7 @@ bottom:16px;
 right:16px;
 }
 }
+
+/* ACCESSIBILITY + NAV STATES */
+.nav-menu a.active{color:var(--pk)!important}.nav-menu a:focus-visible,.xp-category-links a:focus-visible,.chip:focus-visible,.xp-faq-q:focus-visible,.fsub:focus-visible,.btn-pink:focus-visible,.btn-outline:focus-visible,.pkg-cta:focus-visible{outline:2px solid var(--pk);outline-offset:4px}.fg input.bad,.fg select.bad,.fg textarea.bad{border-color:var(--pk)!important;box-shadow:0 0 0 3px rgba(216,27,96,.08)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
