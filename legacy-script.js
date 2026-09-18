@@ -154,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const itemArr = Array.from(gItems);
   let lbIdx = 0;
 
+  let lastFocusedElement = null;
   function openLB(idx) {
+    lastFocusedElement = document.activeElement;
     lbIdx = idx;
     const item = itemArr[lbIdx];
     const img  = item.querySelector('img');
@@ -169,8 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
     lbCap.textContent = (cap ? cap.textContent : '') + (sub ? ' · ' + sub.textContent : '');
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
+    lbX?.focus();
   }
-  function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  function closeLB() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lastFocusedElement?.focus?.();
+  }
 
   itemArr.forEach((item, i) => item.addEventListener('click', () => openLB(i)));
   lbX.addEventListener('click', closeLB);
@@ -348,10 +355,18 @@ if(fsubBtn) fsubBtn.disabled=true;
   }
 
   /* ── ACCESSIBILITY: UPDATE ARIA STATES ────────────────────── */
-  if (ham) {
+  if (ham && menu) {
     ham.addEventListener('click', () => {
       const isOpen = menu.classList.contains('open');
       ham.setAttribute('aria-expanded', isOpen);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        document.body.style.overflow = '';
+        ham.setAttribute('aria-expanded', 'false');
+        ham.focus();
+      }
     });
   }
 
