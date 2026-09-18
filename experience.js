@@ -56,11 +56,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   filmGrid.innerHTML=`<div class="film-strip-inner"><div class="studio-kicker">CINEMATIC STORIES</div><h2>Frames that <em>move.</em></h2><div class="film-cards"><article class="film-card" style="--film-image:url('images/08.jpg')"><div class="film-card-content"><small>01 · Wedding Films</small><h3>The day, in motion.</h3></div></article><article class="film-card" style="--film-image:url('images/DSC06422-opt.JPG')"><div class="film-card-content"><small>02 · Couple Stories</small><h3>Before forever.</h3></div></article><article class="film-card" style="--film-image:url('images/gallery1.jpeg')"><div class="film-card-content"><small>03 · Celebrations</small><h3>Feel it again.</h3></div></article></div></div>`;
   document.getElementById('testimonials')?.before(filmGrid);
 
-  const finalFaq=document.createElement('section');
-  finalFaq.className='faq-studio';
-  finalFaq.id='faq';
-  finalFaq.innerHTML=`<div class="faq-studio-inner"><div class="studio-kicker"><i></i> QUESTIONS, ANSWERED</div><h2>Before we <em>begin.</em></h2><details><summary>What makes Image Paradise different?</summary><p>We combine candid storytelling, guided portraits and cinematic visual direction so your gallery feels natural while still looking intentional and editorial.</p></details><details><summary>Do you cover weddings outside Chennai?</summary><p>Yes. We photograph celebrations across Tamil Nadu, South India and destination locations. Tell us where your celebration is happening and we'll plan the coverage around it.</p></details><details><summary>Can we customise a package?</summary><p>Absolutely. The packages are a starting point. Coverage hours, photography, films, albums and pre/post-wedding sessions can be shaped around your celebration.</p></details><details><summary>How do we reserve our date?</summary><p>Send an enquiry with your date and celebration details. We'll discuss availability, recommend the right coverage and guide you through the booking process.</p></details></div>`;
-  contact.insertAdjacentElement('beforebegin',finalFaq);
+  /* The interactive FAQ above is the single FAQ experience. Avoid duplicating the same content later on the page. */
+  faq.id='faq';
+
+  const contact=document.getElementById('contact');
+  if (contact) {
+    contact.setAttribute('data-contact-section','true');
+  }
 
   const navLinks=document.querySelectorAll('.xp-category-links a[href^="#"]');
   navLinks.forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+scrollY-80,behavior:'smooth'})}));
