@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const category=document.createElement('div');
   category.className='xp-category-bar';
-  category.innerHTML=`<div class="xp-category-label">Explore the studio</div><nav class="xp-category-links" aria-label="Studio categories"><a href="#portfolio">Weddings</a><a href="#portfolio">Portraits</a><a href="#portfolio">Engagements</a><a href="#services">Packages</a><a href="#xp-films">Films</a><a href="#xp-locations">Locations</a><a href="#contact">Book us</a></nav>`;
+  category.innerHTML=`<div class="xp-category-label">Explore the studio</div><nav class="xp-category-links" aria-label="Studio categories"><a href="#portfolio" data-filter="wedding">Weddings</a><a href="#portfolio" data-filter="portrait">Portraits</a><a href="#portfolio" data-filter="engagement">Engagements</a><a href="#services">Packages</a><a href="#xp-films">Films</a><a href="#xp-locations">Locations</a><a href="#contact">Check your date</a></nav>`;
   portfolio.parentNode.insertBefore(category,portfolio);
 
   const films=document.createElement('section');
@@ -65,5 +65,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   const navLinks=document.querySelectorAll('.xp-category-links a[href^="#"]');
-  navLinks.forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+scrollY-80,behavior:'smooth'})}));
+  navLinks.forEach(a=>a.addEventListener('click',e=>{
+    const targetSelector=a.getAttribute('href');
+    const t=document.querySelector(targetSelector);
+    if(!t)return;
+    e.preventDefault();
+    if(a.dataset.filter){
+      const chip=document.querySelector(`.chip[data-f="${a.dataset.filter}"]`);
+      chip?.click();
+    }
+    window.scrollTo({top:t.getBoundingClientRect().top+scrollY-80,behavior:'smooth'});
+  }));
 });
