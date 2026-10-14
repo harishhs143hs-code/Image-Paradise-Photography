@@ -1,0 +1,69 @@
+name: One-time SEO performance polish
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    if: ${{ !contains(github.event.head_commit.message, 'Run SEO performance polish') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply safe SEO and performance improvements
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          replacements = {
+              '<title>Best Wedding Photographer Chennai | Image Paradise Photography - Candid Wedding Photography & Videography</title>':
+              '<title>Wedding Photographer Chennai | Image Paradise Photography</title>',
+              '<meta name="title" content="Best Wedding Photographer Chennai | Image Paradise Photography - Candid Wedding Photography & Videography">':
+              '<meta name="title" content="Wedding Photographer Chennai | Image Paradise Photography">',
+              '<meta property="og:title" content="Best Wedding Photographer Chennai | Image Paradise Photography">':
+              '<meta property="og:title" content="Wedding Photographer Chennai | Image Paradise Photography">',
+              '<meta name="twitter:title" content="Best Wedding Photographer Chennai | Image Paradise Photography">':
+              '<meta name="twitter:title" content="Wedding Photographer Chennai | Image Paradise Photography">',
+              '"image": "https://image-paradise-photography.vercel.app/images/08.jpg"':
+              '"image": "https://image-paradise-photography.vercel.app/images/08-opt.jpg"',
+              'poster="images/08.jpg"':
+              'poster="images/08-opt.jpg"',
+              'href="#portfolio" class="btn-pink" aria-label="View our wedding photography portfolio"':
+              'href="#portfolio" class="btn-pink" data-lead-event="portfolio_click" aria-label="View our wedding photography portfolio"',
+          }
+
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Validate JSON-LD and build
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+          html = Path('index.html').read_text(encoding='utf-8')
+          blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', html, re.S)
+          assert blocks, 'No JSON-LD blocks found'
+          for i, block in enumerate(blocks, 1):
+              json.loads(block)
+          print(f'Validated {len(blocks)} JSON-LD blocks')
+          PY
+          npm install
+          npm run build
+
+      - name: Commit and remove workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git rm .github/workflows/next-seo-polish.yml
+          git commit -m "Run SEO performance polish"
+          git push
