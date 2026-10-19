@@ -8,21 +8,18 @@ function seoSchemaPlugin() {
     name: 'image-paradise-seo-schema',
     apply: 'build',
     transformIndexHtml(html, ctx) {
-      // Remove legacy JSON-LD blocks so the deployed site exposes one clean,
-      // internally consistent schema set per page.
       let output = html.replace(/<script\s+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi, '');
 
-      // The old Facebook/Pinterest profiles are not verified business profiles.
-      // Remove those external anchors if they exist in legacy page templates.
+      // Remove unverified legacy social-profile anchors if present.
       output = output.replace(/<a\b[^>]*href=["']https?:\/\/(?:www\.)?facebook\.com\/imageparadisephotography[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '');
       output = output.replace(/<a\b[^>]*href=["']https?:\/\/(?:in\.)?pinterest\.com\/imageparadisephotography[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '');
 
-      const pagePath = (ctx.path || '/').replace(/\.html$/, '') || '/';
+      const rawPath = (ctx.path || '/').replace(/\.html$/, '');
+      const pagePath = rawPath === '/index' || rawPath === '' ? '/' : rawPath;
       const titleMatch = output.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
       const imageMatch = output.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["'][^>]*>/i);
       const title = titleMatch ? titleMatch[1].trim() : BRAND;
       const image = imageMatch ? imageMatch[1] : `${SITE}/og-image.png`;
-
       const schemas = [];
 
       if (pagePath === '/') {
@@ -79,7 +76,7 @@ function seoSchemaPlugin() {
           name: BRAND,
           url: `${SITE}/`
         });
-      } else {
+      } else if (pagePath !== '/404') {
         schemas.push({
           '@context': 'https://schema.org',
           '@type': 'Article',
@@ -96,7 +93,7 @@ function seoSchemaPlugin() {
         });
       }
 
-      if (pagePath !== '/') {
+      if (pagePath !== '/' && pagePath !== '/404') {
         schemas.push({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
