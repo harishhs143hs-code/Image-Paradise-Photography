@@ -1,7 +1,9 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
@@ -12,25 +14,5 @@
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
       ]
     }
-  ],
-  "redirects": [
-    { "source": "/wedding-photographer-chennai.html", "destination": "/wedding-photographer-chennai", "permanent": true },
-    { "source": "/wedding-photographer-tiruvallur.html", "destination": "/wedding-photographer-tiruvallur", "permanent": true },
-    { "source": "/wedding-photographer-avadi.html", "destination": "/wedding-photographer-avadi", "permanent": true },
-    { "source": "/wedding-photographer-ambattur.html", "destination": "/wedding-photographer-ambattur", "permanent": true },
-    { "source": "/pre-wedding-shoot-chennai.html", "destination": "/pre-wedding-shoot-chennai", "permanent": true },
-    { "source": "/wedding-videography-chennai.html", "destination": "/wedding-videography-chennai", "permanent": true },
-    { "source": "/blog.html", "destination": "/blog", "permanent": true },
-    { "source": "/blog-post.html", "destination": "/blog-post", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/wedding-photographer-chennai", "destination": "/wedding-photographer-chennai.html" },
-    { "source": "/wedding-photographer-tiruvallur", "destination": "/wedding-photographer-tiruvallur.html" },
-    { "source": "/wedding-photographer-avadi", "destination": "/wedding-photographer-avadi.html" },
-    { "source": "/wedding-photographer-ambattur", "destination": "/wedding-photographer-ambattur.html" },
-    { "source": "/pre-wedding-shoot-chennai", "destination": "/pre-wedding-shoot-chennai.html" },
-    { "source": "/wedding-videography-chennai", "destination": "/wedding-videography-chennai.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/blog-post", "destination": "/blog-post.html" }
   ]
 }
