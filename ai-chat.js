@@ -8,10 +8,13 @@ const BOT_HTML = `
       <button id="aiChatClose" class="ai-chat-close" aria-label="Close">×</button>
     </header>
     <div class="ai-chat-messages" id="aiChatMessages" aria-live="polite">
-      <div class="ai-msg ai-msg-bot">Hi! 👋 I can help with packages, wedding photography, pre-wedding shoots, and checking what to do next. What are you planning?</div>
+      <div class="ai-msg ai-msg-bot">Hi! 👋 I can help you compare packages, understand pricing and delivery, plan a pre-wedding shoot, or prepare a date enquiry. What are you planning?</div>
     </div>
     <div class="ai-chat-suggestions" id="aiChatSuggestions">
       <button type="button">Wedding packages</button>
+      <button type="button">What is the price?</button>
+      <button type="button">How do I book?</button>
+      <button type="button">Delivery timeline</button>
       <button type="button">Check my date</button>
       <button type="button">Pre-wedding shoot</button>
     </div>
