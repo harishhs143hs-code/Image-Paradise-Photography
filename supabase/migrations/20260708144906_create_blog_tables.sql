@@ -106,48 +106,34 @@ DROP POLICY IF EXISTS "anon_read_categories" ON blog_categories;
 CREATE POLICY "anon_read_categories" ON blog_categories FOR SELECT
   TO anon, authenticated USING (true);
 
-DROP POLICY IF EXISTS "anon_write_categories" ON blog_categories;
-CREATE POLICY "anon_write_categories" ON blog_categories FOR INSERT
-  TO anon, authenticated WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
-DROP POLICY IF EXISTS "anon_update_categories" ON blog_categories;
-CREATE POLICY "anon_update_categories" ON blog_categories FOR UPDATE
-  TO anon, authenticated USING (true) WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
 -- Policies for blog_posts (public read for published posts)
 DROP POLICY IF EXISTS "anon_read_published_posts" ON blog_posts;
 CREATE POLICY "anon_read_published_posts" ON blog_posts FOR SELECT
   TO anon, authenticated USING (published = true OR published IS NULL);
 
-DROP POLICY IF EXISTS "anon_write_posts" ON blog_posts;
-CREATE POLICY "anon_write_posts" ON blog_posts FOR INSERT
-  TO anon, authenticated WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
-DROP POLICY IF EXISTS "anon_update_posts" ON blog_posts;
-CREATE POLICY "anon_update_posts" ON blog_posts FOR UPDATE
-  TO anon, authenticated USING (true) WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
 -- Policies for blog_tags (public read)
 DROP POLICY IF EXISTS "anon_read_tags" ON blog_tags;
 CREATE POLICY "anon_read_tags" ON blog_tags FOR SELECT
   TO anon, authenticated USING (true);
 
-DROP POLICY IF EXISTS "anon_write_tags" ON blog_tags;
-CREATE POLICY "anon_write_tags" ON blog_tags FOR INSERT
-  TO anon, authenticated WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
 -- Policies for blog_post_tags (public read)
 DROP POLICY IF EXISTS "anon_read_post_tags" ON blog_post_tags;
 CREATE POLICY "anon_read_post_tags" ON blog_post_tags FOR SELECT
   TO anon, authenticated USING (true);
 
-DROP POLICY IF EXISTS "anon_write_post_tags" ON blog_post_tags;
-CREATE POLICY "anon_write_post_tags" ON blog_post_tags FOR INSERT
-  TO anon, authenticated WITH CHECK (true);
+-- Write permissions are intentionally not granted by this migration.
 
-DROP POLICY IF EXISTS "anon_delete_post_tags" ON blog_post_tags;
-CREATE POLICY "anon_delete_post_tags" ON blog_post_tags FOR DELETE
-  TO anon, authenticated USING (true);
+-- Write permissions are intentionally not granted by this migration.
 
 -- Function to automatically update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
