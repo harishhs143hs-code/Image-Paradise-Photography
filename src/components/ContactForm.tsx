@@ -25,7 +25,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   useEffect(() => {
     if (initialSessionType) {
@@ -91,6 +92,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+    if (!privacyConsent) {
+      setErrors((prev) => ({ ...prev, consent: 'Please read and accept the Privacy Notice to continue.' }));
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -236,6 +241,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   type="button"
                   onClick={() => {
                     setSubmitted(false);
+                    setPrivacyConsent(false);
                     setFormData({
                       firstName: '',
                       lastName: '',
