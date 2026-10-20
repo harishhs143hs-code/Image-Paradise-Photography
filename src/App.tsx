@@ -38,6 +38,34 @@ import { testimonialsData } from './data/testimonials';
 import { faqsData } from './data/faqs';
 import { PackageTier } from './types';
 
+const PATH_BY_ROUTE: Record<string, string> = {
+  home: '/',
+  chennai: '/wedding-photographer-chennai',
+  'pre-wedding': '/pre-wedding-shoot-chennai',
+  videography: '/wedding-videography-chennai',
+  ambattur: '/wedding-photographer-ambattur',
+  avadi: '/wedding-photographer-avadi',
+  tiruvallur: '/wedding-photographer-tiruvallur',
+  blog: '/blog'
+};
+
+const readLocationRoute = (): { route: string; slug?: string } => {
+  const path = window.location.pathname.split('/').filter(Boolean).join('/');
+  if (path === 'blog') return { route: 'blog' };
+  if (path.startsWith('blog/')) return { route: 'blog-post', slug: decodeURIComponent(path.slice(5)) };
+  if (path === 'blog-post') {
+    const slug = new URLSearchParams(window.location.search).get('slug') || undefined;
+    return { route: 'blog-post', slug };
+  }
+  const entry = Object.entries(PATH_BY_ROUTE).find(([, url]) => url.split('/').filter(Boolean).join('/') === path);
+  return entry ? { route: entry[0] } : { route: 'home' };
+};
+
+const pathForRoute = (route: string, slug?: string): string => {
+  if (route === 'blog-post') return slug ? '/blog/' + encodeURIComponent(slug) : '/blog';
+  return PATH_BY_ROUTE[route] || '/';
+};
+
 export const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('home');
   const [blogSlug, setBlogSlug] = useState<string>('how-to-choose-best-wedding-photographer-chennai');
@@ -49,22 +77,16 @@ export const App: React.FC = () => {
   const [brochureOpen, setBrochureOpen] = useState<boolean>(false);
   const [callbackOpen, setCallbackOpen] = useState<boolean>(false);
 
-  // Handle URL path on first load or browser navigation
+  // Keep direct links, in-app navigation and the browser back/forward buttons in sync.
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\/|\/$/g, '');
-    if (path === 'pre-wedding-shoot-chennai') setCurrentRoute('pre-wedding');
-    else if (path === 'wedding-photographer-chennai') setCurrentRoute('chennai');
-    else if (path === 'wedding-photographer-ambattur') setCurrentRoute('ambattur');
-    else if (path === 'wedding-photographer-avadi') setCurrentRoute('avadi');
-    else if (path === 'wedding-photographer-tiruvallur') setCurrentRoute('tiruvallur');
-    else if (path === 'wedding-videography-chennai') setCurrentRoute('videography');
-    else if (path === 'blog') setCurrentRoute('blog');
-    else if (path === 'blog-post') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const slug = urlParams.get('slug');
-      if (slug) setBlogSlug(slug);
-      setCurrentRoute('blog-post');
-    }
+    const syncRoute = () => {
+      const current = readLocationRoute();
+      setCurrentRoute(current.route);
+      if (current.slug) setBlogSlug(current.slug);
+    };
+    syncRoute();
+    window.addEventListener('popstate', syncRoute);
+    return () => window.removeEventListener('popstate', syncRoute);
   }, []);
 
   // Custom cursor effect
@@ -103,7 +125,7 @@ export const App: React.FC = () => {
 
   const scrollToElement = (id: string) => {
     if (currentRoute !== 'home') {
-      setCurrentRoute('home');
+      handleNavigate('home');
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -138,6 +160,10 @@ export const App: React.FC = () => {
   };
 
   const handleNavigate = (route: string, anchor?: string) => {
+    const nextPath = pathForRoute(route);
+    if (window.location.pathname !== nextPath || window.location.search) {
+      window.history.pushState({}, '', nextPath);
+    }
     setCurrentRoute(route);
     if (anchor) {
       setTimeout(() => {
@@ -147,6 +173,14 @@ export const App: React.FC = () => {
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const handleSelectBlogPost = (slug: string) => {
+    const nextPath = pathForRoute('blog-post', slug);
+    if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
+    setBlogSlug(slug);
+    setCurrentRoute('blog-post');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -275,11 +309,7 @@ export const App: React.FC = () => {
       {currentRoute === 'blog' && (
         <BlogList
           onBackToHome={() => handleNavigate('home')}
-          onSelectPost={(slug) => {
-            setBlogSlug(slug);
-            setCurrentRoute('blog-post');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onSelectPost={handleSelectBlogPost}
         />
       )}
 
@@ -288,10 +318,7 @@ export const App: React.FC = () => {
         <BlogPostView
           slug={blogSlug}
           onBackToBlog={() => handleNavigate('blog')}
-          onSelectPost={(slug) => {
-            setBlogSlug(slug);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onSelectPost={handleSelectBlogPost}
           onEnquireNow={() => scrollToElement('contact')}
         />
       )}
