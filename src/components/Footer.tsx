@@ -44,8 +44,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'calculator')}>
             Package Calculator
           </button>
-          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'referral')} style={{ color: '#25D366', fontWeight: 600 }}>
-            🎁 Refer &amp; Earn ₹5,000
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('referral')} style={{ color: '#25D366', fontWeight: 600 }}>
+            🤝 Referral &amp; Partner Program
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('blog')}>
             Blog &amp; Guides
@@ -98,6 +98,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <a href="mailto:imageparadise2020@gmail.com">
             imageparadise2020@gmail.com
           </a>
+          <a href="/privacy">Privacy Notice</a>
+          <a href="/referral-terms">Referral Terms</a>
         </div>
       </div>
 
