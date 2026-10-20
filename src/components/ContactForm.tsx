@@ -27,6 +27,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
 
   useEffect(() => {
     if (initialSessionType) {
@@ -91,6 +92,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.trim()) return;
     if (!validate()) return;
     if (!privacyConsent) {
       setErrors((prev) => ({ ...prev, consent: 'Please read and accept the Privacy Notice to continue.' }));
@@ -100,7 +102,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     setIsSubmitting(true);
 
     try {
-      await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,6 +110,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         },
         body: JSON.stringify({
           access_key: '63a5b850-8986-415e-989d-cb1d0f6ac37e',
+          botcheck: honeypot,
           subject: `Wedding Enquiry: ${formData.sessionType} - ${formData.firstName} ${formData.lastName}`,
           from_name: `${formData.firstName} ${formData.lastName}`,
           first_name: formData.firstName,
@@ -120,10 +123,15 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           message: formData.message
         })
       });
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.success !== true) {
+        setErrors((prev) => ({ ...prev, submit: 'We could not confirm your enquiry was sent. Please try again or contact us on WhatsApp.' }));
+        return;
+      }
 
       setSubmitted(true);
-    } catch (err) {
-      setSubmitted(true);
+    } catch {
+      setErrors((prev) => ({ ...prev, submit: 'We could not confirm your enquiry was sent. Please try again or contact us on WhatsApp.' }));
     } finally {
       setIsSubmitting(false);
     }
@@ -154,7 +162,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             together
           </h2>
           <p>
-            Tell us your date and celebration details. We accept only <strong>1 wedding per day</strong> to guarantee complete devotion. We'll verify date availability within 24 hours.
+            Tell us your event date, venue and celebration details. We will review your requirements and confirm availability and coverage options directly with you.
           </p>
 
           <div className="ci-rows">
@@ -200,12 +208,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             <a href="https://www.instagram.com/imageparadisephotography" className="soc" target="_blank" rel="noopener">
               Instagram
             </a>
-            <a href="https://www.facebook.com/imageparadisephotography" className="soc" target="_blank" rel="noopener">
-              Facebook
-            </a>
-            <a href="https://in.pinterest.com/imageparadisephotography" className="soc" target="_blank" rel="noopener">
-              Pinterest
-            </a>
           </div>
 
           {/* photo strip */}
@@ -225,7 +227,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 Thank You, {formData.firstName}!
               </h3>
               <p style={{ color: 'var(--muted)', fontSize: '16px', lineHeight: '1.7', marginBottom: '24px' }}>
-                Your wedding enquiry has reached our studio calendar. Our lead photographer will verify your date availability and respond within 24 hours.
+                Your enquiry has been submitted. We will review the details and contact you using the information you provided. For urgent questions, please message the studio on WhatsApp.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'center' }}>
                 <a
@@ -268,6 +270,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </div>
           ) : (
             <form id="eForm" onSubmit={handleSubmit}>
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="f_website">Leave this field empty
+                  <input id="f_website" name="botcheck" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} tabIndex={-1} autoComplete="off" />
+                </label>
+              </div>
               {initialMessage && (
                 <div className="custom-quote-badge">
                   <span>✨ Applied your custom calculated package details below</span>
@@ -411,11 +418,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that the details I submit may be used to respond to my enquiry.</span>
               </label>
               {errors.consent && <span className="fe" role="alert">{errors.consent}</span>}
+              {errors.submit && <span className="fe" role="alert">{errors.submit}</span>}
 
               <div className="form-next-steps" aria-label="What happens next">
                 <strong>Our 3-Step Booking Journey</strong>
-                <span>01 · We confirm date availability within 24h</span>
-                <span>02 · Review customized portfolio and itemized quote</span>
+                <span>01 · We review your requested date and event details</span>
+                <span>02 · Discuss coverage and receive a quotation</span>
                 <span>03 · Pay booking advance to lock your date</span>
               </div>
 
