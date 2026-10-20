@@ -11,7 +11,8 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
   const [callTime, setCallTime] = useState('Within 15 minutes');
   const [weddingDate, setWeddingDate] = useState('');
   const [notes, setNotes] = useState('');
-  const [submitted, setSubmitted] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
