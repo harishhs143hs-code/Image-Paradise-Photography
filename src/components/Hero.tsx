@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface HeroProps {
   onScrollTo: (elementId: string) => void;
@@ -13,119 +13,60 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     video.muted = true;
-    video.play().catch(() => {
-      const handleUserTouch = () => {
-        video.play().catch(() => {});
-      };
-      document.addEventListener('touchstart', handleUserTouch, { once: true });
-      document.addEventListener('click', handleUserTouch, { once: true });
-    });
+    video.play().catch(() => {});
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              if (isPlaying) video.play().catch(() => {});
-            } else {
-              video.pause();
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(video);
-      return () => observer.disconnect();
-    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && isPlaying) video.play().catch(() => {});
+      else if (!entry.isIntersecting) video.pause();
+    }, { threshold: 0.2 });
+    observer.observe(video);
+    return () => observer.disconnect();
   }, [isPlaying]);
 
   const toggleSound = () => {
-    if (videoRef.current) {
-      const newMuted = !isMuted;
-      videoRef.current.muted = newMuted;
-      setIsMuted(newMuted);
-    }
+    const video = videoRef.current;
+    if (!video) return;
+    const muted = !isMuted;
+    video.muted = muted;
+    setIsMuted(muted);
   };
 
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => {});
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
     }
   };
 
   return (
-    <section id="hero" aria-labelledby="hero-heading">
+    <section id="hero" className="ip-hero" aria-labelledby="hero-heading">
       <div className="hero-left">
-        {/* Social Proof Header Tag */}
-        <div className="hero-tag">
-          <span style={{ color: '#EAA023', marginRight: '6px' }}>★★★★★</span>
-          <span>4.9 / 5 Rating · 120+ Chennai &amp; Tamil Nadu Couples</span>
-        </div>
-
+        <p className="hero-eyebrow">WEDDING PHOTOGRAPHY &amp; CINEMATIC FILMS</p>
         <h1 id="hero-heading" className="hero-headline">
-          <span>We don't just</span>
-          <em>capture moments,</em>
-          <span>we <b>craft</b> memories.</span>
+          Your story,<br /><em>beautifully preserved.</em>
         </h1>
-
         <p className="hero-body">
-          Candid wedding photography and cinematic films, crafted in Chennai for couples across Tamil Nadu and beyond. Every frame preserves the tears, laughter, and timeless rituals of your celebration.
+          Candid photography and cinematic wedding films for celebrations in Chennai, Tiruvallur and across Tamil Nadu.
         </p>
 
         <div className="hero-btns">
-          <button
-            type="button"
-            onClick={() => onScrollTo('calculator')}
-            className="btn-pink"
-            data-lead-event="estimate_click"
-            aria-label="Calculate your wedding photography package quote"
-          >
-            Calculate Your Package Quote{' '}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <button type="button" onClick={() => onScrollTo('contact')} className="btn-pink" data-lead-event="check_date_click">
+            Check Your Date <span aria-hidden="true">→</span>
           </button>
-          <button
-            type="button"
-            onClick={() => onScrollTo('portfolio')}
-            className="btn-outline"
-            aria-label="View our wedding photography portfolio"
-          >
+          <button type="button" onClick={() => onScrollTo('portfolio')} className="btn-outline">
             View Portfolio
-          </button>
-          <button
-            type="button"
-            onClick={onOpenBrochure}
-            className="btn-text-gold"
-            aria-label="Download pricing guide brochure"
-          >
-            📥 2026 Price Guide (PDF)
           </button>
         </div>
 
-        <div className="hero-counters" aria-label="Our achievements">
-          <div className="hc">
-            <span className="count">150+</span>
-            <label>Weddings Documented</label>
-          </div>
-          <div className="hc-div" aria-hidden="true"></div>
-          <div className="hc">
-            <span className="count">48h</span>
-            <label>Preview Guarantee</label>
-          </div>
-          <div className="hc-div" aria-hidden="true"></div>
-          <div className="hc">
-            <span className="count">100%</span>
-            <label>Heirloom Album Delivery</label>
-          </div>
+        <div className="hero-meta" aria-label="Studio information">
+          <span>Chennai · Tiruvallur</span>
+          <span>Weddings · Pre-Weddings · Films</span>
         </div>
       </div>
 
@@ -142,47 +83,27 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
               loop
               playsInline
               preload="metadata"
-              aria-label="Image Paradise Photography promo wedding film"
+              aria-label="Image Paradise Photography wedding film"
             >
               <source src="/videos/promo.mp4" type="video/mp4" />
             </video>
-
-            {/* Video Controls Overlay */}
-            <div className="hero-video-controls">
-              <button
-                className="hero-video-mute"
-                id="heroVideoMute"
-                type="button"
-                onClick={toggleSound}
-                aria-label={isMuted ? 'Unmute promo video' : 'Mute promo video'}
-              >
-                <span className="hero-video-mute-label">{isMuted ? '🔇 Sound off' : '🔊 Sound on'}</span>
+            <div className="hero-video-controls" aria-label="Video controls">
+              <button className="hero-video-control" type="button" onClick={toggleSound} aria-label={isMuted ? 'Turn sound on' : 'Turn sound off'}>
+                {isMuted ? 'Sound off' : 'Sound on'}
               </button>
-              <button
-                className="hero-video-play"
-                type="button"
-                onClick={togglePlay}
-                aria-label={isPlaying ? 'Pause promo video' : 'Play promo video'}
-              >
-                <span>{isPlaying ? '⏸ Pause' : '▶ Play'}</span>
+              <button className="hero-video-control" type="button" onClick={togglePlay} aria-label={isPlaying ? 'Pause film' : 'Play film'}>
+                {isPlaying ? 'Pause' : 'Play'}
               </button>
             </div>
-          </div>
-
-          <div className="hero-badge" aria-label="Wedding photography and cinematic films">
-            <div className="badge-star" aria-hidden="true">✦</div>
-            <div>
-              <strong>Image Paradise</strong>
-              <span>Wedding Photography &amp; Films · Chennai</span>
-            </div>
+            <div className="hero-film-label">A glimpse of the story</div>
           </div>
         </div>
       </div>
 
-      <div className="hero-scroll" aria-hidden="true" onClick={() => onScrollTo('calculator')} style={{ cursor: 'pointer' }}>
-        <div className="scroll-bar"></div>
-        <span>Scroll to Plan</span>
-      </div>
+      <button type="button" className="hero-scroll" onClick={() => onScrollTo('portfolio')} aria-label="Scroll to portfolio">
+        <span className="scroll-bar" />
+        <span>Explore the work</span>
+      </button>
     </section>
   );
 };
