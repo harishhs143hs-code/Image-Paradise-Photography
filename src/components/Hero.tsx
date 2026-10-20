@@ -8,20 +8,18 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => typeof window !== 'undefined' && !window.matchMedia('(max-width: 767px), (prefers-reduced-motion: reduce)').matches);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     video.muted = true;
-    video.play().catch(() => {
-      const handleUserTouch = () => {
-        video.play().catch(() => {});
-      };
-      document.addEventListener('touchstart', handleUserTouch, { once: true });
-      document.addEventListener('click', handleUserTouch, { once: true });
-    });
+    if (isPlaying) {
+      video.play().catch(() => setIsPlaying(false));
+    } else {
+      video.pause();
+    }
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
@@ -136,11 +134,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
               id="heroVideo"
               className="hc-video"
               poster="/images/08-opt.jpg"
-              autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
               aria-label="Image Paradise Photography promo wedding film"
             >
               <source src="/videos/promo.mp4" type="video/mp4" />
