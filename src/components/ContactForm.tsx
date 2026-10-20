@@ -205,7 +205,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
           {/* photo strip */}
           <div className="ci-photo-strip">
-            <img src="/images/gallery1.jpeg" alt="Engagement couple" loading="lazy" width={300} height={300} />
+            <img src="/images/DSC06422-opt.JPG" alt="Engagement couple" loading="lazy" width={300} height={300} />
             <img src="/images/DSC06228-opt.JPG" alt="Ceremony Muhurtham" loading="lazy" width={300} height={300} />
             <img src="/images/AR_02707-opt.JPG" alt="Couple Golden Hour" loading="lazy" width={300} height={300} />
             <img src="/images/MPS_6098-opt.JPG" alt="Family smile" loading="lazy" width={300} height={300} />
