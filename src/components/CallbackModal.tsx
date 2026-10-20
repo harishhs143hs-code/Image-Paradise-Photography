@@ -22,6 +22,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone || !privacyConsent || honeypot.trim()) return;
+    setSubmitError('');
     setIsSubmitting(true);
 
     try {
@@ -44,6 +45,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
         setSubmitError('We could not confirm the callback request was sent. Please message the studio on WhatsApp instead.');
         return;
       }
+      setSubmitted(true);
     } catch {
       setSubmitError('We could not confirm the callback request was sent. Please message the studio on WhatsApp instead.');
     } finally {
