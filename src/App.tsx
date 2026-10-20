@@ -49,15 +49,15 @@ export const App: React.FC = () => {
   const [brochureOpen, setBrochureOpen] = useState<boolean>(false);
   const [callbackOpen, setCallbackOpen] = useState<boolean>(false);
 
-  // Handle URL path on first load or browser navigation
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\/|\/$/g, '');
+    const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
     if (path === 'pre-wedding-shoot-chennai') setCurrentRoute('pre-wedding');
     else if (path === 'wedding-photographer-chennai') setCurrentRoute('chennai');
     else if (path === 'wedding-photographer-ambattur') setCurrentRoute('ambattur');
     else if (path === 'wedding-photographer-avadi') setCurrentRoute('avadi');
     else if (path === 'wedding-photographer-tiruvallur') setCurrentRoute('tiruvallur');
     else if (path === 'wedding-videography-chennai') setCurrentRoute('videography');
+    else if (path === 'refer-and-earn' || path === 'referral-program') setCurrentRoute('referral');
     else if (path === 'blog') setCurrentRoute('blog');
     else if (path === 'blog-post') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -67,7 +67,6 @@ export const App: React.FC = () => {
     }
   }, []);
 
-  // Custom cursor effect
   useEffect(() => {
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -121,7 +120,7 @@ export const App: React.FC = () => {
     scrollToElement('contact');
   };
 
-  const handleCustomizePackage = (pkg: PackageTier) => {
+  const handleCustomizePackage = () => {
     scrollToElement('calculator');
   };
 
@@ -151,14 +150,11 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {/* Custom Cursor */}
       <div className="cursor" id="cursor"></div>
       <div className="cursor-ring" id="cursorRing"></div>
 
-      {/* Top utility announcement */}
       <UtilityBar />
 
-      {/* Navbar */}
       <Navbar
         currentRoute={currentRoute}
         onNavigate={handleNavigate}
@@ -166,98 +162,43 @@ export const App: React.FC = () => {
         onOpenCallback={() => setCallbackOpen(true)}
       />
 
-      {/* Home Route */}
       {currentRoute === 'home' && (
         <main>
-          <Hero
-            onScrollTo={scrollToElement}
-            onOpenBrochure={() => setBrochureOpen(true)}
-          />
-
-          {/* Social Proof & Trust Guarantee Bar */}
+          <Hero onScrollTo={scrollToElement} onOpenBrochure={() => setBrochureOpen(true)} />
           <TrustBar />
-
-          {/* Quick Date Availability Checker Card */}
           <section className="date-checker-section">
-            <DateCheckerWidget
-              onCheckDate={handleCheckDate}
-              onOpenCallback={() => setCallbackOpen(true)}
-            />
+            <DateCheckerWidget onCheckDate={handleCheckDate} onOpenCallback={() => setCallbackOpen(true)} />
           </section>
-
           <StoryBanner onScrollToContact={() => scrollToElement('contact')} />
           <Marquee />
-
-          <CategoryBar
-            onSelectCategory={(cat) => setGalleryCategory(cat)}
-            onScrollTo={scrollToElement}
-          />
-
-          <Gallery
-            items={galleryItems}
-            selectedCategory={galleryCategory}
-            onSelectCategory={setGalleryCategory}
-            onOpenLightbox={(idx) => setLightboxIndex(idx)}
-          />
-
-          {/* In-depth Real Wedding Stories / Case Studies */}
+          <CategoryBar onSelectCategory={(cat) => setGalleryCategory(cat)} onScrollTo={scrollToElement} />
+          <Gallery items={galleryItems} selectedCategory={galleryCategory} onSelectCategory={setGalleryCategory} onOpenLightbox={(idx) => setLightboxIndex(idx)} />
           <WeddingStories
             onEnquireForSimilar={(couple) => {
               setEnquiryMessage(`I loved the wedding story of ${couple} and want similar coverage for my day.`);
               scrollToElement('contact');
             }}
           />
-
-          {/* Interactive Lead Calculator */}
           <LeadCalculator onQuoteRequested={handleQuoteFromCalculator} />
-
           <Films onScrollToContact={() => scrollToElement('contact')} />
-
           <About onScrollToContact={() => scrollToElement('contact')} />
-
-          {/* The Gear, The Craft & The Sacred Promise */}
-          <CraftPromise
-            onOpenCallback={() => setCallbackOpen(true)}
-            onScrollToContact={() => scrollToElement('contact')}
-          />
-
-          <Packages
-            packages={packagesData}
-            onSelectPackage={handleSelectPackage}
-            onCustomizePackage={handleCustomizePackage}
-          />
-
+          <CraftPromise onOpenCallback={() => setCallbackOpen(true)} onScrollToContact={() => scrollToElement('contact')} />
+          <Packages packages={packagesData} onSelectPackage={handleSelectPackage} onCustomizePackage={handleCustomizePackage} />
           <Testimonials testimonials={testimonialsData} />
-
           <FAQ faqs={faqsData} />
-
           <Locations onSelectLocationPage={(page) => handleNavigate(page)} />
-
-          <Journal
-            onScrollTo={scrollToElement}
-            onOpenBlog={() => handleNavigate('blog')}
-          />
-
-          {/* Referral & Earn Partner Program (Placed before ContactForm as requested) */}
-          <ReferralProgram />
-
-          <ContactForm
-            initialSessionType={enquirySession}
-            initialBudget={enquiryBudget}
-            initialMessage={enquiryMessage}
-          />
+          <Journal onScrollTo={scrollToElement} onOpenBlog={() => handleNavigate('blog')} />
+          <ContactForm initialSessionType={enquirySession} initialBudget={enquiryBudget} initialMessage={enquiryMessage} />
         </main>
       )}
 
-      {/* Local SEO Landing Pages */}
-      {[
-        'chennai',
-        'pre-wedding',
-        'videography',
-        'ambattur',
-        'avadi',
-        'tiruvallur'
-      ].includes(currentRoute) && (
+      {currentRoute === 'referral' && (
+        <main className="standalone-page referral-page">
+          <ReferralProgram />
+        </main>
+      )}
+
+      {['chennai', 'pre-wedding', 'videography', 'ambattur', 'avadi', 'tiruvallur'].includes(currentRoute) && (
         <>
           <LocalLandingPage
             pageKey={currentRoute as LocalPageKey}
@@ -271,7 +212,6 @@ export const App: React.FC = () => {
         </>
       )}
 
-      {/* Blog Listing Page */}
       {currentRoute === 'blog' && (
         <BlogList
           onBackToHome={() => handleNavigate('home')}
@@ -283,7 +223,6 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Individual Blog Post Page */}
       {currentRoute === 'blog-post' && (
         <BlogPostView
           slug={blogSlug}
@@ -296,43 +235,20 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Footer */}
       <Footer onNavigate={handleNavigate} />
 
-      {/* Lightbox */}
       {lightboxIndex !== null && (
-        <Lightbox
-          items={galleryItems}
-          currentIndex={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
-          onNavigate={(nextIdx) => setLightboxIndex(nextIdx)}
-        />
+        <Lightbox items={galleryItems} currentIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} onNavigate={(nextIdx) => setLightboxIndex(nextIdx)} />
       )}
 
-      {/* 2026 Wedding Brochure Modal (Lead Magnet) */}
-      <BrochureModal
-        isOpen={brochureOpen}
-        onClose={() => setBrochureOpen(false)}
-      />
-
-      {/* Fast 15-Minute Callback Modal */}
-      <CallbackModal
-        isOpen={callbackOpen}
-        onClose={() => setCallbackOpen(false)}
-      />
-
-      {/* Mobile Sticky Rail */}
+      <BrochureModal isOpen={brochureOpen} onClose={() => setBrochureOpen(false)} />
+      <CallbackModal isOpen={callbackOpen} onClose={() => setCallbackOpen(false)} />
       <MobileActionRail onEnquireClick={() => scrollToElement('contact')} />
-
-      {/* WhatsApp Float */}
       <WhatsAppFloat />
-
-      {/* Back to top */}
       <BackToTop />
-
-      {/* Image Paradise AI Assistant */}
       <AiChat />
     </div>
   );
 };
+
 export default App;
