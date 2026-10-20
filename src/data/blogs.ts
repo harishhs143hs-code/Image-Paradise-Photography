@@ -102,7 +102,7 @@ export const fallbackBlogPosts: BlogPost[] = [
       <h2>Recommended Styles:</h2>
       <p>Whether you choose a grand beach resort along ECR or a traditional kalyana mandapam in Mylapore or T. Nagar, coordinating your floral colors and stage lighting with your photography team ensures stunning results.</p>
     `,
-    featuredImage: '/images/08.jpg',
+    featuredImage: '/images/08.webp',
     category: 'Venues',
     categorySlug: 'wedding-venues',
     publishedAt: '2025-12-20',
