@@ -25,7 +25,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   useEffect(() => {
     if (initialSessionType) {
@@ -399,6 +399,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 ></textarea>
                 {errors.message && <span className="fe">{errors.message}</span>}
               </div>
+
+              <label htmlFor="f_privacy_consent" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', lineHeight: 1.5, margin: '16px 0', fontSize: '13px' }}>
+                <input id="f_privacy_consent" type="checkbox" checked={privacyConsent} onChange={(event) => setPrivacyConsent(event.target.checked)} required style={{ marginTop: '4px' }} />
+                <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that the details I submit may be used to respond to my enquiry.</span>
+              </label>
+              {errors.consent && <span className="fe" role="alert">{errors.consent}</span>}
 
               <div className="form-next-steps" aria-label="What happens next">
                 <strong>Our 3-Step Booking Journey</strong>
