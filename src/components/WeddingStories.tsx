@@ -39,9 +39,9 @@ const STORIES: WeddingStory[] = [
     date: 'February 2025',
     eventType: 'Coastal Beachside Wedding & Reception',
     quote: 'The team was completely unobtrusive. Our guests were amazed at how effortless and warm they were.',
-    leadImage: '/images/08.jpg',
+    leadImage: '/images/08.webp',
     gallery: [
-      '/images/08.jpg',
+      '/images/08.webp',
       '/images/DSC06422-opt.JPG',
       '/images/DSC07067-opt.JPG',
       '/images/DSC05261.webp'
