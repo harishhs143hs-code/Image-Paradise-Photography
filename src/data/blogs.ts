@@ -38,7 +38,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-2',
-    title: 'Top 7 Scenic Pre-Wedding Shoot Locations in and Around Chennai',
+    title: 'Scenic Pre-Wedding Shoot Locations in and Around Chennai',
     slug: 'top-scenic-pre-wedding-shoot-locations-chennai',
     excerpt: 'From the golden beaches of ECR and heritage architecture of Mahabalipuram to lush botanical sanctuaries and modern studios.',
     content: `
@@ -65,7 +65,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-3',
-    title: 'The Ultimate Tamil Wedding Muhurtham Photography Checklist',
+    title: 'Tamil Wedding Muhurtham Photography Checklist',
     slug: 'tamil-wedding-muhurtham-photography-checklist',
     excerpt: 'Essential moments you must capture during the Kasi Yatra, Oonjal, Kanyadaanam, Mangalyadharanam, and Saptapadi.',
     content: `
@@ -90,7 +90,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-4',
-    title: 'Top Wedding Venues and Mandapams in Chennai for 2026',
+    title: 'Wedding Venues and Mandapams in Chennai for 2026: A Photography Planning Guide',
     slug: 'top-wedding-venues-mandapams-chennai-2026',
     excerpt: 'A photographer’s perspective on venues with outstanding natural light, spacious stage setups, and grand ambiance.',
     content: `
