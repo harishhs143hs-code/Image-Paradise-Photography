@@ -11,51 +11,49 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
   const [eventType, setEventType] = useState('Muhurtham & Reception');
   const [checked, setChecked] = useState(false);
 
-  const popularMuhurthams = [
-    { label: 'Nov-Dec 2026 (Karthigai / Margazhi)', val: '2026-11-20', status: '2 Dates Left' },
-    { label: 'Jan-Feb 2027 (Thai Muhurthams)', val: '2027-01-25', status: 'Bookings Open' },
-    { label: 'May-Jun 2027 (Vaikasi / Aani)', val: '2027-05-15', status: 'Available' }
+  const quickDates = [
+    { label: 'Nov–Dec 2026 · Karthigai / Margazhi', val: '2026-11-20' },
+    { label: 'Jan–Feb 2027 · Thai Muhurthams', val: '2027-01-25' },
+    { label: 'May–Jun 2027 · Vaikasi / Aani', val: '2027-05-15' }
   ];
+
+  const submitDate = (value: string) => {
+    if (!value) return;
+    setDate(value);
+    setChecked(true);
+    onCheckDate(value, city, eventType);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!date) return;
-    setChecked(true);
-    onCheckDate(date, city, eventType);
-  };
-
-  const selectAuspicious = (val: string) => {
-    setDate(val);
-    setChecked(true);
-    onCheckDate(val, city, eventType);
+    submitDate(date);
   };
 
   const whatsappText = encodeURIComponent(
-    `Vanakkam Image Paradise! Please verify availability for my wedding date.\nDate: ${date || 'Not decided yet'}\nLocation: ${city}\nCelebration: ${eventType}\nCreative Director: Hariharan R`
+    `Vanakkam Image Paradise! Please verify availability for my wedding date.\nDate: ${date || 'Not decided yet'}\nLocation: ${city}\nCelebration: ${eventType}`
   );
 
   return (
     <div className="date-checker-card">
       <div className="date-checker-header">
-        <div className="dc-badge">⚡ Live Date &amp; Muhurtham Availability</div>
-        <h3>Check If Your Wedding Date Is Still Open</h3>
+        <div className="dc-badge">DATE AVAILABILITY</div>
+        <h3>Check Your Wedding Date</h3>
         <p>
-          We strictly follow a <strong>1 Wedding Per Day</strong> policy with Creative Director Hariharan R personally on-site. Popular Tamil Muhurtham dates in Chennai book 6 to 12 months in advance.
+          Select your date and celebration details. This form sends a request to the studio; the date is not confirmed until Image Paradise verifies availability with you.
         </p>
 
-        {/* Quick Auspicious Months */}
         <div className="dc-quick-muhurtham">
-          <span className="dc-qm-label">Popular 2026–2027 Muhurtham Windows:</span>
+          <span className="dc-qm-label">Popular Muhurtham windows</span>
           <div className="dc-qm-tags">
-            {popularMuhurthams.map((item, idx) => (
+            {quickDates.map((item) => (
               <button
-                key={idx}
+                key={item.val}
                 type="button"
                 className="dc-qm-btn"
-                onClick={() => selectAuspicious(item.val)}
+                onClick={() => submitDate(item.val)}
               >
                 <span>{item.label}</span>
-                <span className="dc-qm-pill">{item.status}</span>
+                <span className="dc-qm-pill">Select</span>
               </button>
             ))}
           </div>
@@ -88,13 +86,13 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
               setChecked(false);
             }}
           >
-            <option value="Chennai">Chennai (Mylapore, Anna Nagar, OMR, ECR)</option>
-            <option value="Veppampattu">Veppampattu (Local Studio Area)</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Veppampattu">Veppampattu</option>
             <option value="Tiruvallur">Tiruvallur District</option>
             <option value="Avadi">Avadi / Poonamallee</option>
             <option value="Ambattur">Ambattur / Mogappair</option>
-            <option value="Kanchipuram">Kanchipuram Temple Venues</option>
-            <option value="ECR / Beach Resort">ECR / Mahabalipuram Beach Resorts</option>
+            <option value="Kanchipuram">Kanchipuram</option>
+            <option value="ECR / Beach Resort">ECR / Mahabalipuram</option>
             <option value="Destination Wedding">Other South India / Destination</option>
           </select>
         </div>
@@ -109,26 +107,23 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
               setChecked(false);
             }}
           >
-            <option value="Muhurtham & Reception">Muhurtham &amp; Reception (Most Popular)</option>
-            <option value="Full 2-Day Tamil Wedding">Full 2-Day Tamil Wedding (Vratham to Reception)</option>
+            <option value="Muhurtham & Reception">Muhurtham &amp; Reception</option>
+            <option value="Full 2-Day Tamil Wedding">Full 2-Day Tamil Wedding</option>
             <option value="Reception Only">Reception Only</option>
-            <option value="Pre-Wedding Shoot">Pre-Wedding Shoot (ECR Beach / Resort)</option>
+            <option value="Pre-Wedding Shoot">Pre-Wedding Shoot</option>
             <option value="Engagement Ceremony">Engagement / Nischayathartham</option>
           </select>
         </div>
 
-        <button type="submit" className="dc-submit-btn">
-          Verify Availability Now →
-        </button>
+        <button type="submit" className="dc-submit-btn">Request Date Check →</button>
       </form>
 
       {checked && (
-        <div className="dc-result-box">
-          <div className="dc-result-icon">✨</div>
+        <div className="dc-result-box" role="status" aria-live="polite">
           <div className="dc-result-content">
-            <h4>Good news! Date {date} has tentative availability.</h4>
+            <h4>Availability request ready for {date}</h4>
             <p>
-              We are currently accepting inquiries for this date. Because we only cover <strong>1 celebration per day</strong>, dates are locked strictly upon deposit confirmation with Director Hariharan R.
+              Your request has been prepared. Please contact the studio to verify the date. A date is confirmed only after Image Paradise confirms availability and the booking process is completed.
             </p>
             <div className="dc-result-actions">
               <a
@@ -137,24 +132,17 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
                 rel="noopener noreferrer"
                 className="dc-wa-btn"
               >
-                💬 Lock Date on WhatsApp (+91 7708510143)
+                WhatsApp the Studio
               </a>
               {onOpenCallback && (
-                <button
-                  type="button"
-                  className="dc-callback-btn"
-                  onClick={onOpenCallback}
-                >
-                  📞 Request 10-Min Call
+                <button type="button" className="dc-callback-btn" onClick={onOpenCallback}>
+                  Request a Call
                 </button>
               )}
               <button
                 type="button"
                 className="dc-form-btn"
-                onClick={() => {
-                  const contactEl = document.getElementById('contact');
-                  contactEl?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Send Formal Enquiry ↓
               </button>
