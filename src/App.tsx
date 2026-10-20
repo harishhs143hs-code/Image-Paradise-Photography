@@ -46,12 +46,14 @@ const PATH_BY_ROUTE: Record<string, string> = {
   ambattur: '/wedding-photographer-ambattur',
   avadi: '/wedding-photographer-avadi',
   tiruvallur: '/wedding-photographer-tiruvallur',
-  blog: '/blog'
+  blog: '/blog',
+  referral: '/refer-and-earn'
 };
 
 const readLocationRoute = (): { route: string; slug?: string } => {
   const path = window.location.pathname.split('/').filter(Boolean).join('/');
   if (path === 'blog') return { route: 'blog' };
+  if (path === 'refer-and-earn') return { route: 'referral' };
   if (path.startsWith('blog/')) return { route: 'blog-post', slug: decodeURIComponent(path.slice(5)) };
   if (path === 'blog-post') {
     const slug = new URLSearchParams(window.location.search).get('slug') || undefined;
@@ -272,9 +274,6 @@ export const App: React.FC = () => {
             onOpenBlog={() => handleNavigate('blog')}
           />
 
-          {/* Referral & Earn Partner Program (Placed before ContactForm as requested) */}
-          <ReferralProgram />
-
           <ContactForm
             initialSessionType={enquirySession}
             initialBudget={enquiryBudget}
@@ -304,6 +303,9 @@ export const App: React.FC = () => {
           />
         </>
       )}
+
+      {/* Standalone referral and business development program */}
+      {currentRoute === 'referral' && <ReferralProgram />}
 
       {/* Blog Listing Page */}
       {currentRoute === 'blog' && (
