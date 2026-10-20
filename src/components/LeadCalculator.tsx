@@ -23,7 +23,7 @@ interface AddonOption {
 }
 
 const ADDONS: AddonOption[] = [
-  { id: 'drone', label: '4K Aerial Drone Coverage', desc: 'Sweeping venue & procession visuals', price: 8000 },
+  { id: 'drone', label: 'Aerial Coverage (subject to permission)', desc: 'Discuss availability, venue permission and pricing with the studio', price: 8000 },
   { id: 'album_parent', label: 'Parent Archival Album', desc: 'Flush-mount heirloom edition for parents', price: 9000 },
   { id: 'film_highlight', label: 'Cinematic Teaser Reel', desc: 'Social-ready 60-sec teaser within 72 hrs', price: 6000 }
 ];
@@ -185,7 +185,7 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
 
           {/* Sticky Estimate Card */}
           <div className="calc-summary-card">
-            <div className="summary-badge">Live Quotation Estimate</div>
+            <div className="summary-badge">Indicative Planning Estimate</div>
             <div className="summary-price-wrap">
               <span className="summary-currency">₹</span>
               <span className="summary-price">
@@ -196,14 +196,14 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
               </span>
             </div>
             <p className="summary-note">
-              Based on {selectedEvents.length} events with {coverageType === 'both' ? 'Photo & Video' : coverageType}. Includes high-res digital gallery, color grading, and 48-hr sneak peek.
+              Indicative calculation based on the event selections and add-ons shown. This is not a final quotation or a date reservation; the studio will confirm scope and pricing.
             </p>
 
             <div className="summary-inclusions">
-              <div className="summary-inc-item">✓ Dedicated Senior Photographers</div>
-              <div className="summary-inc-item">✓ 48-Hour Preview Gallery Guarantee</div>
-              <div className="summary-inc-item">✓ Archival Color Grading & Retouching</div>
-              <div className="summary-inc-item">✓ High-Res Full Resolution Downloads</div>
+              <div className="summary-inc-item">✓ Team size confirmed in quotation</div>
+              <div className="summary-inc-item">✓ Preview timing confirmed in writing</div>
+              <div className="summary-inc-item">✓ Editing and deliverables confirmed by package</div>
+              <div className="summary-inc-item">✓ Delivery format confirmed in quotation</div>
             </div>
 
             <div className="summary-actions">
@@ -213,7 +213,7 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
                 rel="noopener noreferrer"
                 className="summary-wa-btn"
               >
-                💬 Lock In This Quote on WhatsApp →
+                💬 Request a Final Quote on WhatsApp →
               </a>
               <button
                 type="button"
