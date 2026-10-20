@@ -36,7 +36,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: 'g-4',
-    src: '/images/gallery1.jpeg',
+    src: '/images/DSC06422-opt.JPG',
     alt: 'Engagement photography couple Chennai - Romantic pre-wedding photos at garden',
     title: 'Engaged',
     subtitle: 'Engagement Session · Chennai 2026',

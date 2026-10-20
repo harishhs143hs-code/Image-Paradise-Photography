@@ -11,7 +11,7 @@ export const blogCategories = [
 export const fallbackBlogPosts: BlogPost[] = [
   {
     id: 'post-1',
-    title: 'How to Choose the Best Wedding Photographer in Chennai (2026 Guide)',
+    title: 'How to Choose a Wedding Photographer in Chennai (2026 Guide)',
     slug: 'how-to-choose-best-wedding-photographer-chennai',
     excerpt: 'Key factors every couple in Tamil Nadu must consider: style, portfolio consistency, delivery timelines, albums, and cultural rapport.',
     content: `
@@ -24,7 +24,7 @@ export const fallbackBlogPosts: BlogPost[] = [
       <p>Anyone can capture 5 beautiful shots during golden hour. But can the team handle the challenging tungsten lighting in traditional mandapams? Ask to review a full wedding gallery delivered to a past client rather than just an Instagram highlight reel.</p>
       
       <h2>3. Understand Turnaround and Album Printing</h2>
-      <p>At Image Paradise Photography, we pride ourselves on providing <em>same-day or 24–48 hour previews</em> so couples can share high-res frames with family while the celebration is still fresh. Full edited collections arrive within 4–6 weeks, followed by handcrafted archival flush-mount albums.</p>
+      <p>Ask your photographer to confirm the expected preview and full-gallery delivery windows before booking. Image Paradise Photography typically aims to provide a preview selection within 24–48 hours and a full edited gallery within 4–6 weeks; album design and printing may require additional time.</p>
 
       <h2>4. Chemistry and Rapport</h2>
       <p>Your photography team will spend more time with you on your wedding day than almost any other vendor. A calm, unobtrusive presence ensures you remain relaxed and present in the moment.</p>
@@ -38,7 +38,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-2',
-    title: 'Top 7 Scenic Pre-Wedding Shoot Locations in and Around Chennai',
+    title: 'Scenic Pre-Wedding Shoot Locations in and Around Chennai',
     slug: 'top-scenic-pre-wedding-shoot-locations-chennai',
     excerpt: 'From the golden beaches of ECR and heritage architecture of Mahabalipuram to lush botanical sanctuaries and modern studios.',
     content: `
@@ -56,7 +56,7 @@ export const fallbackBlogPosts: BlogPost[] = [
       <h2>4. Besant Nagar & British Era Architecture</h2>
       <p>For couples seeking an intimate vintage aesthetic, quiet tree-lined avenues, cafe backdrops, and colonial architecture lend a sophisticated, editorial touch.</p>
     `,
-    featuredImage: '/images/gallery1.jpeg',
+    featuredImage: '/images/DSC06422-opt.JPG',
     category: 'Pre-Wedding',
     categorySlug: 'pre-wedding',
     publishedAt: '2026-01-28',
@@ -65,7 +65,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-3',
-    title: 'The Ultimate Tamil Wedding Muhurtham Photography Checklist',
+    title: 'Tamil Wedding Muhurtham Photography Checklist',
     slug: 'tamil-wedding-muhurtham-photography-checklist',
     excerpt: 'Essential moments you must capture during the Kasi Yatra, Oonjal, Kanyadaanam, Mangalyadharanam, and Saptapadi.',
     content: `
@@ -90,7 +90,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   },
   {
     id: 'post-4',
-    title: 'Top Wedding Venues and Mandapams in Chennai for 2026',
+    title: 'Wedding Venues and Mandapams in Chennai for 2026: A Photography Planning Guide',
     slug: 'top-wedding-venues-mandapams-chennai-2026',
     excerpt: 'A photographer’s perspective on venues with outstanding natural light, spacious stage setups, and grand ambiance.',
     content: `
@@ -102,7 +102,7 @@ export const fallbackBlogPosts: BlogPost[] = [
       <h2>Recommended Styles:</h2>
       <p>Whether you choose a grand beach resort along ECR or a traditional kalyana mandapam in Mylapore or T. Nagar, coordinating your floral colors and stage lighting with your photography team ensures stunning results.</p>
     `,
-    featuredImage: '/images/08.jpg',
+    featuredImage: '/images/08.webp',
     category: 'Venues',
     categorySlug: 'wedding-venues',
     publishedAt: '2025-12-20',

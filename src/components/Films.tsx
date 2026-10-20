@@ -12,7 +12,7 @@ export const Films: React.FC<FilmsProps> = ({ onScrollToContact }) => {
           <div className="studio-kicker">CINEMATIC STORIES</div>
           <h2>Frames that <em>move.</em></h2>
           <div className="film-cards">
-            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/08.jpg')" }}>
+            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/08.webp')" }}>
               <div className="film-card-content">
                 <small>01 · Wedding Films</small>
                 <h3>The day, in motion.</h3>
@@ -24,7 +24,7 @@ export const Films: React.FC<FilmsProps> = ({ onScrollToContact }) => {
                 <h3>Before forever.</h3>
               </div>
             </article>
-            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/gallery1.jpeg')" }}>
+            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/DSC06422-opt.JPG')" }}>
               <div className="film-card-content">
                 <small>03 · Celebrations</small>
                 <h3>Feel it again.</h3>

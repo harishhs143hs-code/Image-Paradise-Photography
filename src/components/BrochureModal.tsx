@@ -10,12 +10,13 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
   const [phone, setPhone] = useState('');
   const [weddingMonth, setWeddingMonth] = useState('');
   const [downloaded, setDownloaded] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !privacyConsent) return;
     setDownloaded(true);
 
     // Trigger WhatsApp notification for the studio
@@ -90,18 +91,22 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
                 />
               </div>
 
-              <button type="submit" className="brochure-submit-btn">
+              <label htmlFor="b-privacy-consent" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', lineHeight: 1.5 }}>
+                <input id="b-privacy-consent" type="checkbox" checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} required style={{ marginTop: '4px' }} />
+                <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that my details may be used to respond to this request.</span>
+              </label>
+              <button type="submit" className="brochure-submit-btn" disabled={!privacyConsent}>
                 Instant Access to Guide →
               </button>
               <small className="b-privacy">
-                🔒 We respect your privacy. No spam. You'll receive instant access and a direct copy on WhatsApp.
+                Your details are used to respond to this request. Review our Privacy Notice for more information.
               </small>
             </form>
           </>
         ) : (
           <div className="brochure-success">
             <div style={{ fontSize: '42px', marginBottom: '12px' }}>🎉</div>
-            <h3>Your 2026 Wedding Guide is Ready!</h3>
+            <h3>Your Package Guide Preview Is Ready</h3>
             <p>
               Thank you, {name}! We have opened a direct chat with our studio on WhatsApp and your guide preview is active below.
             </p>
@@ -112,11 +117,11 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
                 <span>Chennai · Tamil Nadu</span>
               </div>
               <ul className="g-preview-list">
-                <li>✨ Essential (₹35,000) — 4 hrs coverage, 1 Photo, 1 Video, 200+ prints, online gallery</li>
-                <li>✨ Premium (₹75,000) — 8 hrs coverage, 2 Photos, 1 Video, 2 printed albums, highlight reel</li>
-                <li>✨ Luxury (₹1,50,000) — Full day, 2 Photos + assistant, 2 Videos, drone, pre & post-wedding shoots</li>
-                <li>✨ 48-Hour Sneak Peek Guarantee for all celebrations</li>
-                <li>✨ High-end flush-mount archival binding with lifetime warranty</li>
+                <li>✨ Essential (₹35,000) — 4 hrs coverage, 1 Photo, 1 Video, 200+ edited photos, private gallery</li>
+                <li>✨ Premium (₹75,000) — 8 hrs coverage, 2 photographers, 1 videographer, 2 premium albums, highlight reel</li>
+                <li>✨ Luxury (₹1,50,000) — Full day, 2 photographers plus assistant, 2 videographers, pre/post-wedding shoots subject to the final quotation</li>
+                <li>✨ Preview timing is confirmed during booking based on your event plan</li>
+                <li>✨ Album materials, print format and warranty terms are confirmed in the quotation</li>
               </ul>
             </div>
 

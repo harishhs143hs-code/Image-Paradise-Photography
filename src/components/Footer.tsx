@@ -44,8 +44,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'calculator')}>
             Package Calculator
           </button>
-          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'referral')} style={{ color: '#25D366', fontWeight: 600 }}>
-            🎁 Refer &amp; Earn ₹5,000
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('referral')} style={{ color: '#25D366', fontWeight: 600 }}>
+            🤝 Referral &amp; Partner Program
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('blog')}>
             Blog &amp; Guides
@@ -82,12 +82,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <a href="https://www.instagram.com/imageparadisephotography" target="_blank" rel="noopener">
             Instagram
           </a>
-          <a href="https://www.facebook.com/imageparadisephotography" target="_blank" rel="noopener">
-            Facebook
-          </a>
-          <a href="https://in.pinterest.com/imageparadisephotography" target="_blank" rel="noopener">
-            Pinterest
-          </a>
           <a
             href="https://wa.me/917708510143?text=Hi%20Hariharan%2C%20I%27d%20like%20to%20enquire%20about%20wedding%20photography"
             target="_blank"
@@ -98,6 +92,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <a href="mailto:imageparadise2020@gmail.com">
             imageparadise2020@gmail.com
           </a>
+          <a href="/privacy">Privacy Notice</a>
+          <a href="/referral-terms">Referral Terms</a>
         </div>
       </div>
 

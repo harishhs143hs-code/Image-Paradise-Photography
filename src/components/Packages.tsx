@@ -20,7 +20,7 @@ export const Packages: React.FC<PackagesProps> = ({
           Our Packages
         </div>
         <h2>Choose your <em>perfect</em> package</h2>
-        <p>Transparent pricing with zero hidden charges. All packages include high-res edited digital files &amp; sneak peek.</p>
+        <p>Published package prices help you compare options. Final coverage, deliverables, additional services and any extra charges are confirmed in your quotation.</p>
       </header>
 
       <div className="pkg-row">
@@ -34,7 +34,7 @@ export const Packages: React.FC<PackagesProps> = ({
               key={pkg.id}
               className={`pkg ${pkg.featured ? 'featured' : ''} in`}
             >
-              {pkg.featured && <div className="pkg-popular">Most Popular in Chennai</div>}
+              {pkg.featured && <div className="pkg-popular">Featured Package</div>}
               <div className="pkg-ico">{pkg.icon}</div>
               <div className="pkg-tier">{pkg.name}</div>
               <div className="pkg-price">{pkg.price}</div>
@@ -102,19 +102,19 @@ export const Packages: React.FC<PackagesProps> = ({
         })}
       </div>
 
-      {/* Package Guarantee Banner */}
+      {/* Package information and planning notes */}
       <div className="pkg-guarantee-strip">
         <div className="pg-item">
-          <strong>⚡ 48-Hour Sneak Peek</strong>
-          <span>Receive 30-50 high-res edited highlights right after the wedding.</span>
+          <strong>⚡ Preview Delivery</strong>
+          <span>Ask us to confirm the expected preview timeline in your quotation.</span>
         </div>
         <div className="pg-item">
-          <strong>🛡️ Full Day Redundancy</strong>
-          <span>Dual memory card cameras, backup gear, and dedicated lighting kits.</span>
+          <strong>📷 Coverage Planning</strong>
+          <span>Discuss the event schedule, team size and equipment needed for your coverage.</span>
         </div>
         <div className="pg-item">
-          <strong>📖 Lifetime Archival</strong>
-          <span>Private cloud gallery hosting and flush-mount parent albums.</span>
+          <strong>📖 Album Options</strong>
+          <span>Album materials, formats, print counts and delivery terms depend on the selected package.</span>
         </div>
       </div>
     </section>

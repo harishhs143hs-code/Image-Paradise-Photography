@@ -8,20 +8,18 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => typeof window !== 'undefined' && !window.matchMedia('(max-width: 767px), (prefers-reduced-motion: reduce)').matches);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     video.muted = true;
-    video.play().catch(() => {
-      const handleUserTouch = () => {
-        video.play().catch(() => {});
-      };
-      document.addEventListener('touchstart', handleUserTouch, { once: true });
-      document.addEventListener('click', handleUserTouch, { once: true });
-    });
+    if (isPlaying) {
+      video.play().catch(() => setIsPlaying(false));
+    } else {
+      video.pause();
+    }
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
@@ -64,10 +62,9 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
   return (
     <section id="hero" aria-labelledby="hero-heading">
       <div className="hero-left">
-        {/* Social Proof Header Tag */}
         <div className="hero-tag">
-          <span style={{ color: '#EAA023', marginRight: '6px' }}>★★★★★</span>
-          <span>4.9 / 5 Rating · 120+ Chennai &amp; Tamil Nadu Couples</span>
+          <span style={{ color: '#EAA023', marginRight: '6px' }} aria-hidden="true">✦</span>
+          <span>Candid Wedding Photography · Cinematic Films · Chennai &amp; Tamil Nadu</span>
         </div>
 
         <h1 id="hero-heading" className="hero-headline">
@@ -111,20 +108,20 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
           </button>
         </div>
 
-        <div className="hero-counters" aria-label="Our achievements">
+        <div className="hero-counters" aria-label="Photography services and planning">
           <div className="hc">
-            <span className="count">150+</span>
-            <label>Weddings Documented</label>
+            <span className="count">Photo + Film</span>
+            <label>Coverage Options</label>
           </div>
           <div className="hc-div" aria-hidden="true"></div>
           <div className="hc">
-            <span className="count">48h</span>
-            <label>Preview Guarantee</label>
+            <span className="count">24–48h</span>
+            <label>Typical Preview Window</label>
           </div>
           <div className="hc-div" aria-hidden="true"></div>
           <div className="hc">
-            <span className="count">100%</span>
-            <label>Heirloom Album Delivery</label>
+            <span className="count">₹35,000+</span>
+            <label>Published Packages</label>
           </div>
         </div>
       </div>
@@ -137,11 +134,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
               id="heroVideo"
               className="hc-video"
               poster="/images/08-opt.jpg"
-              autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
               aria-label="Image Paradise Photography promo wedding film"
             >
               <source src="/videos/promo.mp4" type="video/mp4" />

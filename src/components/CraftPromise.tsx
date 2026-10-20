@@ -15,10 +15,10 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
             The Director's Commitment
           </div>
           <h2 id="craft-heading">
-            The Craft, The Gear &amp; <em>Our Sacred Promise</em>
+            The Craft, The Details &amp; <em>Our Approach</em>
           </h2>
           <p>
-            We don't believe in factory-line wedding photography where a faceless agency sends whoever is free on a weekend. Here is what happens behind the lens when you trust Hariharan R and Image Paradise.
+            We plan wedding coverage around your event schedule, venue, family priorities and the photographs or films you want to receive. Here is what to discuss with the studio before confirming your package.
           </p>
         </header>
 
@@ -26,71 +26,71 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
         <div className="craft-pillars-grid">
           <div className="craft-card">
             <div className="craft-card-icon">👑</div>
-            <div className="craft-kicker">Exclusivity Guarantee</div>
-            <h3>1 Wedding Per Day</h3>
+            <div className="craft-kicker">Coverage Planning</div>
+            <h3>A Plan for Your Event</h3>
             <p>
-              Your wedding date receives our undivided focus. Creative Director Hariharan R leads the team on-site personally. We strictly refuse multiple bookings on the same calendar day.
+              We discuss the day's schedule, key rituals, locations and the coverage you need before preparing the final plan.
             </p>
-            <div className="craft-tag">Personal Direction</div>
+            <div className="craft-tag">Event-led planning</div>
           </div>
 
           <div className="craft-card">
             <div className="craft-card-icon">🛡️</div>
-            <div className="craft-kicker">Data Security</div>
-            <h3>Zero-Loss Dual Backup</h3>
+            <div className="craft-kicker">File Handling</div>
+            <h3>Backup Workflow</h3>
             <p>
-              Every shutter actuation writes to two high-speed memory cards simultaneously in real-time. Immediately post-event, footage is archived across dual NVMe drives and offsite cloud storage.
+              We plan how files are checked, organized and backed up after the event. Ask about the workflow and delivery arrangements when receiving your quotation.
             </p>
-            <div className="craft-tag">Triple Redundancy</div>
+            <div className="craft-tag">Discuss before booking</div>
           </div>
 
           <div className="craft-card">
             <div className="craft-card-icon">⚡</div>
-            <div className="craft-kicker">Speed &amp; Excitement</div>
-            <h3>48-Hour Sneak Peek</h3>
+            <div className="craft-kicker">Delivery Timeline</div>
+            <h3>Preview and Gallery Delivery</h3>
             <p>
-              Don't wait months to relive the magic. Within 48 hours of your wedding reception, receive a curated gallery of 25–40 high-resolution color-graded frames ready for sharing.
+              A preview selection is typically aimed for within 24–48 hours; a full edited gallery is typically delivered within 4–6 weeks. Confirm the delivery schedule in your quotation.
             </p>
-            <div className="craft-tag">Same-Week Delivery</div>
+            <div className="craft-tag">Confirm in writing</div>
           </div>
 
           <div className="craft-card">
             <div className="craft-card-icon">📖</div>
-            <div className="craft-kicker">Generational Heirlooms</div>
-            <h3>75-Year Archival Albums</h3>
+            <div className="craft-kicker">Printed Albums</div>
+            <h3>Album Design &amp; Print Options</h3>
             <p>
-              We craft museum-grade, lay-flat flush-mount albums using premium Italian leatherette and non-tear silk matte pages that resist humidity and yellowing for generations.
+              Printed album options are available in selected packages. Album size, material, number of spreads, production time and any warranty are specified in your quotation.
             </p>
-            <div className="craft-tag">Lifetime Warranty</div>
+            <div className="craft-tag">Package dependent</div>
           </div>
         </div>
 
         {/* Studio Equipment Transparency Box */}
         <div className="gear-transparency-box">
           <div className="gear-header">
-            <div className="gear-badge">⚙️ Professional Equipment Roster</div>
-            <h3>World-Class Gear for Unforgiving Mandapam Lighting</h3>
+            <div className="gear-badge">⚙️ Equipment and Coverage Planning</div>
+            <h3>Coverage Tools Matched to the Event</h3>
             <p>
-              Traditional South Indian mandapams and beach receptions require top-tier low-light sensitivity and optical perfection. We bring industry-standard cinema and still systems:
+              We discuss lighting, venue restrictions and coverage requirements before the event, then confirm the equipment and crew included in your booking.
             </p>
           </div>
 
           <div className="gear-items-grid">
             <div className="gear-item">
-              <strong>Sony Alpha A7 IV &amp; A7S III</strong>
-              <span>Full-frame 33MP hybrid bodies with 15+ stops dynamic range for rich silk saree tones &amp; jewel details.</span>
+              <strong>Photography Equipment</strong>
+              <span>The camera and lens setup is planned for ceremony, portrait and low-light conditions.</span>
             </div>
             <div className="gear-item">
-              <strong>Sony G-Master Primes (35mm &amp; 85mm f/1.4)</strong>
-              <span>Creamy cinematic bokeh and razor-sharp candid portraits even under dim evening reception chandeliers.</span>
+              <strong>Lighting Support</strong>
+              <span>Available lighting is planned around the venue and ceremony restrictions.</span>
             </div>
             <div className="gear-item">
-              <strong>DJI RS3 Pro &amp; 4K HDR Aerial Drone</strong>
-              <span>Buttery smooth cinematic movement for baraat processions, mangalyadharanam, and majestic venue vistas.</span>
+              <strong>Video Stabilization</strong>
+              <span>Video support and stabilization are selected for the planned film coverage.</span>
             </div>
             <div className="gear-item">
-              <strong>Godox &amp; Profoto Studio Off-Camera Flash</strong>
-              <span>Soft, flattering editorial portrait lighting that enhances natural skin tones without harsh shadows.</span>
+              <strong>Audio and Ceremony Sound</strong>
+              <span>Audio capture requirements are discussed where the selected video package includes them.</span>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
         <div className="director-signoff-banner">
           <div className="dsb-photo">
             <img
-              src="/images/DSC05261.JPG"
+              src="/images/DSC05261.webp"
               alt="Creative Director Hariharan R"
               loading="lazy"
               width={180}

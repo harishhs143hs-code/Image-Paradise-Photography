@@ -12,22 +12,27 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
   const [weddingDate, setWeddingDate] = useState('');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
+  const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !privacyConsent || honeypot.trim()) return;
+    setSubmitError('');
     setIsSubmitting(true);
 
     try {
-      await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: '63a5b850-8986-415e-989d-cb1d0f6ac37e',
-          subject: `⚡ URGENT Callback Request: ${name} (${phone}) - Preferred Time: ${callTime}`,
+          botcheck: honeypot,
+          subject: `Callback Request: ${name} (${phone}) - Preferred Time: ${callTime}`,
           name,
           phone,
           preferred_time: callTime,
@@ -35,11 +40,16 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
           notes: notes || 'None'
         })
       });
-    } catch (err) {
-      // Continue to show success & open WhatsApp
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.success !== true) {
+        setSubmitError('We could not confirm the callback request was sent. Please message the studio on WhatsApp instead.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setSubmitError('We could not confirm the callback request was sent. Please message the studio on WhatsApp instead.');
     } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
     }
   };
 
@@ -81,6 +91,12 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
             </p>
 
             <form onSubmit={handleSubmit} className="cb-form">
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="cb-website">Leave this field empty
+                  <input id="cb-website" name="botcheck" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} tabIndex={-1} autoComplete="off" />
+                </label>
+              </div>
+              {submitError && <p className="fe" role="alert">{submitError} <a href="https://wa.me/917708510143">Open WhatsApp</a></p>}
               <div className="cb-field">
                 <label htmlFor="cb-name">Your Full Name *</label>
                 <input
@@ -130,7 +146,11 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
                 />
               </div>
 
-              <button type="submit" className="cb-submit-btn" disabled={isSubmitting}>
+              <label htmlFor="cb-privacy-consent" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', lineHeight: 1.5 }}>
+                <input id="cb-privacy-consent" type="checkbox" checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} required style={{ marginTop: '4px' }} />
+                <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that the details I submit may be used to respond to my callback request.</span>
+              </label>
+              <button type="submit" className="cb-submit-btn" disabled={isSubmitting || !privacyConsent}>
                 {isSubmitting ? 'Requesting Callback...' : 'Request Direct Callback Now →'}
               </button>
 
@@ -145,7 +165,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
             <div style={{ fontSize: '46px', marginBottom: '12px' }}>✨</div>
             <h3>Callback Scheduled!</h3>
             <p>
-              Thank you, <strong>{name}</strong>. Hariharan R has received your request and will connect with you <strong>{callTime.toLowerCase()}</strong>.
+              Thank you, <strong>{name}</strong>. Your callback request was submitted. We will review your preferred time and contact you using the details you provided. For a quicker exchange, you can also message the studio on WhatsApp.
             </p>
             <div className="cb-success-actions">
               <a

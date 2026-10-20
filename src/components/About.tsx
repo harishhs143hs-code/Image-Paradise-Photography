@@ -11,14 +11,14 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
         <div className="about-photos">
           <div className="ap-main">
             <img
-              src="/images/DSC05261.JPG"
+              src="/images/DSC05261.webp"
               alt="Hariharan R, Creative Director at Image Paradise Photography capturing candid wedding moments"
               loading="lazy"
               width={500}
               height={700}
             />
-            <div className="ap-years" aria-label="6+ Years of Excellence">
-              <span>6+</span>Years of<br />Excellence
+            <div className="ap-years" aria-label="Studio creative direction">
+              <span>IP</span>Creative<br />Direction
             </div>
           </div>
 
@@ -45,7 +45,7 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
           </p>
 
           <p>
-            With over six years documenting sacred Muhurthams and luxury celebrations, Hariharan's philosophy is rooted in quiet observation. We don't turn your wedding into an artificial movie set; we craft an effortless atmosphere where your genuine glances, joyous laughter, and the blessings of your elders take center stage.
+            Hariharan's approach is rooted in quiet observation and thoughtful coverage of the moments that matter to each family. We aim to photograph your wedding naturally, from genuine glances and joyful laughter to the rituals and blessings of your elders.
           </p>
 
           {/* Studio Physical Location Trust Box */}
@@ -60,7 +60,7 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
 
           <div className="about-pills">
             <span>✓ Directed by Hariharan R</span>
-            <span>✓ Same-Week Sneak Peek</span>
+            <span>✓ Preview timeline discussed before booking</span>
             <span>✓ Authentic Candid Specialists</span>
             <span>✓ Archival Album Printing</span>
           </div>
