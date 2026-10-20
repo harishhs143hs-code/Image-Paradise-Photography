@@ -9,7 +9,8 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [weddingMonth, setWeddingMonth] = useState('');
-  const [downloaded, setDownloaded] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   if (!isOpen) return null;
 
