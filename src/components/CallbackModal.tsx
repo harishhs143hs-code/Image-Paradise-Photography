@@ -11,14 +11,14 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
   const [callTime, setCallTime] = useState('Within 15 minutes');
   const [weddingDate, setWeddingDate] = useState('');
   const [notes, setNotes] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !privacyConsent) return;
     setIsSubmitting(true);
 
     try {
@@ -130,7 +130,11 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
                 />
               </div>
 
-              <button type="submit" className="cb-submit-btn" disabled={isSubmitting}>
+              <label htmlFor="cb-privacy-consent" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', lineHeight: 1.5 }}>
+                <input id="cb-privacy-consent" type="checkbox" checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} required style={{ marginTop: '4px' }} />
+                <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that the details I submit may be used to respond to my callback request.</span>
+              </label>
+              <button type="submit" className="cb-submit-btn" disabled={isSubmitting || !privacyConsent}>
                 {isSubmitting ? 'Requesting Callback...' : 'Request Direct Callback Now →'}
               </button>
 
