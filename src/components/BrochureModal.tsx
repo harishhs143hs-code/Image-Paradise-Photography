@@ -9,13 +9,13 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [weddingMonth, setWeddingMonth] = useState('');
-  const [downloaded, setDownloaded] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);\n  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !privacyConsent) return;
     setDownloaded(true);
 
     // Trigger WhatsApp notification for the studio
@@ -90,11 +90,15 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
                 />
               </div>
 
-              <button type="submit" className="brochure-submit-btn">
+              <label htmlFor="b-privacy-consent" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', lineHeight: 1.5 }}>
+                <input id="b-privacy-consent" type="checkbox" checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} required style={{ marginTop: '4px' }} />
+                <span>I have read the <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a> and agree that my details may be used to respond to this request.</span>
+              </label>
+              <button type="submit" className="brochure-submit-btn" disabled={!privacyConsent}>
                 Instant Access to Guide →
               </button>
               <small className="b-privacy">
-                🔒 We respect your privacy. No spam. You'll receive instant access and a direct copy on WhatsApp.
+                Your details are used to respond to this request. Review our Privacy Notice for more information.
               </small>
             </form>
           </>
@@ -115,7 +119,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
                 <li>✨ Essential (₹35,000) — 4 hrs coverage, 1 Photo, 1 Video, 200+ prints, online gallery</li>
                 <li>✨ Premium (₹75,000) — 8 hrs coverage, 2 Photos, 1 Video, 2 printed albums, highlight reel</li>
                 <li>✨ Luxury (₹1,50,000) — Full day, 2 Photos + assistant, 2 Videos, drone, pre & post-wedding shoots</li>
-                <li>✨ 48-Hour Sneak Peek Guarantee for all celebrations</li>
+                <li>✨ Preview timing is confirmed during booking based on your event plan</li>
                 <li>✨ High-end flush-mount archival binding with lifetime warranty</li>
               </ul>
             </div>
