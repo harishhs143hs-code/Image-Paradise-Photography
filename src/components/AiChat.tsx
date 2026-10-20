@@ -37,9 +37,9 @@ export const AiChat: React.FC = () => {
       return (
         'We offer three crafted wedding packages:\n\n' +
         '1. Essential (₹35,000): 4 hours coverage, 1 photographer, 1 videographer, 200+ photos with printed album, private online gallery.\n\n' +
-        '2. Premium (₹75,000 - Most Loved): 8 hours coverage, 2 photographers, 1 videographer, 400+ photos, 2 premium printed albums, 3-minute highlight film.\n\n' +
+        '2. Premium (₹75,000): 8 hours coverage, 2 photographers, 1 videographer, 400+ photos, 2 premium printed albums, 3-minute highlight film.\n\n' +
         '3. Luxury (₹1,50,000): Full day coverage, 2 photographers + assistant, 2 videographers, unlimited photos, pre & post-wedding shoots, cinematic highlight film.\n\n' +
-        'Would you like me to check date availability for one of these?'
+        'Would you like help preparing a date enquiry for one of these?'
       );
     }
 
@@ -63,15 +63,15 @@ export const AiChat: React.FC = () => {
     if (q.includes('delivery') || q.includes('timeline') || q.includes('when') || q.includes('album') || q.includes('receive')) {
       return (
         'Here are our typical delivery timelines:\n' +
-        '• Same-Day / 24–48 hours: Sneak-peek preview selection to share with family.\n' +
+        '• Typically 24–48 hours: Preview selection target; confirm the timeline in your quotation.\n' +
         '• 4–6 weeks: Complete edited high-resolution gallery.\n' +
-        '• 2–3 weeks following photo selection: Custom handcrafted flush-mount album design and printing.'
+        '• Albums: Design and printing may require additional time; confirm the expected timeline in your quotation.'
       );
     }
 
     if (q.includes('date') || q.includes('available') || q.includes('check')) {
       return (
-        'To check availability for your wedding date, please let us know: (1) Your wedding date, (2) Venue or city, and (3) Functions to be covered (Muhurtham, Reception, Sangeet). You can also click "Enquire Now" or reach us on WhatsApp at +91 7708510143!'
+        'This chat does not check a live booking calendar. To request an availability check, share your event date, venue or city, and functions to be covered, then contact the studio through the enquiry form or WhatsApp at +91 7708510143.'
       );
     }
 
@@ -83,13 +83,13 @@ export const AiChat: React.FC = () => {
 
     if (q.includes('refer') || q.includes('earn') || q.includes('reward')) {
       return (
-        'With our Refer & Earn program, anyone can earn ₹2,000 to ₹5,000 direct UPI cash (GPay/PhonePe) or a 15% future shoot voucher for every wedding booking referred to Image Paradise! Plus, your friend receives a ₹2,500 album upgrade credit. You can register your referral in the Refer & Earn section or WhatsApp us at +91 7708510143.'
+        'Our Refer & Earn program accepts referrals for eligible wedding and event enquiries. The studio confirms eligibility, any commission amount and the payout milestone in writing before accepting a referral. No fixed reward or client discount is promised on the public page. Visit the Refer & Earn page or WhatsApp us at +91 7708510143 for the written terms.'
       );
     }
 
     if (q.includes('director') || q.includes('hariharan') || q.includes('owner') || q.includes('address') || q.includes('where')) {
       return (
-        'IMAGE PARADISE is directed by Creative Director Hariharan R. Our studio is located at No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu (Helpline: +91 7708510143). We cover celebrations across Chennai, Tiruvallur, Avadi, Ambattur, Kanchipuram, and worldwide.'
+        'IMAGE PARADISE is directed by Creative Director Hariharan R. Our studio is located at No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu (Helpline: +91 7708510143). We serve Chennai, Tiruvallur, Avadi, Ambattur, Kanchipuram and nearby Tamil Nadu locations. Ask us about travel for events farther away.'
       );
     }
 
@@ -241,6 +241,10 @@ export const AiChat: React.FC = () => {
               ➤
             </button>
           </form>
+
+          <p className="ai-chat-privacy">
+            Please do not share passwords, payment credentials or other sensitive details. Chat messages may be processed by an AI provider to generate replies. See our <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Notice</a>.
+          </p>
 
           <a
             className="ai-chat-whatsapp"
