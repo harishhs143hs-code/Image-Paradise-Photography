@@ -7,12 +7,12 @@ interface NavbarProps {
   onOpenCallback?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpenBrochure, onOpenCallback }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpenBrochure }) => {
   const [isSlim, setIsSlim] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsSlim(window.scrollY > 40);
+    const onScroll = () => setIsSlim(window.scrollY > 36);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -40,7 +40,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
           <img src="/images/Logo with Text Png.png" alt="Image Paradise Photography" width="160" height="34" />
         </button>
 
-        <button className="hamburger" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="navMenu" onClick={() => setMenuOpen((open) => !open)}>
+        <button
+          className="hamburger"
+          type="button"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="navMenu"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
           <span /><span /><span />
         </button>
 
@@ -51,9 +58,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
           <li><button type="button" className="nav-link-btn" onClick={() => go('services')}>Packages</button></li>
           <li><button type="button" className="nav-link-btn" onClick={() => go('about')}>About</button></li>
           <li><button type="button" className="nav-link-btn" onClick={() => page('blog')}>Journal</button></li>
-          <li><button type="button" className={`nav-link-btn referral-nav-link ${currentRoute === 'referral' ? 'active' : ''}`} onClick={() => page('referral')}>Refer &amp; Earn</button></li>
-          {onOpenCallback && <li><button type="button" className="nav-link-btn" onClick={() => { setMenuOpen(false); onOpenCallback(); }}>Request a Call</button></li>}
-          <li><button type="button" className="nav-link-btn brochure-link" onClick={() => { setMenuOpen(false); onOpenBrochure(); }}>Price Guide</button></li>
+          <li>
+            <button type="button" className={`nav-link-btn referral-nav-link ${currentRoute === 'referral' ? 'active' : ''}`} onClick={() => page('referral')}>
+              Refer &amp; Earn
+            </button>
+          </li>
           <li><button type="button" className="nav-enquire" onClick={() => go('contact')}>Check Your Date</button></li>
         </ul>
       </nav>
