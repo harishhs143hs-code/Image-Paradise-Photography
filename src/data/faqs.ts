@@ -3,7 +3,7 @@ import { FaqItem } from '../types';
 export const faqsData: FaqItem[] = [
   {
     question: 'What is the cost of wedding photography in Chennai?',
-    answer: 'Wedding photography packages in Chennai typically range from ₹35,000 to ₹1,50,000+ depending on coverage hours, number of photographers, album quality, and additional services like cinematic videography. Image Paradise Photography offers packages starting from ₹35,000 for intimate ceremonies up to ₹1,50,000 for full luxury coverage with pre-wedding shoots and cinematic films.'
+    answer: 'Wedding photography packages in Chennai typically range from ₹35,000 to ₹1,50,000 depending on coverage hours, number of photographers, album quality, and additional services like cinematic videography. Image Paradise Photography offers packages starting from ₹35,000 for intimate ceremonies up to ₹1,50,000 for full luxury coverage with pre-wedding shoots and cinematic films.'
   },
   {
     question: 'What areas do you serve for wedding photography?',
@@ -11,7 +11,7 @@ export const faqsData: FaqItem[] = [
   },
   {
     question: 'How long does it take to receive wedding photos?',
-    answer: 'Typically, you receive a preview selection within 24–48 hours (same-day preview). Full edited galleries are delivered within 4–6 weeks, with premium albums taking an additional 2–3 weeks for design and printing.'
+    answer: 'A preview selection is typically aimed for within 24–48 hours and the full edited gallery within 4–6 weeks. Album design and printing may require additional time. Confirm the expected delivery schedule in your quotation.'
   },
   {
     question: 'Do you offer pre-wedding shoots in Chennai?',
@@ -27,6 +27,6 @@ export const faqsData: FaqItem[] = [
   },
   {
     question: 'How do we enquire and confirm our date?',
-    answer: 'Simply send your date, venue, and ceremony timings using our enquiry form or via WhatsApp at +91 7708510143. We will verify date availability within 24 hours, share exact quotations, and guide you through reserving your date.'
+    answer: 'Send your date, venue and ceremony timings through the enquiry form or WhatsApp at +91 7708510143. The studio will review your requirements, confirm availability directly and discuss a suitable quotation.'
   }
 ];
