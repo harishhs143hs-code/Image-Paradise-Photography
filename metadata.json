@@ -1,0 +1,7 @@
+{
+  "name": "Image Paradise Photography",
+  "description": "Wedding photographer in Chennai offering candid photography, cinematic videography, pre-wedding shoots, and luxury wedding albums.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

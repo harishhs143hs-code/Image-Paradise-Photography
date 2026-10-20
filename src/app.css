@@ -1,0 +1,97 @@
+/* App interactive styles and seamless button-to-link adaptations */
+.nav-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.25s ease;
+}
+
+.nav-link-btn:hover,
+.nav-link-btn.active {
+  color: var(--pk, #D81B60);
+}
+
+.ft-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  display: block;
+  margin-bottom: 0.6rem;
+  transition: color 0.2s ease;
+}
+
+.ft-link-btn:hover {
+  color: var(--pk, #D81B60);
+}
+
+.location-chip-btn {
+  background: #fff;
+  border: 1px solid rgba(216, 27, 96, 0.25);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink, #181418);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.location-chip-btn:hover {
+  background: var(--pk, #D81B60);
+  color: #fff;
+  border-color: var(--pk, #D81B60);
+}
+
+.location-tag {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #777;
+}
+
+.xp-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.xp-link-btn:hover {
+  background: rgba(216, 27, 96, 0.08);
+  color: var(--pk, #D81B60);
+}
+
+/* Ensure lightbox transitions smoothly */
+.lightbox {
+  display: none;
+}
+
+.lightbox.open {
+  display: flex !important;
+}
+
+/* Scroll reveal defaults */
+[data-reveal],
+.in {
+  opacity: 1 !important;
+  transform: none !important;
+}
