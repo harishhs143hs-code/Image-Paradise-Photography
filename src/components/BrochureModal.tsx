@@ -106,7 +106,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
         ) : (
           <div className="brochure-success">
             <div style={{ fontSize: '42px', marginBottom: '12px' }}>🎉</div>
-            <h3>Your 2026 Wedding Guide is Ready!</h3>
+            <h3>Your Package Guide Preview Is Ready</h3>
             <p>
               Thank you, {name}! We have opened a direct chat with our studio on WhatsApp and your guide preview is active below.
             </p>
@@ -117,11 +117,11 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose })
                 <span>Chennai · Tamil Nadu</span>
               </div>
               <ul className="g-preview-list">
-                <li>✨ Essential (₹35,000) — 4 hrs coverage, 1 Photo, 1 Video, 200+ prints, online gallery</li>
-                <li>✨ Premium (₹75,000) — 8 hrs coverage, 2 Photos, 1 Video, 2 printed albums, highlight reel</li>
-                <li>✨ Luxury (₹1,50,000) — Full day, 2 Photos + assistant, 2 Videos, drone, pre & post-wedding shoots</li>
+                <li>✨ Essential (₹35,000) — 4 hrs coverage, 1 Photo, 1 Video, 200+ edited photos, private gallery</li>
+                <li>✨ Premium (₹75,000) — 8 hrs coverage, 2 photographers, 1 videographer, 2 premium albums, highlight reel</li>
+                <li>✨ Luxury (₹1,50,000) — Full day, 2 photographers plus assistant, 2 videographers, pre/post-wedding shoots subject to the final quotation</li>
                 <li>✨ Preview timing is confirmed during booking based on your event plan</li>
-                <li>✨ High-end flush-mount archival binding with lifetime warranty</li>
+                <li>✨ Album materials, print format and warranty terms are confirmed in the quotation</li>
               </ul>
             </div>
 
