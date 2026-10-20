@@ -1,62 +1,65 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface FilmsProps {
   onScrollToContact: () => void;
 }
 
 export const Films: React.FC<FilmsProps> = ({ onScrollToContact }) => {
-  return (
-    <>
-      <section className="film-strip" id="films">
-        <div className="film-strip-inner">
-          <div className="studio-kicker">CINEMATIC STORIES</div>
-          <h2>Frames that <em>move.</em></h2>
-          <div className="film-cards">
-            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/08.jpg')" }}>
-              <div className="film-card-content">
-                <small>01 · Wedding Films</small>
-                <h3>The day, in motion.</h3>
-              </div>
-            </article>
-            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/DSC06422-opt.JPG')" }}>
-              <div className="film-card-content">
-                <small>02 · Couple Stories</small>
-                <h3>Before forever.</h3>
-              </div>
-            </article>
-            <article className="film-card" style={{ ['--film-image' as any]: "url('/images/gallery1.jpeg')" }}>
-              <div className="film-card-content">
-                <small>03 · Celebrations</small>
-                <h3>Feel it again.</h3>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
 
-      <section id="xp-films" className="xp-faq">
-        <div className="xp-faq-head">
-          <div>
-            <div className="xp-kicker">Motion &amp; emotion</div>
-          </div>
-          <div>
-            <h2>Stories that <em>move.</em></h2>
-            <p className="xp-faq-intro">
-              Our photography is only one part of the story. Cinematic wedding films bring back the voices, movement and atmosphere of the day. Your portfolio and future film library can grow here without changing the experience.
-            </p>
-            <div style={{ marginTop: '28px' }}>
-              <button
-                type="button"
-                onClick={onScrollToContact}
-                className="btn-pink"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}
-              >
-                Enquire for a Film <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          </div>
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) video.pause();
+    }, { threshold: 0.15 });
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => {});
+      setPlaying(true);
+    } else {
+      video.pause();
+      setPlaying(false);
+    }
+  };
+
+  return (
+    <section className="films-section" id="films" aria-labelledby="films-heading">
+      <div className="films-copy">
+        <p className="section-kicker">CINEMATIC FILMS</p>
+        <h2 id="films-heading">See the day.<br /><em>Feel it again.</em></h2>
+        <p>Wedding films that preserve the voices, movement and atmosphere behind the photographs.</p>
+        <button type="button" className="btn-pink" onClick={onScrollToContact}>Enquire for Films <span aria-hidden="true">→</span></button>
+      </div>
+
+      <div className="films-player">
+        <video
+          ref={videoRef}
+          className="films-video"
+          poster="/images/08-opt.jpg"
+          preload="metadata"
+          muted
+          loop
+          playsInline
+          controls={false}
+          aria-label="Image Paradise cinematic wedding film preview"
+        >
+          <source src="/videos/promo.mp4" type="video/mp4" />
+        </video>
+        <div className="films-player-overlay">
+          <span>Wedding film preview</span>
+          <button type="button" className="films-play" onClick={togglePlay} aria-label={playing ? 'Pause film' : 'Play film'}>
+            {playing ? 'Pause' : 'Play'}
+          </button>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
