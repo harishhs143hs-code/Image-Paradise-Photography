@@ -82,12 +82,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <a href="https://www.instagram.com/imageparadisephotography" target="_blank" rel="noopener">
             Instagram
           </a>
-          <a href="https://www.facebook.com/imageparadisephotography" target="_blank" rel="noopener">
-            Facebook
-          </a>
-          <a href="https://in.pinterest.com/imageparadisephotography" target="_blank" rel="noopener">
-            Pinterest
-          </a>
           <a
             href="https://wa.me/917708510143?text=Hi%20Hariharan%2C%20I%27d%20like%20to%20enquire%20about%20wedding%20photography"
             target="_blank"
