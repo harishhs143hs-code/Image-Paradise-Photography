@@ -99,7 +99,7 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
         <div className="director-signoff-banner">
           <div className="dsb-photo">
             <img
-              src="/images/DSC05261.JPG"
+              src="/images/DSC05261.webp"
               alt="Creative Director Hariharan R"
               loading="lazy"
               width={180}
