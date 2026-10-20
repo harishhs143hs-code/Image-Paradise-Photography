@@ -419,6 +419,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               </label>
               {errors.consent && <span className="fe" role="alert">{errors.consent}</span>}
               {errors.submit && <span className="fe" role="alert">{errors.submit}</span>}
+              {errors.submit && <span className="fe" role="alert">{errors.submit}</span>}
 
               <div className="form-next-steps" aria-label="What happens next">
                 <strong>Our 3-Step Booking Journey</strong>
