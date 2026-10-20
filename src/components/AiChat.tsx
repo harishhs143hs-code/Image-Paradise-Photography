@@ -81,14 +81,20 @@ export const AiChat: React.FC = () => {
       );
     }
 
-    if (q.includes('candid') || q.includes('traditional') || q.includes('style')) {
+    if (q.includes('refer') || q.includes('earn') || q.includes('reward')) {
       return (
-        'We believe in authentic storytelling. Our candid photographers capture natural emotions, laughter, and rituals without asking you to freeze or stage moments artificially. We also provide dedicated traditional coverage for essential family group portraits and ceremony rites.'
+        'With our Refer & Earn program, anyone can earn ₹2,000 to ₹5,000 direct UPI cash (GPay/PhonePe) or a 15% future shoot voucher for every wedding booking referred to Image Paradise! Plus, your friend receives a ₹2,500 album upgrade credit. You can register your referral in the Refer & Earn section or WhatsApp us at +91 7708510143.'
+      );
+    }
+
+    if (q.includes('director') || q.includes('hariharan') || q.includes('owner') || q.includes('address') || q.includes('where')) {
+      return (
+        'IMAGE PARADISE is directed by Creative Director Hariharan R. Our studio is located at No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu (Helpline: +91 7708510143). We cover celebrations across Chennai, Tiruvallur, Avadi, Ambattur, Kanchipuram, and worldwide.'
       );
     }
 
     return (
-      'Thank you for reaching out! Image Paradise Photography specializes in candid wedding photography, cinematic films, and pre-wedding shoots across Chennai and Tamil Nadu. Would you like details on our packages, delivery timelines, or checking your wedding date on WhatsApp (+91 7708510143)?'
+      'Thank you for reaching out! Image Paradise Photography (Creative Director: Hariharan R) specializes in candid wedding photography, cinematic films, and pre-wedding shoots across Chennai, Veppampattu, and Tamil Nadu. Would you like details on packages, checking your wedding date, or our Refer & Earn program?'
     );
   };
 

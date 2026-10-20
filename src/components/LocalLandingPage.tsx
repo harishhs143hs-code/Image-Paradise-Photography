@@ -426,6 +426,26 @@ export const LocalLandingPage: React.FC<LocalLandingPageProps> = ({
 
           <div
             style={{
+              padding: '18px 24px',
+              background: '#faf8f9',
+              border: '1px solid rgba(216, 27, 96, 0.15)',
+              borderRadius: '16px',
+              margin: '28px 0',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px'
+            }}
+          >
+            <strong style={{ color: '#181418', fontSize: '14px' }}>
+              IMAGE PARADISE · Creative Director: Hariharan R
+            </strong>
+            <span style={{ color: '#666', fontSize: '13px' }}>
+              Studio: No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu · Direct Helpline: <a href="tel:+917708510143" style={{ color: '#d8225f', fontWeight: 600 }}>+91 7708510143</a>
+            </span>
+          </div>
+
+          <div
+            style={{
               background: '#191519',
               color: '#fff',
               borderRadius: '24px',

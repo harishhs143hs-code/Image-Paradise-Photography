@@ -18,11 +18,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             height={40}
           />
           <h3>
-            Image Paradise<br />Photography
+            IMAGE PARADISE<br />
+            <span style={{ fontSize: '13px', fontWeight: 500, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              Creative Director: Hariharan R
+            </span>
           </h3>
-          <p>
+          <p style={{ marginTop: '8px' }}>
             Capturing love, preserving paradise.<br />
-            Chennai · Available across India &amp; Beyond.
+            No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu.<br />
+            Phone: <a href="tel:+917708510143" style={{ color: '#D4AF37' }}>+91 7708510143</a>
           </p>
         </div>
 
@@ -31,20 +35,23 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'portfolio')}>
             Portfolio
           </button>
-          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'about')}>
-            About
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'stories')}>
+            Real Stories
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'services')}>
             Packages
           </button>
-          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'testimonials')}>
-            Reviews
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'calculator')}>
+            Package Calculator
+          </button>
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'referral')} style={{ color: '#25D366', fontWeight: 600 }}>
+            🎁 Refer &amp; Earn ₹5,000
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('blog')}>
-            Blog
+            Blog &amp; Guides
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'contact')}>
-            Contact
+            Contact Studio
           </button>
         </div>
 
@@ -54,10 +61,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             Chennai
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('pre-wedding')}>
-            Pre-Wedding
+            Pre-Wedding Shoots
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('videography')}>
-            Videography
+            Cinematic Films
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('ambattur')}>
             Ambattur
@@ -82,20 +89,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             Pinterest
           </a>
           <a
-            href="https://wa.me/917708510143?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20photography"
+            href="https://wa.me/917708510143?text=Hi%20Hariharan%2C%20I%27d%20like%20to%20enquire%20about%20wedding%20photography"
             target="_blank"
             rel="noopener"
           >
-            WhatsApp
+            WhatsApp (+91 7708510143)
           </a>
           <a href="mailto:imageparadise2020@gmail.com">
-            Email Us
+            imageparadise2020@gmail.com
           </a>
         </div>
       </div>
 
       <div className="footer-btm">
-        <p>&copy; 2026 Image Paradise Photography · Chennai, India · All rights reserved</p>
+        <p>
+          &copy; 2026 IMAGE PARADISE · Creative Director: Hariharan R · No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu · All rights reserved
+        </p>
         <img
           src="/images/Logo-opt.png"
           alt=""

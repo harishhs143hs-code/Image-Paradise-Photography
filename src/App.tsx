@@ -2,19 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { UtilityBar } from './components/UtilityBar';
 import { Hero } from './components/Hero';
+import { TrustBar } from './components/TrustBar';
+import { DateCheckerWidget } from './components/DateCheckerWidget';
 import { StoryBanner } from './components/StoryBanner';
 import { Marquee } from './components/Marquee';
 import { CategoryBar } from './components/CategoryBar';
 import { Gallery } from './components/Gallery';
 import { Lightbox } from './components/Lightbox';
+import { WeddingStories } from './components/WeddingStories';
+import { LeadCalculator } from './components/LeadCalculator';
 import { About } from './components/About';
+import { CraftPromise } from './components/CraftPromise';
 import { Packages } from './components/Packages';
 import { Films } from './components/Films';
 import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
 import { Locations } from './components/Locations';
 import { Journal } from './components/Journal';
+import { ReferralProgram } from './components/ReferralProgram';
 import { ContactForm } from './components/ContactForm';
+import { BrochureModal } from './components/BrochureModal';
+import { CallbackModal } from './components/CallbackModal';
 import { Footer } from './components/Footer';
 import { MobileActionRail } from './components/MobileActionRail';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
@@ -35,8 +43,11 @@ export const App: React.FC = () => {
   const [blogSlug, setBlogSlug] = useState<string>('how-to-choose-best-wedding-photographer-chennai');
   const [galleryCategory, setGalleryCategory] = useState<string>('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [enquirySession, setEnquirySession] = useState<string>('');
+  const [enquirySession, setEnquirySession] = useState<string>('Wedding Photography');
   const [enquiryBudget, setEnquiryBudget] = useState<string>('');
+  const [enquiryMessage, setEnquiryMessage] = useState<string>('');
+  const [brochureOpen, setBrochureOpen] = useState<boolean>(false);
+  const [callbackOpen, setCallbackOpen] = useState<boolean>(false);
 
   // Handle URL path on first load or browser navigation
   useEffect(() => {
@@ -74,8 +85,8 @@ export const App: React.FC = () => {
     };
 
     const loop = () => {
-      rx += ((parseFloat(cur.style.left || '0')) - rx) * 0.13;
-      ry += ((parseFloat(cur.style.top || '0')) - ry) * 0.13;
+      rx += (parseFloat(cur.style.left || '0') - rx) * 0.13;
+      ry += (parseFloat(cur.style.top || '0') - ry) * 0.13;
       ring.style.left = `${rx}px`;
       ring.style.top = `${ry}px`;
       animId = requestAnimationFrame(loop);
@@ -106,7 +117,24 @@ export const App: React.FC = () => {
   const handleSelectPackage = (pkg: PackageTier) => {
     setEnquirySession('Wedding Photography');
     setEnquiryBudget(pkg.price);
+    setEnquiryMessage(`Interested in the ${pkg.name} package (${pkg.price}). Please verify date availability.`);
     scrollToElement('contact');
+  };
+
+  const handleCustomizePackage = (pkg: PackageTier) => {
+    scrollToElement('calculator');
+  };
+
+  const handleQuoteFromCalculator = (summaryText: string, estimatedTotal: number) => {
+    setEnquirySession('Wedding Photography');
+    setEnquiryBudget(`₹${estimatedTotal.toLocaleString('en-IN')}`);
+    setEnquiryMessage(summaryText);
+    scrollToElement('contact');
+  };
+
+  const handleCheckDate = (date: string, city: string, eventType: string) => {
+    setEnquirySession(eventType);
+    setEnquiryMessage(`Checking availability for Date: ${date} at Location: ${city} (${eventType}).`);
   };
 
   const handleNavigate = (route: string, anchor?: string) => {
@@ -131,37 +159,92 @@ export const App: React.FC = () => {
       <UtilityBar />
 
       {/* Navbar */}
-      <Navbar currentRoute={currentRoute} onNavigate={handleNavigate} />
+      <Navbar
+        currentRoute={currentRoute}
+        onNavigate={handleNavigate}
+        onOpenBrochure={() => setBrochureOpen(true)}
+        onOpenCallback={() => setCallbackOpen(true)}
+      />
 
       {/* Home Route */}
       {currentRoute === 'home' && (
         <main>
-          <Hero onScrollTo={scrollToElement} />
+          <Hero
+            onScrollTo={scrollToElement}
+            onOpenBrochure={() => setBrochureOpen(true)}
+          />
+
+          {/* Social Proof & Trust Guarantee Bar */}
+          <TrustBar />
+
+          {/* Quick Date Availability Checker Card */}
+          <section className="date-checker-section">
+            <DateCheckerWidget
+              onCheckDate={handleCheckDate}
+              onOpenCallback={() => setCallbackOpen(true)}
+            />
+          </section>
+
           <StoryBanner onScrollToContact={() => scrollToElement('contact')} />
           <Marquee />
+
           <CategoryBar
             onSelectCategory={(cat) => setGalleryCategory(cat)}
             onScrollTo={scrollToElement}
           />
+
           <Gallery
             items={galleryItems}
             selectedCategory={galleryCategory}
             onSelectCategory={setGalleryCategory}
             onOpenLightbox={(idx) => setLightboxIndex(idx)}
           />
+
+          {/* In-depth Real Wedding Stories / Case Studies */}
+          <WeddingStories
+            onEnquireForSimilar={(couple) => {
+              setEnquiryMessage(`I loved the wedding story of ${couple} and want similar coverage for my day.`);
+              scrollToElement('contact');
+            }}
+          />
+
+          {/* Interactive Lead Calculator */}
+          <LeadCalculator onQuoteRequested={handleQuoteFromCalculator} />
+
           <Films onScrollToContact={() => scrollToElement('contact')} />
+
           <About onScrollToContact={() => scrollToElement('contact')} />
-          <Packages packages={packagesData} onSelectPackage={handleSelectPackage} />
+
+          {/* The Gear, The Craft & The Sacred Promise */}
+          <CraftPromise
+            onOpenCallback={() => setCallbackOpen(true)}
+            onScrollToContact={() => scrollToElement('contact')}
+          />
+
+          <Packages
+            packages={packagesData}
+            onSelectPackage={handleSelectPackage}
+            onCustomizePackage={handleCustomizePackage}
+          />
+
           <Testimonials testimonials={testimonialsData} />
+
           <FAQ faqs={faqsData} />
+
           <Locations onSelectLocationPage={(page) => handleNavigate(page)} />
+
           <Journal
             onScrollTo={scrollToElement}
             onOpenBlog={() => handleNavigate('blog')}
           />
+
+          {/* Referral & Earn Partner Program (Placed before ContactForm as requested) */}
+          <ReferralProgram />
+
           <ContactForm
             initialSessionType={enquirySession}
             initialBudget={enquiryBudget}
+            initialMessage={enquiryMessage}
           />
         </main>
       )}
@@ -183,6 +266,7 @@ export const App: React.FC = () => {
           />
           <ContactForm
             initialSessionType={currentRoute === 'pre-wedding' ? 'Pre-Wedding Shoot' : 'Wedding Photography'}
+            initialMessage={enquiryMessage}
           />
         </>
       )}
@@ -224,6 +308,18 @@ export const App: React.FC = () => {
           onNavigate={(nextIdx) => setLightboxIndex(nextIdx)}
         />
       )}
+
+      {/* 2026 Wedding Brochure Modal (Lead Magnet) */}
+      <BrochureModal
+        isOpen={brochureOpen}
+        onClose={() => setBrochureOpen(false)}
+      />
+
+      {/* Fast 15-Minute Callback Modal */}
+      <CallbackModal
+        isOpen={callbackOpen}
+        onClose={() => setCallbackOpen(false)}
+      />
 
       {/* Mobile Sticky Rail */}
       <MobileActionRail onEnquireClick={() => scrollToElement('contact')} />

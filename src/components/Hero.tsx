@@ -2,11 +2,13 @@ import React, { useRef, useState, useEffect } from 'react';
 
 interface HeroProps {
   onScrollTo: (elementId: string) => void;
+  onOpenBrochure: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onScrollTo }) => {
+export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -26,7 +28,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo }) => {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              video.play().catch(() => {});
+              if (isPlaying) video.play().catch(() => {});
             } else {
               video.pause();
             }
@@ -37,7 +39,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo }) => {
       observer.observe(video);
       return () => observer.disconnect();
     }
-  }, []);
+  }, [isPlaying]);
 
   const toggleSound = () => {
     if (videoRef.current) {
@@ -47,56 +49,82 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo }) => {
     }
   };
 
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
+
   return (
     <section id="hero" aria-labelledby="hero-heading">
       <div className="hero-left">
+        {/* Social Proof Header Tag */}
         <div className="hero-tag">
-          <span className="pulse-dot" aria-hidden="true"></span> Wedding &amp; Portrait Photography · Chennai
+          <span style={{ color: '#EAA023', marginRight: '6px' }}>★★★★★</span>
+          <span>4.9 / 5 Rating · 120+ Chennai &amp; Tamil Nadu Couples</span>
         </div>
+
         <h1 id="hero-heading" className="hero-headline">
           <span>We don't just</span>
           <em>capture moments,</em>
           <span>we <b>craft</b> memories.</span>
         </h1>
+
         <p className="hero-body">
-          Candid wedding photography and cinematic films, crafted in Chennai for couples across Tamil Nadu and beyond. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.
+          Candid wedding photography and cinematic films, crafted in Chennai for couples across Tamil Nadu and beyond. Every frame preserves the tears, laughter, and timeless rituals of your celebration.
         </p>
+
         <div className="hero-btns">
           <button
             type="button"
-            onClick={() => onScrollTo('portfolio')}
+            onClick={() => onScrollTo('calculator')}
             className="btn-pink"
-            data-lead-event="portfolio_click"
-            aria-label="View our wedding photography portfolio"
+            data-lead-event="estimate_click"
+            aria-label="Calculate your wedding photography package quote"
           >
-            View Our Work{' '}
+            Calculate Your Package Quote{' '}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
           <button
             type="button"
-            onClick={() => onScrollTo('contact')}
+            onClick={() => onScrollTo('portfolio')}
             className="btn-outline"
-            aria-label="Book wedding photography session"
+            aria-label="View our wedding photography portfolio"
           >
-            Check Your Date
+            View Portfolio
+          </button>
+          <button
+            type="button"
+            onClick={onOpenBrochure}
+            className="btn-text-gold"
+            aria-label="Download pricing guide brochure"
+          >
+            📥 2026 Price Guide (PDF)
           </button>
         </div>
+
         <div className="hero-counters" aria-label="Our achievements">
           <div className="hc">
-            <span className="count">Real</span>
-            <label>Wedding Stories</label>
+            <span className="count">150+</span>
+            <label>Weddings Documented</label>
           </div>
           <div className="hc-div" aria-hidden="true"></div>
           <div className="hc">
-            <span className="count">Candid</span>
-            <label>Wedding Photography</label>
+            <span className="count">48h</span>
+            <label>Preview Guarantee</label>
           </div>
           <div className="hc-div" aria-hidden="true"></div>
           <div className="hc">
-            <span className="count">Personal</span>
-            <label>Client Experience</label>
+            <span className="count">100%</span>
+            <label>Heirloom Album Delivery</label>
           </div>
         </div>
       </div>
@@ -114,33 +142,46 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo }) => {
               loop
               playsInline
               preload="metadata"
-              aria-label="Image Paradise Photography promo video"
+              aria-label="Image Paradise Photography promo wedding film"
             >
               <source src="/videos/promo.mp4" type="video/mp4" />
             </video>
-            <button
-              className="hero-video-mute"
-              id="heroVideoMute"
-              type="button"
-              onClick={toggleSound}
-              aria-label={isMuted ? 'Unmute promo video' : 'Mute promo video'}
-            >
-              <span className="hero-video-mute-label">{isMuted ? 'Sound off' : 'Sound on'}</span>
-            </button>
+
+            {/* Video Controls Overlay */}
+            <div className="hero-video-controls">
+              <button
+                className="hero-video-mute"
+                id="heroVideoMute"
+                type="button"
+                onClick={toggleSound}
+                aria-label={isMuted ? 'Unmute promo video' : 'Mute promo video'}
+              >
+                <span className="hero-video-mute-label">{isMuted ? '🔇 Sound off' : '🔊 Sound on'}</span>
+              </button>
+              <button
+                className="hero-video-play"
+                type="button"
+                onClick={togglePlay}
+                aria-label={isPlaying ? 'Pause promo video' : 'Play promo video'}
+              >
+                <span>{isPlaying ? '⏸ Pause' : '▶ Play'}</span>
+              </button>
+            </div>
           </div>
+
           <div className="hero-badge" aria-label="Wedding photography and cinematic films">
             <div className="badge-star" aria-hidden="true">✦</div>
             <div>
               <strong>Image Paradise</strong>
-              <span>Wedding Photography &amp; Films</span>
+              <span>Wedding Photography &amp; Films · Chennai</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="hero-scroll" aria-hidden="true" onClick={() => onScrollTo('portfolio')} style={{ cursor: 'pointer' }}>
+      <div className="hero-scroll" aria-hidden="true" onClick={() => onScrollTo('calculator')} style={{ cursor: 'pointer' }}>
         <div className="scroll-bar"></div>
-        <span>Scroll</span>
+        <span>Scroll to Plan</span>
       </div>
     </section>
   );

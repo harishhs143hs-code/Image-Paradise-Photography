@@ -1,63 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EnquiryFormData } from '../types';
 
 interface ContactFormProps {
   initialSessionType?: string;
   initialBudget?: string;
+  initialMessage?: string;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
   initialSessionType = '',
-  initialBudget = ''
+  initialBudget = '',
+  initialMessage = ''
 }) => {
   const [formData, setFormData] = useState<EnquiryFormData>({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    sessionType: initialSessionType || '',
+    sessionType: initialSessionType || 'Wedding Photography',
     eventDate: '',
     budget: initialBudget || '',
-    message: ''
+    message: initialMessage || ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Sync if initial prop changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialSessionType) {
       setFormData((prev) => ({ ...prev, sessionType: initialSessionType }));
     }
   }, [initialSessionType]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialBudget) {
       setFormData((prev) => ({ ...prev, budget: initialBudget }));
     }
   }, [initialBudget]);
 
+  useEffect(() => {
+    if (initialMessage) {
+      setFormData((prev) => ({
+        ...prev,
+        message: prev.message ? `${prev.message}\n${initialMessage}` : initialMessage
+      }));
+    }
+  }, [initialMessage]);
+
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
 
     if (!formData.firstName.trim()) {
-      errs.firstName = 'Required';
+      errs.firstName = 'First name required';
     }
     if (!formData.lastName.trim()) {
-      errs.lastName = 'Required';
+      errs.lastName = 'Last name required';
     }
     if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errs.email = 'Valid email required';
     }
     if (!formData.phone.trim()) {
-      errs.phone = 'Phone number required';
+      errs.phone = 'WhatsApp phone required';
     }
     if (!formData.sessionType) {
-      errs.sessionType = 'Select one';
+      errs.sessionType = 'Select one session';
     }
-    if (!formData.message.trim() || formData.message.trim().length < 20) {
-      errs.message = 'Minimum 20 characters';
+    if (!formData.message.trim() || formData.message.trim().length < 15) {
+      errs.message = 'Please provide at least 15 characters about your wedding';
     }
 
     setErrors(errs);
@@ -85,8 +95,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     setIsSubmitting(true);
 
     try {
-      // Send to Web3Forms using the existing access key
-      const response = await fetch('https://api.web3forms.com/submit', {
+      await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +103,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         },
         body: JSON.stringify({
           access_key: '63a5b850-8986-415e-989d-cb1d0f6ac37e',
-          subject: `New Client Enquiry: ${formData.sessionType} - ${formData.firstName} ${formData.lastName}`,
+          subject: `Wedding Enquiry: ${formData.sessionType} - ${formData.firstName} ${formData.lastName}`,
           from_name: `${formData.firstName} ${formData.lastName}`,
           first_name: formData.firstName,
           last_name: formData.lastName,
@@ -109,7 +118,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
       setSubmitted(true);
     } catch (err) {
-      // Fallback: still treat as recorded locally so the client doesn't get blocked
       setSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -117,7 +125,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Hi Image Paradise Photography!\nName: ${formData.firstName} ${formData.lastName}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nEvent: ${formData.sessionType}\nDate: ${formData.eventDate}\nBudget: ${formData.budget}\nDetails: ${formData.message}`
+    `*Wedding Photography Enquiry — Image Paradise*\n` +
+      `Name: ${formData.firstName} ${formData.lastName}\n` +
+      `Phone: ${formData.phone}\n` +
+      `Email: ${formData.email}\n` +
+      `Event: ${formData.sessionType}\n` +
+      `Date: ${formData.eventDate || 'TBD'}\n` +
+      `Budget: ${formData.budget || 'Custom'}\n` +
+      `Details: ${formData.message}`
   );
 
   return (
@@ -125,28 +140,30 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       <div className="contact-grid">
         <div className="cinfo">
           <div className="sec-badge light">
-            <img src="/images/Logo-opt.png" alt="" loading="lazy" width="24" height="24" />
-            Enquire Now
+            <img src="/images/Logo-opt.png" alt="" loading="lazy" width={24} height={24} />
+            Let's Talk
           </div>
           <h2>
             Let's create<br />
             <em>something beautiful</em><br />
             together
           </h2>
-          <p>Tell us your date and celebration details. We’ll check availability and get back to you within 24 hours.</p>
+          <p>
+            Tell us your date and celebration details. We accept only <strong>1 wedding per day</strong> to guarantee complete devotion. We'll verify date availability within 24 hours.
+          </p>
 
           <div className="ci-rows">
             <div className="ci-row">
-              <div className="ci-icon">✉</div>
+              <div className="ci-icon">📷</div>
               <div>
-                <label>Email</label>
-                <p>imageparadise2020@gmail.com</p>
+                <label>Creative Director</label>
+                <p>Hariharan R</p>
               </div>
             </div>
             <div className="ci-row">
               <div className="ci-icon">☎</div>
               <div>
-                <label>Phone</label>
+                <label>Phone / WhatsApp</label>
                 <p>
                   <a href="tel:+917708510143" data-lead-event="phone_click">
                     +91 7708510143
@@ -155,10 +172,21 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               </div>
             </div>
             <div className="ci-row">
+              <div className="ci-icon">✉</div>
+              <div>
+                <label>Direct Studio Email</label>
+                <p>imageparadise2020@gmail.com</p>
+              </div>
+            </div>
+            <div className="ci-row">
               <div className="ci-icon">⊙</div>
               <div>
-                <label>Office</label>
-                <p>Chennai, Tamil Nadu, India</p>
+                <label>Studio Address</label>
+                <p>
+                  <strong>IMAGE PARADISE</strong><br />
+                  No. 2/670, Kudiyanvur Street 87<br />
+                  Veppampattu – 602024, Tamil Nadu
+                </p>
               </div>
             </div>
           </div>
@@ -175,34 +203,26 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </a>
           </div>
 
-          {/* preview strip of real photos */}
+          {/* photo strip */}
           <div className="ci-photo-strip">
-            <img src="/images/gallery1.jpeg" alt="Couple engagement" loading="lazy" width={300} height={300} />
-            <img src="/images/DSC06228-opt.JPG" alt="Wedding ceremony" loading="lazy" width={300} height={300} />
-            <img src="/images/AR_02707-opt.JPG" alt="Sacred union" loading="lazy" width={300} height={300} />
-            <img src="/images/MPS_6098-opt.JPG" alt="Family celebration" loading="lazy" width={300} height={300} />
+            <img src="/images/gallery1.jpeg" alt="Engagement couple" loading="lazy" width={300} height={300} />
+            <img src="/images/DSC06228-opt.JPG" alt="Ceremony Muhurtham" loading="lazy" width={300} height={300} />
+            <img src="/images/AR_02707-opt.JPG" alt="Couple Golden Hour" loading="lazy" width={300} height={300} />
+            <img src="/images/MPS_6098-opt.JPG" alt="Family smile" loading="lazy" width={300} height={300} />
           </div>
         </div>
 
         <div className="cform-wrap">
           {submitted ? (
-            <div
-              style={{
-                background: '#fff',
-                padding: '40px 30px',
-                borderRadius: '24px',
-                textAlign: 'center',
-                boxShadow: '0 10px 40px rgba(0,0,0,0.06)'
-              }}
-            >
+            <div className="cform-success-card">
               <div style={{ fontSize: '48px', marginBottom: '16px' }}>🌸</div>
               <h3 style={{ fontFamily: 'var(--serif)', fontSize: '28px', color: 'var(--ink)', marginBottom: '12px' }}>
                 Thank You, {formData.firstName}!
               </h3>
               <p style={{ color: 'var(--muted)', fontSize: '16px', lineHeight: '1.7', marginBottom: '24px' }}>
-                Your wedding enquiry has been received. Our lead photographer will check date availability and reply within 24 hours.
+                Your wedding enquiry has reached our studio calendar. Our lead photographer will verify your date availability and respond within 24 hours.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'center' }}>
                 <a
                   href={`https://wa.me/917708510143?text=${whatsappMessage}`}
                   target="_blank"
@@ -210,7 +230,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   className="btn-pink"
                   style={{ textDecoration: 'none', display: 'inline-block' }}
                 >
-                  Send Details on WhatsApp Too →
+                  💬 Speed Up: Chat on WhatsApp Now →
                 </a>
                 <button
                   type="button"
@@ -221,7 +241,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       lastName: '',
                       email: '',
                       phone: '',
-                      sessionType: '',
+                      sessionType: 'Wedding Photography',
                       eventDate: '',
                       budget: '',
                       message: ''
@@ -233,16 +253,21 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     color: 'var(--muted)',
                     cursor: 'pointer',
                     fontSize: '13px',
-                    textDecoration: 'underline',
-                    marginTop: '8px'
+                    textDecoration: 'underline'
                   }}
                 >
-                  Send another message
+                  Submit another enquiry
                 </button>
               </div>
             </div>
           ) : (
             <form id="eForm" onSubmit={handleSubmit}>
+              {initialMessage && (
+                <div className="custom-quote-badge">
+                  <span>✨ Applied your custom calculated package details below</span>
+                </div>
+              )}
+
               <div className="f2col">
                 <div className="fg">
                   <label htmlFor="f_fname">First Name *</label>
@@ -250,7 +275,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     id="f_fname"
                     name="firstName"
                     type="text"
-                    placeholder="Aysha"
+                    placeholder="e.g. Swathi"
                     value={formData.firstName}
                     onChange={handleChange}
                     className={errors.firstName ? 'bad' : ''}
@@ -265,7 +290,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     id="f_lname"
                     name="lastName"
                     type="text"
-                    placeholder="Yunus"
+                    placeholder="e.g. Sundaram"
                     value={formData.lastName}
                     onChange={handleChange}
                     className={errors.lastName ? 'bad' : ''}
@@ -281,7 +306,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   id="f_email"
                   name="email"
                   type="email"
-                  placeholder="@gmail.com"
+                  placeholder="name@gmail.com"
                   value={formData.email}
                   onChange={handleChange}
                   className={errors.email ? 'bad' : ''}
@@ -296,7 +321,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   id="f_phone"
                   name="phone"
                   type="tel"
-                  placeholder="+91 7708510143"
+                  placeholder="+91 98765 43210"
                   inputMode="tel"
                   autoComplete="tel"
                   value={formData.phone}
@@ -318,20 +343,19 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     className={errors.sessionType ? 'bad' : ''}
                     required
                   >
-                    <option value="">Select...</option>
                     <option value="Wedding Photography">Wedding Photography</option>
-                    <option value="Engagement Session">Engagement Session</option>
+                    <option value="Muhurtham & Reception">Muhurtham &amp; Reception</option>
+                    <option value="Engagement Ceremony">Engagement Ceremony</option>
                     <option value="Bridal Portrait">Bridal Portrait</option>
                     <option value="Pre-Wedding Shoot">Pre-Wedding Shoot</option>
                     <option value="Family Portrait">Family Portrait</option>
                     <option value="Maternity Session">Maternity Session</option>
-                    <option value="Newborn Photography">Newborn Photography</option>
                   </select>
                   {errors.sessionType && <span className="fe">{errors.sessionType}</span>}
                 </div>
 
                 <div className="fg">
-                  <label htmlFor="f_date">Event Date *</label>
+                  <label htmlFor="f_date">Wedding Date *</label>
                   <input
                     id="f_date"
                     name="eventDate"
@@ -345,29 +369,29 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               </div>
 
               <div className="fg">
-                <label htmlFor="f_budget">Budget Range</label>
-                <small className="form-hint">Optional — helps us suggest the right coverage.</small>
+                <label htmlFor="f_budget">Estimated Budget Range</label>
+                <small className="form-hint">Optional — helps us suggest the best team size.</small>
                 <select
                   id="f_budget"
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
                 >
-                  <option value="">Select...</option>
+                  <option value="">Select range...</option>
                   <option value="₹25,000 – ₹50,000">₹25,000 – ₹50,000</option>
                   <option value="₹50,000 – ₹1,00,000">₹50,000 – ₹1,00,000</option>
                   <option value="₹1,00,000 – ₹2,00,000">₹1,00,000 – ₹2,00,000</option>
-                  <option value="₹2,00,000+">₹2,00,000+</option>
+                  <option value="₹2,00,000+">₹2,00,000+ (Luxury Multi-Event)</option>
                 </select>
               </div>
 
               <div className="fg">
-                <label htmlFor="f_msg">Tell us about your day *</label>
+                <label htmlFor="f_msg">Tell us about your celebration *</label>
                 <textarea
                   id="f_msg"
                   name="message"
                   rows={4}
-                  placeholder="Venue, guest count, coverage needs, or anything you already have in mind..."
+                  placeholder="Venue name, city, number of guests, events to cover, or specific photography requests..."
                   value={formData.message}
                   onChange={handleChange}
                   className={errors.message ? 'bad' : ''}
@@ -377,20 +401,45 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               </div>
 
               <div className="form-next-steps" aria-label="What happens next">
-                <strong>What happens next</strong>
-                <span>01 · We check your date</span>
-                <span>02 · We discuss your coverage</span>
-                <span>03 · We guide you to booking</span>
+                <strong>Our 3-Step Booking Journey</strong>
+                <span>01 · We confirm date availability within 24h</span>
+                <span>02 · Review customized portfolio and itemized quote</span>
+                <span>03 · Pay booking advance to lock your date</span>
               </div>
 
-              <button
-                type="submit"
-                className="fsub"
-                id="fsub"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : 'Send Enquiry'}
-              </button>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <button
+                  type="submit"
+                  className="fsub"
+                  id="fsub"
+                  disabled={isSubmitting}
+                  style={{ flex: 1, minWidth: '200px' }}
+                >
+                  {isSubmitting ? 'Sending Enquiry...' : 'Check Date & Send Enquiry'}
+                </button>
+                <a
+                  href={`https://wa.me/917708510143?text=${whatsappMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-whatsapp-direct"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '14px 20px',
+                    background: '#25D366',
+                    color: '#fff',
+                    borderRadius: '999px',
+                    textDecoration: 'none',
+                    fontWeight: 700,
+                    fontSize: '14px',
+                    border: 'none'
+                  }}
+                >
+                  <span>💬 Enquire via WhatsApp</span>
+                </a>
+              </div>
             </form>
           )}
         </div>

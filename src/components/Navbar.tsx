@@ -3,9 +3,16 @@ import React, { useState, useEffect } from 'react';
 interface NavbarProps {
   currentRoute: string;
   onNavigate: (route: string, anchor?: string) => void;
+  onOpenBrochure: () => void;
+  onOpenCallback?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  currentRoute,
+  onNavigate,
+  onOpenBrochure,
+  onOpenCallback
+}) => {
   const [isSlim, setIsSlim] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -46,21 +53,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
   return (
     <header className="navbar" role="banner">
       <nav id="nav" className={isSlim ? 'slim' : ''} role="navigation" aria-label="Main navigation">
+        {/* Zone 1: Brand Wordmark */}
         <button
           type="button"
           onClick={() => handlePageClick('home')}
           className="brand"
-          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            textAlign: 'left'
+          }}
           aria-label="Image Paradise Photography Home"
         >
           <img
             src="/images/Logo with Text Png.png"
-            alt="Image Paradise Photography - Wedding Photographer Chennai"
-            width="150"
-            height="30"
+            alt="Image Paradise Photography"
+            width="160"
+            height="34"
+            style={{ objectFit: 'contain' }}
           />
         </button>
 
+        {/* Hamburger for mobile */}
         <button
           className="hamburger"
           id="hamburger"
@@ -75,6 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
           <span></span>
         </button>
 
+        {/* Zone 2: Navigation Links */}
         <ul className={`nav-menu ${menuOpen ? 'open' : ''}`} id="navMenu" role="menubar">
           <li role="none">
             <button
@@ -90,10 +109,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
             <button
               type="button"
               className="nav-link-btn"
-              onClick={() => handleLinkClick('about')}
+              onClick={() => handleLinkClick('stories')}
               role="menuitem"
             >
-              About
+              Real Stories
             </button>
           </li>
           <li role="none">
@@ -110,12 +129,72 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
             <button
               type="button"
               className="nav-link-btn"
+              onClick={() => handleLinkClick('calculator')}
+              role="menuitem"
+            >
+              Estimate Quote
+            </button>
+          </li>
+          <li role="none">
+            <button
+              type="button"
+              className="nav-link-btn"
+              onClick={() => handleLinkClick('craft-promise')}
+              role="menuitem"
+            >
+              Our Gear &amp; Promise
+            </button>
+          </li>
+          <li role="none">
+            <button
+              type="button"
+              className="nav-link-btn"
               onClick={() => handleLinkClick('testimonials')}
               role="menuitem"
             >
               Reviews
             </button>
           </li>
+          <li role="none">
+            <button
+              type="button"
+              className="nav-link-btn ref-highlight-nav"
+              onClick={() => handleLinkClick('referral')}
+              role="menuitem"
+            >
+              <span className="ref-nav-badge">NEW</span> Refer &amp; Earn ₹5,000
+            </button>
+          </li>
+          <li role="none">
+            <button
+              type="button"
+              className="nav-link-btn"
+              onClick={() => {
+                setMenuOpen(false);
+                onOpenBrochure();
+              }}
+              role="menuitem"
+              style={{ color: '#D4AF37' }}
+            >
+              2026 Brochure
+            </button>
+          </li>
+          {onOpenCallback && (
+            <li role="none">
+              <button
+                type="button"
+                className="nav-link-btn"
+                onClick={() => {
+                  setMenuOpen(false);
+                  onOpenCallback();
+                }}
+                role="menuitem"
+                style={{ color: '#D81B60' }}
+              >
+                📞 Request Call
+              </button>
+            </li>
+          )}
           <li role="none">
             <button
               type="button"
@@ -134,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate }) => {
               className="nav-enquire"
               role="menuitem"
             >
-              Enquire Now
+              Check Your Date
             </button>
           </li>
         </ul>
