@@ -70,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           aria-label="Image Paradise Photography Home"
         >
           <img
-            src="/images/Logo with Text Png.png"
+            src="/images/Logo%20with%20Text%20Png.webp"
             alt="Image Paradise Photography"
             width="160"
             height="34"
