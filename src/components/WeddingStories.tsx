@@ -25,7 +25,7 @@ const STORIES: WeddingStory[] = [
     gallery: [
       '/images/DSC06228-opt.JPG',
       '/images/AR_02707-opt.JPG',
-      '/images/gallery1.jpeg',
+      '/images/DSC06422-opt.JPG',
       '/images/DSC09905-opt.JPG'
     ],
     summary:
@@ -44,7 +44,7 @@ const STORIES: WeddingStory[] = [
       '/images/08.jpg',
       '/images/DSC06422-opt.JPG',
       '/images/DSC07067-opt.JPG',
-      '/images/DSC05261.JPG'
+      '/images/DSC05261.webp'
     ],
     summary:
       'Set against the ocean breeze on East Coast Road. Drone aerials combined with candid sunset couple portraiture and a 3-minute highlight film scored to the couple’s favorite acoustic track.',
