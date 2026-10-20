@@ -118,10 +118,10 @@ const PAGE_CONFIGS: Record<LocalPageKey, LocalPageConfig> = {
     sectionCopy:
       'We prefer to understand the actual wedding schedule first. Send your date, venue and events such as mehendi, engagement, muhurtham, reception or other functions. We can then suggest coverage that fits the day.',
     bulletPoints: [
-      'Multi-camera 4K cinematography with gimbal stabilization and drone options.',
+      'Discuss camera coverage, stabilization and any aerial footage needed for your event; availability and permissions are confirmed before booking.',
       'Crystal-clear audio capture of vows, mantras, laughter, and family speeches.',
       'Colour graded with our signature warm, cinematic color palette.',
-      'Teaser reel delivered within days, full feature wedding film in high resolution.'
+      'Ask us to confirm the expected teaser and full-film delivery timelines in your quotation.'
     ],
     ctaTitle: "Let's plan your wedding film",
     ctaCopy: 'Share the basics on WhatsApp and we will continue from there.',
@@ -150,7 +150,7 @@ const PAGE_CONFIGS: Record<LocalPageKey, LocalPageConfig> = {
     ],
     sectionTitle: 'A simple enquiry process',
     sectionCopy:
-      'We make booking your Ambattur wedding stress-free. Whether your celebration is in a local hall, mandapam, or outdoor resort, we are on site with full technical redundancy.',
+      'We plan Ambattur wedding coverage around the venue, event schedule, key rituals and your photography or videography requirements.',
     bulletPoints: [
       'Send your date and Ambattur venue.',
       'Tell us which events need coverage (engagement, muhurtham, reception).',
@@ -221,7 +221,7 @@ const PAGE_CONFIGS: Record<LocalPageKey, LocalPageConfig> = {
       'We can plan coverage for weddings across Tiruvallur and nearby Chennai-side locations. Share your venue and schedule so we can recommend the right team and hours.',
     bulletPoints: [
       'Engagement and pre-wedding sessions in Tiruvallur and Chennai.',
-      'Wedding and reception photography with same-day previews.',
+      'Wedding and reception photography with preview timing confirmed during booking.',
       'Traditional and candid coverage with seasoned lead photographers.',
       'Cinematic wedding videography and highlight reels.',
       'Handcrafted premium album design and home delivery.'
