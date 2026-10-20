@@ -11,7 +11,7 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
         <div className="about-photos">
           <div className="ap-main">
             <img
-              src="/images/DSC05261.JPG"
+              src="/images/DSC05261.webp"
               alt="Hariharan R, Creative Director at Image Paradise Photography capturing candid wedding moments"
               loading="lazy"
               width={500}
