@@ -115,6 +115,8 @@ export const App: React.FC = () => {
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
     if (!cur || !ring) return;
+    // No custom cursor / animation loop on touch devices (saves battery, avoids jank)
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
 
     let rx = 0;
     let ry = 0;
