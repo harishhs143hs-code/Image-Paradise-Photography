@@ -25,6 +25,16 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close the mobile menu with the Escape key (keyboard / accessibility)
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -71,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           aria-label="Image Paradise Photography Home"
         >
           <img
-            src="/images/Logo with Text Png.png"
+            src="/images/Logo-text-opt.png"
             alt="Image Paradise Photography"
             width="160"
             height="34"
@@ -81,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Hamburger for mobile */}
         <button
-          className={`hamburger ${menuOpen ? 'open' : ''}`}
+          className={\`hamburger \${menuOpen ? 'open' : ''}\`}
           id="hamburger"
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -104,58 +114,58 @@ export const Navbar: React.FC<NavbarProps> = ({
         )}
 
         {/* Navigation Links */}
-        <ul className={`nav-menu ${menuOpen ? 'open' : ''}`} id="navMenu" role="menubar">
+        <ul className={\`nav-menu \${menuOpen ? 'open' : ''}\`} id="navMenu">
           {/* Mobile Drawer Top Heading */}
-          <li className="mobile-drawer-header" role="none">
+          <li className="mobile-drawer-header">
             <span className="mdh-title">Image Paradise</span>
             <span className="mdh-sub">Chennai · Tiruvallur</span>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
-              className={`nav-link-btn ${currentRoute === 'home' ? '' : ''}`}
+              className={\`nav-link-btn \${currentRoute === 'home' ? '' : ''}\`}
               onClick={() => handleLinkClick('portfolio')}
-              role="menuitem"
+             
             >
               Portfolio
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               className="nav-link-btn"
               onClick={() => handleLinkClick('stories')}
-              role="menuitem"
+             
             >
               Real Stories
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               className="nav-link-btn"
               onClick={() => handleLinkClick('films')}
-              role="menuitem"
+             
             >
               Films
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               className="nav-link-btn"
               onClick={() => handleLinkClick('services')}
-              role="menuitem"
+             
             >
               Packages
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
-              className={`nav-link-btn ${currentRoute === 'referral' ? 'active' : ''}`}
+              className={\`nav-link-btn \${currentRoute === 'referral' ? 'active' : ''}\`}
               onClick={() => handlePageClick('referral')}
-              role="menuitem"
+             
               style={{
                 color: currentRoute === 'referral' ? 'var(--pk, #D81B60)' : undefined,
                 fontWeight: currentRoute === 'referral' ? 700 : undefined
@@ -164,17 +174,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="ref-nav-badge">NEW</span> Refer &amp; Earn
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               className="nav-link-btn"
               onClick={() => handleLinkClick('about')}
-              role="menuitem"
+             
             >
               About
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               className="nav-link-btn"
@@ -182,14 +192,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMenuOpen(false);
                 onOpenBrochure();
               }}
-              role="menuitem"
+             
               style={{ color: '#D4AF37' }}
             >
               2026 Brochure
             </button>
           </li>
           {onOpenCallback && (
-            <li role="none">
+            <li>
               <button
                 type="button"
                 className="nav-link-btn"
@@ -197,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMenuOpen(false);
                   onOpenCallback();
                 }}
-                role="menuitem"
+               
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#D81B60' }}
               >
                 <PhoneIcon size={13} color="#D81B60" />
@@ -205,30 +215,30 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             </li>
           )}
-          <li role="none">
+          <li>
             <button
               type="button"
-              className={`nav-link-btn ${currentRoute === 'blog' ? 'active' : ''}`}
+              className={\`nav-link-btn \${currentRoute === 'blog' ? 'active' : ''}\`}
               onClick={() => handlePageClick('blog')}
-              role="menuitem"
+             
             >
               Journal
             </button>
           </li>
-          <li role="none">
+          <li>
             <button
               type="button"
               onClick={() => handleLinkClick('contact')}
               data-lead-event="check_date_click"
               className="nav-enquire"
-              role="menuitem"
+             
             >
               Check Availability
             </button>
           </li>
 
           {/* Direct Studio Connect for Mobile Drawer */}
-          <li className="mobile-drawer-footer" role="none">
+          <li className="mobile-drawer-footer">
             <div className="mdf-actions">
               <a
                 href="tel:+917708510143"
