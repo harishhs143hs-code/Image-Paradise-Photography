@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Hamburger for mobile */}
         <button
-          className={\`hamburger \${menuOpen ? 'open' : ''}\`}
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
           id="hamburger"
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -114,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         )}
 
         {/* Navigation Links */}
-        <ul className={\`nav-menu \${menuOpen ? 'open' : ''}\`} id="navMenu">
+        <ul className={`nav-menu ${menuOpen ? 'open' : ''}`} id="navMenu">
           {/* Mobile Drawer Top Heading */}
           <li className="mobile-drawer-header">
             <span className="mdh-title">Image Paradise</span>
@@ -123,7 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <li>
             <button
               type="button"
-              className={\`nav-link-btn \${currentRoute === 'home' ? '' : ''}\`}
+              className={`nav-link-btn ${currentRoute === 'home' ? '' : ''}`}
               onClick={() => handleLinkClick('portfolio')}
              
             >
@@ -163,7 +163,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <li>
             <button
               type="button"
-              className={\`nav-link-btn \${currentRoute === 'referral' ? 'active' : ''}\`}
+              className={`nav-link-btn ${currentRoute === 'referral' ? 'active' : ''}`}
               onClick={() => handlePageClick('referral')}
              
               style={{
@@ -218,7 +218,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <li>
             <button
               type="button"
-              className={\`nav-link-btn \${currentRoute === 'blog' ? 'active' : ''}\`}
+              className={`nav-link-btn ${currentRoute === 'blog' ? 'active' : ''}`}
               onClick={() => handlePageClick('blog')}
              
             >
