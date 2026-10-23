@@ -64,7 +64,6 @@ body{background:var(--pk-bg)}
 
 /* Service architecture */
 #services{position:relative}
-#services::before{content:"SERVICES";position:absolute;top:7%;right:4%;font-size:clamp(60px,11vw,170px);font-family:var(--serif);font-weight:700;color:rgba(216,27,96,.035);pointer-events:none}
 .pkg{transition:transform .45s ease,box-shadow .45s ease,border-color .45s ease}
 .pkg:hover{transform:translateY(-8px);box-shadow:var(--xp-shadow);border-color:rgba(216,27,96,.28)}
 .pkg.featured{box-shadow:0 25px 80px rgba(136,14,79,.16)}
@@ -73,13 +72,11 @@ body{background:var(--pk-bg)}
 
 /* Testimonial editorial treatment */
 #testimonials{position:relative;overflow:hidden}
-#testimonials::after{content:"“";position:absolute;right:4%;top:4%;font-family:var(--serif);font-size:clamp(180px,28vw,430px);line-height:.7;color:rgba(216,27,96,.035);pointer-events:none}
 .tcard{transition:transform .45s ease,box-shadow .45s ease}
 .tcard:hover{transform:translateY(-5px);box-shadow:var(--xp-shadow)}
 
 /* Conversion section */
 #contact{position:relative;overflow:hidden}
-#contact::before{content:"LET'S CREATE";position:absolute;right:-2%;top:8%;font-family:var(--serif);font-size:clamp(70px,12vw,190px);line-height:.8;color:rgba(255,255,255,.035);pointer-events:none}
 .cform-wrap{box-shadow:0 30px 100px rgba(18,5,9,.15)}
 .fg input,.fg textarea,.fg select{transition:border-color .25s ease,box-shadow .25s ease,background .25s ease}
 .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--pk);box-shadow:0 0 0 4px rgba(216,27,96,.09);background:#fff}

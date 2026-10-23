@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PhoneIcon } from './Icons';
+import { PhoneIcon, WhatsAppIcon } from './Icons';
 
 interface NavbarProps {
   currentRoute: string;
@@ -81,10 +81,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Hamburger for mobile */}
         <button
-          className="hamburger"
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
           id="hamburger"
           type="button"
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           aria-controls="navMenu"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -94,8 +94,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span></span>
         </button>
 
+        {/* Backdrop for mobile drawer dismissal */}
+        {menuOpen && (
+          <div
+            className="nav-backdrop open"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
         {/* Navigation Links */}
         <ul className={`nav-menu ${menuOpen ? 'open' : ''}`} id="navMenu" role="menubar">
+          {/* Mobile Drawer Top Heading */}
+          <li className="mobile-drawer-header" role="none">
+            <span className="mdh-title">Image Paradise</span>
+            <span className="mdh-sub">Chennai · Tiruvallur</span>
+          </li>
           <li role="none">
             <button
               type="button"
@@ -211,6 +225,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Check Availability
             </button>
+          </li>
+
+          {/* Direct Studio Connect for Mobile Drawer */}
+          <li className="mobile-drawer-footer" role="none">
+            <div className="mdf-actions">
+              <a
+                href="tel:+917708510143"
+                className="mdf-btn mdf-call"
+                aria-label="Call studio"
+              >
+                <PhoneIcon size={14} color="currentColor" />
+                <span>+91 7708510143</span>
+              </a>
+              <a
+                href="https://wa.me/917708510143?text=Hi%20Image%20Paradise!%20I%20am%20exploring%20your%20wedding%20photography%20services."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mdf-btn mdf-wa"
+                aria-label="Chat on WhatsApp"
+              >
+                <WhatsAppIcon size={15} color="#fff" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+            <p className="mdf-note">Studio: Veppampattu, Chennai · Director: Hariharan R</p>
           </li>
         </ul>
       </nav>

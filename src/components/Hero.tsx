@@ -91,7 +91,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
           <button
             type="button"
             onClick={() => onScrollTo('calculator')}
-            className="btn-pink"
+            className="btn-pink hero-primary-btn"
             data-lead-event="estimate_click"
             aria-label="Calculate your wedding photography package quote"
           >
@@ -100,24 +100,26 @@ export const Hero: React.FC<HeroProps> = ({ onScrollTo, onOpenBrochure }) => {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          <button
-            type="button"
-            onClick={() => onScrollTo('portfolio')}
-            className="btn-outline"
-            aria-label="View our wedding photography portfolio"
-          >
-            View Portfolio
-          </button>
-          <button
-            type="button"
-            onClick={onOpenBrochure}
-            className="btn-text-gold"
-            aria-label="Download 2026 pricing guide brochure"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-          >
-            <DownloadIcon size={15} color="#D4AF37" />
-            <span>2026 Price Guide</span>
-          </button>
+          <div className="hero-sub-btns">
+            <button
+              type="button"
+              onClick={() => onScrollTo('portfolio')}
+              className="btn-outline"
+              aria-label="View our wedding photography portfolio"
+            >
+              View Portfolio
+            </button>
+            <button
+              type="button"
+              onClick={onOpenBrochure}
+              className="btn-text-gold"
+              aria-label="Download 2026 pricing guide brochure"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
+              <DownloadIcon size={15} color="#D4AF37" />
+              <span>2026 Price Guide</span>
+            </button>
+          </div>
         </div>
 
         <div className="hero-counters" aria-label="Our achievements">
