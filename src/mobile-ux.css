@@ -110,3 +110,59 @@ main > section{margin-inline:auto}
 #main-content{outline:none;height:0}
 body.modal-open{overflow:hidden}
 :where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:2px solid #d81b60;outline-offset:2px}
+
+
+/* Tablet range: when the desktop navigation is hidden, use the same slide-out
+   drawer as phones instead of leaving the links in the desktop row. */
+@media (min-width:981px) and (max-width:1023px){
+  .nav-menu{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    bottom:0!important;
+    left:auto!important;
+    width:min(86vw,360px)!important;
+    max-width:100vw!important;
+    height:100dvh!important;
+    padding:24px 20px max(36px,env(safe-area-inset-bottom))!important;
+    background:#fff!important;
+    box-shadow:-12px 0 45px rgba(0,0,0,.16)!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+    gap:0!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    z-index:1001!important;
+    transform:translateX(100%)!important;
+    transition:transform .3s cubic-bezier(.16,1,.3,1)!important;
+  }
+  .nav-menu.open{transform:translateX(0)!important}
+  .nav-menu li:not(.mobile-drawer-header):not(.mobile-drawer-footer){
+    border-bottom:1px solid #f6eff3!important;
+  }
+  .mobile-drawer-header{
+    display:flex!important;
+    flex-direction:column!important;
+    padding:8px 4px 18px!important;
+    margin-bottom:8px!important;
+    border-bottom:1px solid #f0e8ed!important;
+  }
+  .mobile-drawer-footer{
+    display:block!important;
+    margin-top:auto!important;
+    padding-top:18px!important;
+  }
+  .mdf-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .mdf-btn{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    gap:6px!important;padding:10px 8px!important;border-radius:10px!important;
+    font-size:12px!important;font-weight:700!important;text-decoration:none!important;min-height:44px!important
+  }
+  .mdf-call{background:#f8f4f6!important;border:1px solid #ded3d8!important;color:var(--ip-ink)!important}
+  .mdf-wa{background:#25D366!important;color:#fff!important}
+  .mdf-note{font-size:10px!important;color:#8c8287!important;text-align:center!important;margin-top:10px!important}
+  .hamburger{z-index:1003!important}
+  .hamburger.open span:nth-child(2){opacity:0!important}
+}
