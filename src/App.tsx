@@ -115,8 +115,6 @@ export const App: React.FC = () => {
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
     if (!cur || !ring) return;
-    // No custom cursor / animation loop on touch devices (saves battery, avoids jank)
-    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
 
     let rx = 0;
     let ry = 0;
@@ -145,23 +143,6 @@ export const App: React.FC = () => {
       cancelAnimationFrame(animId);
     };
   }, []);
-
-  // Escape closes the brochure / callback pop-ups; page scroll is locked while one is open
-  useEffect(() => {
-    if (!brochureOpen && !callbackOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setBrochureOpen(false);
-        setCallbackOpen(false);
-      }
-    };
-    document.body.classList.add('modal-open');
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.classList.remove('modal-open');
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [brochureOpen, callbackOpen]);
 
   const scrollToElement = (id: string) => {
     if (currentRoute !== 'home') {
@@ -228,8 +209,6 @@ export const App: React.FC = () => {
       {/* Dynamic SEO, Canonical & Schema.org Structured Data */}
       <SEOHead currentRoute={currentRoute} blogSlug={blogSlug} />
 
-      <a className="skip-link" href="#main-content">Skip to content</a>
-
       {/* Custom Cursor */}
       <div className="cursor" id="cursor"></div>
       <div className="cursor-ring" id="cursorRing"></div>
@@ -244,8 +223,6 @@ export const App: React.FC = () => {
         onOpenBrochure={() => setBrochureOpen(true)}
         onOpenCallback={() => setCallbackOpen(true)}
       />
-
-      <div id="main-content" tabIndex={-1} aria-hidden="false" />
 
       {/* Home Route */}
       {currentRoute === 'home' && (

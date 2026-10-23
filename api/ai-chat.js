@@ -1,4 +1,4 @@
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'https://image-paradise-photography.vercel.app';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
 
 const SYSTEM_PROMPT = `You are the friendly, helpful AI assistant for Image Paradise Photography, a wedding photography and videography studio serving Chennai, Tiruvallur, Avadi, Ambattur, Kanchipuram and Tamil Nadu.
 
