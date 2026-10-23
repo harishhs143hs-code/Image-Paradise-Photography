@@ -1,4 +1,5 @@
 import React from 'react';
+import { StarIcon, ShieldCheckIcon, ClockIcon, BookOpenIcon, SettingsIcon, PhoneIcon } from './Icons';
 
 interface CraftPromiseProps {
   onOpenCallback: () => void;
@@ -25,7 +26,9 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
         {/* 4 Pillars of Unmatched Trust */}
         <div className="craft-pillars-grid">
           <div className="craft-card">
-            <div className="craft-card-icon">👑</div>
+            <div className="craft-card-icon" style={{ color: '#D4AF37' }}>
+              <StarIcon size={24} color="#D4AF37" />
+            </div>
             <div className="craft-kicker">Exclusivity Guarantee</div>
             <h3>1 Wedding Per Day</h3>
             <p>
@@ -35,7 +38,9 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
           </div>
 
           <div className="craft-card">
-            <div className="craft-card-icon">🛡️</div>
+            <div className="craft-card-icon" style={{ color: '#D4AF37' }}>
+              <ShieldCheckIcon size={24} color="#D4AF37" />
+            </div>
             <div className="craft-kicker">Data Security</div>
             <h3>Zero-Loss Dual Backup</h3>
             <p>
@@ -45,7 +50,9 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
           </div>
 
           <div className="craft-card">
-            <div className="craft-card-icon">⚡</div>
+            <div className="craft-card-icon" style={{ color: '#D4AF37' }}>
+              <ClockIcon size={24} color="#D4AF37" />
+            </div>
             <div className="craft-kicker">Speed &amp; Excitement</div>
             <h3>48-Hour Sneak Peek</h3>
             <p>
@@ -55,7 +62,9 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
           </div>
 
           <div className="craft-card">
-            <div className="craft-card-icon">📖</div>
+            <div className="craft-card-icon" style={{ color: '#D4AF37' }}>
+              <BookOpenIcon size={24} color="#D4AF37" />
+            </div>
             <div className="craft-kicker">Generational Heirlooms</div>
             <h3>75-Year Archival Albums</h3>
             <p>
@@ -68,7 +77,10 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
         {/* Studio Equipment Transparency Box */}
         <div className="gear-transparency-box">
           <div className="gear-header">
-            <div className="gear-badge">⚙️ Professional Equipment Roster</div>
+            <div className="gear-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <SettingsIcon size={14} color="#D4AF37" />
+              <span>Professional Equipment Roster</span>
+            </div>
             <h3>World-Class Gear for Unforgiving Mandapam Lighting</h3>
             <p>
               Traditional South Indian mandapams and beach receptions require top-tier low-light sensitivity and optical perfection. We bring industry-standard cinema and still systems:
@@ -121,8 +133,10 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
                   type="button"
                   className="btn-pink"
                   onClick={onOpenCallback}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                 >
-                  📞 Request 10-Min Call
+                  <PhoneIcon size={14} color="#fff" />
+                  <span>Request 10-Min Call</span>
                 </button>
                 <a
                   href="https://wa.me/917708510143?text=Hi%20Hariharan%2C%20I%20read%20your%20director%27s%20promise%20and%20would%20love%20to%20discuss%20my%20wedding%20dates."
@@ -141,3 +155,4 @@ export const CraftPromise: React.FC<CraftPromiseProps> = ({ onOpenCallback, onSc
     </section>
   );
 };
+export default CraftPromise;

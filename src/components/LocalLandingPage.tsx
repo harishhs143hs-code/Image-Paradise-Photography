@@ -236,15 +236,26 @@ interface LocalLandingPageProps {
   pageKey: LocalPageKey;
   onBackToHome: () => void;
   onEnquireNow: () => void;
+  onNavigate?: (route: string) => void;
 }
 
 export const LocalLandingPage: React.FC<LocalLandingPageProps> = ({
   pageKey,
   onBackToHome,
-  onEnquireNow
+  onEnquireNow,
+  onNavigate
 }) => {
   const config = PAGE_CONFIGS[pageKey] || PAGE_CONFIGS.chennai;
   const whatsappUrl = `https://wa.me/917708510143?text=${encodeURIComponent(config.whatsappMessage)}`;
+
+  const regionalLocations: { key: LocalPageKey; label: string }[] = [
+    { key: 'chennai', label: 'Chennai' },
+    { key: 'tiruvallur', label: 'Tiruvallur' },
+    { key: 'avadi', label: 'Avadi' },
+    { key: 'ambattur', label: 'Ambattur' },
+    { key: 'pre-wedding', label: 'Pre-Wedding Chennai' },
+    { key: 'videography', label: 'Wedding Videography' }
+  ];
 
   return (
     <main style={{ minHeight: '80vh', paddingTop: '80px', background: '#fff' }}>
@@ -443,6 +454,48 @@ export const LocalLandingPage: React.FC<LocalLandingPageProps> = ({
               Studio: No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu · Direct Helpline: <a href="tel:+917708510143" style={{ color: '#d8225f', fontWeight: 600 }}>+91 7708510143</a>
             </span>
           </div>
+
+          {/* Regional Hub Cross-Links for Internal SEO & Navigation */}
+          {onNavigate && (
+            <div style={{ margin: '24px 0 32px' }}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#888',
+                  marginBottom: '10px'
+                }}
+              >
+                Other Primary Coverage Locations in Tamil Nadu:
+              </div>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {regionalLocations.map((loc) => {
+                  if (loc.key === pageKey) return null;
+                  return (
+                    <button
+                      key={loc.key}
+                      type="button"
+                      onClick={() => onNavigate(loc.key)}
+                      style={{
+                        padding: '8px 16px',
+                        borderRadius: '999px',
+                        border: '1px solid #e5d7df',
+                        background: '#fff',
+                        color: '#2a2026',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {loc.label} →
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div
             style={{

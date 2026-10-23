@@ -1,4 +1,5 @@
 import React from 'react';
+import { PhoneIcon } from './Icons';
 
 interface MobileActionRailProps {
   onEnquireClick: () => void;
@@ -6,9 +7,14 @@ interface MobileActionRailProps {
 
 export const MobileActionRail: React.FC<MobileActionRailProps> = ({ onEnquireClick }) => {
   return (
-    <nav className="mobile-action-rail" aria-label="Quick actions">
-      <a className="rail-call" href="tel:+917708510143">
-        Call
+    <nav className="mobile-action-rail" aria-label="Quick mobile actions">
+      <a
+        className="rail-call"
+        href="tel:+917708510143"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+      >
+        <PhoneIcon size={14} color="currentColor" />
+        <span>Call Studio</span>
       </a>
       <button
         type="button"
@@ -16,8 +22,9 @@ export const MobileActionRail: React.FC<MobileActionRailProps> = ({ onEnquireCli
         onClick={onEnquireClick}
         style={{ border: 'none', cursor: 'pointer' }}
       >
-        Enquire Now
+        Check Availability
       </button>
     </nav>
   );
 };
+export default MobileActionRail;

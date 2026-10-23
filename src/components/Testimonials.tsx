@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Testimonial } from '../types';
+import { StarIcon } from './Icons';
 
 interface TestimonialsProps {
   testimonials: Testimonial[];
@@ -18,14 +19,14 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
   }, [testimonials.length]);
 
   return (
-    <section id="testimonials">
+    <section id="testimonials" aria-labelledby="testi-heading">
       <div className="testi-glow"></div>
       <header className="sec-head">
         <div className="sec-badge">
           <img src="/images/Logo-opt.png" alt="" loading="lazy" width="24" height="24" />
           Kind Words
         </div>
-        <h2>What our couples <em>say</em></h2>
+        <h2 id="testi-heading">What our couples <em>say</em></h2>
       </header>
 
       <div className="tslider">
@@ -47,7 +48,11 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
               style={{ minWidth: '100%', boxSizing: 'border-box' }}
             >
               <div className="tquote">&#10077;</div>
-              <div className="tstars">{'★'.repeat(item.rating)}</div>
+              <div className="tstars" style={{ display: 'flex', gap: '4px', color: '#D4AF37', marginBottom: '14px' }}>
+                {Array.from({ length: item.rating }).map((_, i) => (
+                  <StarIcon key={i} size={15} color="#D4AF37" />
+                ))}
+              </div>
               <p>"{item.quote}"</p>
               <div className="tauthor">
                 <div className="tav" style={{ background: item.avatarBg }}>
@@ -77,3 +82,4 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
     </section>
   );
 };
+export default Testimonials;

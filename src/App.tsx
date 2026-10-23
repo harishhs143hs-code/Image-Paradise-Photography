@@ -19,6 +19,7 @@ import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
 import { Locations } from './components/Locations';
 import { Journal } from './components/Journal';
+import { ReferralBanner } from './components/ReferralBanner';
 import { ReferralProgram } from './components/ReferralProgram';
 import { ContactForm } from './components/ContactForm';
 import { BrochureModal } from './components/BrochureModal';
@@ -27,10 +28,11 @@ import { Footer } from './components/Footer';
 import { MobileActionRail } from './components/MobileActionRail';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { BackToTop } from './components/BackToTop';
-import { AiChat } from './components/AiChat';
 import { LocalLandingPage, LocalPageKey } from './components/LocalLandingPage';
 import { BlogList } from './components/BlogList';
 import { BlogPostView } from './components/BlogPostView';
+
+import { SEOHead } from './components/SEOHead';
 
 import { galleryItems } from './data/gallery';
 import { packagesData } from './data/packages';
@@ -38,9 +40,54 @@ import { testimonialsData } from './data/testimonials';
 import { faqsData } from './data/faqs';
 import { PackageTier } from './types';
 
+export const getPathForRoute = (route: string, slug?: string): string => {
+  switch (route) {
+    case 'chennai':
+      return '/wedding-photographer-chennai';
+    case 'tiruvallur':
+      return '/wedding-photographer-tiruvallur';
+    case 'avadi':
+      return '/wedding-photographer-avadi';
+    case 'ambattur':
+      return '/wedding-photographer-ambattur';
+    case 'pre-wedding':
+      return '/pre-wedding-shoot-chennai';
+    case 'videography':
+      return '/wedding-videography-chennai';
+    case 'referral':
+      return '/refer-and-earn';
+    case 'blog':
+      return '/blog';
+    case 'blog-post':
+      return `/blog-post?slug=${slug || 'how-to-choose-best-wedding-photographer-chennai'}`;
+    case 'home':
+    default:
+      return '/';
+  }
+};
+
+export const parseRouteFromLocation = (): { route: string; slug?: string } => {
+  const path = window.location.pathname.replace(/^\/|\/$/g, '');
+  if (path === 'pre-wedding-shoot-chennai') return { route: 'pre-wedding' };
+  if (path === 'wedding-photographer-chennai') return { route: 'chennai' };
+  if (path === 'wedding-photographer-ambattur') return { route: 'ambattur' };
+  if (path === 'wedding-photographer-avadi') return { route: 'avadi' };
+  if (path === 'wedding-photographer-tiruvallur') return { route: 'tiruvallur' };
+  if (path === 'wedding-videography-chennai') return { route: 'videography' };
+  if (path === 'refer-and-earn' || path === 'referral') return { route: 'referral' };
+  if (path === 'blog') return { route: 'blog' };
+  if (path === 'blog-post') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || 'how-to-choose-best-wedding-photographer-chennai';
+    return { route: 'blog-post', slug };
+  }
+  return { route: 'home' };
+};
+
 export const App: React.FC = () => {
-  const [currentRoute, setCurrentRoute] = useState<string>('home');
-  const [blogSlug, setBlogSlug] = useState<string>('how-to-choose-best-wedding-photographer-chennai');
+  const initial = parseRouteFromLocation();
+  const [currentRoute, setCurrentRoute] = useState<string>(initial.route);
+  const [blogSlug, setBlogSlug] = useState<string>(initial.slug || 'how-to-choose-best-wedding-photographer-chennai');
   const [galleryCategory, setGalleryCategory] = useState<string>('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [enquirySession, setEnquirySession] = useState<string>('Wedding Photography');
@@ -49,24 +96,21 @@ export const App: React.FC = () => {
   const [brochureOpen, setBrochureOpen] = useState<boolean>(false);
   const [callbackOpen, setCallbackOpen] = useState<boolean>(false);
 
+  // Handle URL path on first load and browser back/forward buttons
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-    if (path === 'pre-wedding-shoot-chennai') setCurrentRoute('pre-wedding');
-    else if (path === 'wedding-photographer-chennai') setCurrentRoute('chennai');
-    else if (path === 'wedding-photographer-ambattur') setCurrentRoute('ambattur');
-    else if (path === 'wedding-photographer-avadi') setCurrentRoute('avadi');
-    else if (path === 'wedding-photographer-tiruvallur') setCurrentRoute('tiruvallur');
-    else if (path === 'wedding-videography-chennai') setCurrentRoute('videography');
-    else if (path === 'refer-and-earn' || path === 'referral-program') setCurrentRoute('referral');
-    else if (path === 'blog') setCurrentRoute('blog');
-    else if (path === 'blog-post') {
-      const urlParams = new URLSearchParams(window.location.search);
-      const slug = urlParams.get('slug');
-      if (slug) setBlogSlug(slug);
-      setCurrentRoute('blog-post');
-    }
+    const handlePopState = () => {
+      const parsed = parseRouteFromLocation();
+      setCurrentRoute(parsed.route);
+      if (parsed.slug) {
+        setBlogSlug(parsed.slug);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Custom cursor effect
   useEffect(() => {
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -120,7 +164,7 @@ export const App: React.FC = () => {
     scrollToElement('contact');
   };
 
-  const handleCustomizePackage = () => {
+  const handleCustomizePackage = (_pkg: PackageTier) => {
     scrollToElement('calculator');
   };
 
@@ -136,8 +180,20 @@ export const App: React.FC = () => {
     setEnquiryMessage(`Checking availability for Date: ${date} at Location: ${city} (${eventType}).`);
   };
 
-  const handleNavigate = (route: string, anchor?: string) => {
+  const handleNavigate = (route: string, anchor?: string, slug?: string) => {
+    const nextSlug = slug || blogSlug;
+    if (slug) {
+      setBlogSlug(slug);
+    }
     setCurrentRoute(route);
+
+    // Synchronize browser URL bar and history without page reload
+    const newPath = getPathForRoute(route, nextSlug);
+    const currentPath = window.location.pathname + window.location.search;
+    if (currentPath !== newPath) {
+      window.history.pushState(null, '', newPath);
+    }
+
     if (anchor) {
       setTimeout(() => {
         const el = document.getElementById(anchor);
@@ -150,11 +206,17 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
+      {/* Dynamic SEO, Canonical & Schema.org Structured Data */}
+      <SEOHead currentRoute={currentRoute} blogSlug={blogSlug} />
+
+      {/* Custom Cursor */}
       <div className="cursor" id="cursor"></div>
       <div className="cursor-ring" id="cursorRing"></div>
 
+      {/* Top utility announcement */}
       <UtilityBar />
 
+      {/* Navbar */}
       <Navbar
         currentRoute={currentRoute}
         onNavigate={handleNavigate}
@@ -162,48 +224,119 @@ export const App: React.FC = () => {
         onOpenCallback={() => setCallbackOpen(true)}
       />
 
+      {/* Home Route */}
       {currentRoute === 'home' && (
         <main>
-          <Hero onScrollTo={scrollToElement} onOpenBrochure={() => setBrochureOpen(true)} />
+          <Hero
+            onScrollTo={scrollToElement}
+            onOpenBrochure={() => setBrochureOpen(true)}
+          />
+
+          {/* Social Proof & Trust Guarantee Bar */}
           <TrustBar />
+
+          {/* Quick Date Availability Checker Card */}
           <section className="date-checker-section">
-            <DateCheckerWidget onCheckDate={handleCheckDate} onOpenCallback={() => setCallbackOpen(true)} />
+            <DateCheckerWidget
+              onCheckDate={handleCheckDate}
+              onOpenCallback={() => setCallbackOpen(true)}
+            />
           </section>
+
           <StoryBanner onScrollToContact={() => scrollToElement('contact')} />
           <Marquee />
-          <CategoryBar onSelectCategory={(cat) => setGalleryCategory(cat)} onScrollTo={scrollToElement} />
-          <Gallery items={galleryItems} selectedCategory={galleryCategory} onSelectCategory={setGalleryCategory} onOpenLightbox={(idx) => setLightboxIndex(idx)} />
+
+          <CategoryBar
+            onSelectCategory={(cat) => setGalleryCategory(cat)}
+            onScrollTo={scrollToElement}
+          />
+
+          <Gallery
+            items={galleryItems}
+            selectedCategory={galleryCategory}
+            onSelectCategory={setGalleryCategory}
+            onOpenLightbox={(idx) => setLightboxIndex(idx)}
+          />
+
+          {/* In-depth Real Wedding Stories / Case Studies */}
           <WeddingStories
             onEnquireForSimilar={(couple) => {
               setEnquiryMessage(`I loved the wedding story of ${couple} and want similar coverage for my day.`);
               scrollToElement('contact');
             }}
           />
+
+          {/* Interactive Lead Calculator */}
           <LeadCalculator onQuoteRequested={handleQuoteFromCalculator} />
+
+          {/* Flagship Cinematic Films Showcase with interactive video player */}
           <Films onScrollToContact={() => scrollToElement('contact')} />
+
           <About onScrollToContact={() => scrollToElement('contact')} />
-          <CraftPromise onOpenCallback={() => setCallbackOpen(true)} onScrollToContact={() => scrollToElement('contact')} />
-          <Packages packages={packagesData} onSelectPackage={handleSelectPackage} onCustomizePackage={handleCustomizePackage} />
+
+          {/* The Gear, The Craft & The Sacred Promise */}
+          <CraftPromise
+            onOpenCallback={() => setCallbackOpen(true)}
+            onScrollToContact={() => scrollToElement('contact')}
+          />
+
+          <Packages
+            packages={packagesData}
+            onSelectPackage={handleSelectPackage}
+            onCustomizePackage={handleCustomizePackage}
+          />
+
           <Testimonials testimonials={testimonialsData} />
+
           <FAQ faqs={faqsData} />
+
           <Locations onSelectLocationPage={(page) => handleNavigate(page)} />
-          <Journal onScrollTo={scrollToElement} onOpenBlog={() => handleNavigate('blog')} />
-          <ContactForm initialSessionType={enquirySession} initialBudget={enquiryBudget} initialMessage={enquiryMessage} />
+
+          <Journal
+            onScrollTo={scrollToElement}
+            onOpenBlog={() => handleNavigate('blog')}
+          />
+
+          {/* Clean Referral Program Banner inviting visitors to the dedicated tab */}
+          <ReferralBanner onOpenReferralTab={() => handleNavigate('referral')} />
+
+          <ContactForm
+            initialSessionType={enquirySession}
+            initialBudget={enquiryBudget}
+            initialMessage={enquiryMessage}
+          />
         </main>
       )}
 
+      {/* Dedicated Separate Tab: Referral & Partner Program */}
       {currentRoute === 'referral' && (
-        <main className="standalone-page referral-page">
-          <ReferralProgram />
+        <main style={{ paddingTop: '20px' }}>
+          <ReferralProgram
+            isFullPage
+            onBackToHome={() => handleNavigate('home')}
+          />
+          <ContactForm
+            initialSessionType="Referral Partner Inquiry"
+            initialMessage={enquiryMessage}
+          />
         </main>
       )}
 
-      {['chennai', 'pre-wedding', 'videography', 'ambattur', 'avadi', 'tiruvallur'].includes(currentRoute) && (
+      {/* Local SEO Landing Pages */}
+      {[
+        'chennai',
+        'pre-wedding',
+        'videography',
+        'ambattur',
+        'avadi',
+        'tiruvallur'
+      ].includes(currentRoute) && (
         <>
           <LocalLandingPage
             pageKey={currentRoute as LocalPageKey}
             onBackToHome={() => handleNavigate('home')}
             onEnquireNow={() => scrollToElement('contact')}
+            onNavigate={handleNavigate}
           />
           <ContactForm
             initialSessionType={currentRoute === 'pre-wedding' ? 'Pre-Wedding Shoot' : 'Wedding Photography'}
@@ -212,43 +345,62 @@ export const App: React.FC = () => {
         </>
       )}
 
+      {/* Blog Listing Page */}
       {currentRoute === 'blog' && (
         <BlogList
           onBackToHome={() => handleNavigate('home')}
           onSelectPost={(slug) => {
-            setBlogSlug(slug);
-            setCurrentRoute('blog-post');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            handleNavigate('blog-post', undefined, slug);
           }}
         />
       )}
 
+      {/* Individual Blog Post Page */}
       {currentRoute === 'blog-post' && (
         <BlogPostView
           slug={blogSlug}
           onBackToBlog={() => handleNavigate('blog')}
           onSelectPost={(slug) => {
-            setBlogSlug(slug);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            handleNavigate('blog-post', undefined, slug);
           }}
           onEnquireNow={() => scrollToElement('contact')}
         />
       )}
 
+      {/* Footer */}
       <Footer onNavigate={handleNavigate} />
 
+      {/* Lightbox */}
       {lightboxIndex !== null && (
-        <Lightbox items={galleryItems} currentIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} onNavigate={(nextIdx) => setLightboxIndex(nextIdx)} />
+        <Lightbox
+          items={galleryItems}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={(nextIdx) => setLightboxIndex(nextIdx)}
+        />
       )}
 
-      <BrochureModal isOpen={brochureOpen} onClose={() => setBrochureOpen(false)} />
-      <CallbackModal isOpen={callbackOpen} onClose={() => setCallbackOpen(false)} />
+      {/* 2026 Wedding Brochure Modal (Lead Magnet) */}
+      <BrochureModal
+        isOpen={brochureOpen}
+        onClose={() => setBrochureOpen(false)}
+      />
+
+      {/* Fast 15-Minute Callback Modal */}
+      <CallbackModal
+        isOpen={callbackOpen}
+        onClose={() => setCallbackOpen(false)}
+      />
+
+      {/* Mobile Sticky Rail */}
       <MobileActionRail onEnquireClick={() => scrollToElement('contact')} />
+
+      {/* WhatsApp Float */}
       <WhatsAppFloat />
+
+      {/* Back to top */}
       <BackToTop />
-      <AiChat />
     </div>
   );
 };
-
 export default App;

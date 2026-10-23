@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MapPinIcon, WhatsAppIcon } from './Icons';
 
 interface WeddingStory {
   id: string;
@@ -115,12 +116,22 @@ export const WeddingStories: React.FC<WeddingStoriesProps> = ({ onEnquireForSimi
         <div className="story-spotlight-card">
           <div className="story-media-col">
             <div className="story-hero-frame">
-              <img src={story.leadImage} alt={`${story.couple} Wedding`} />
+              <img
+                src={story.leadImage}
+                alt={`${story.couple} Wedding Photography at ${story.venue}`}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className="story-thumbs-strip">
               {story.gallery.map((imgSrc, i) => (
                 <div key={i} className="story-thumb-box">
-                  <img src={imgSrc} alt="" loading="lazy" />
+                  <img
+                    src={imgSrc}
+                    alt={`${story.couple} Wedding highlight frame ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               ))}
             </div>
@@ -129,8 +140,9 @@ export const WeddingStories: React.FC<WeddingStoriesProps> = ({ onEnquireForSimi
           <div className="story-content-col">
             <div className="story-kicker">{story.eventType}</div>
             <h3 className="story-couple-title">{story.couple}</h3>
-            <div className="story-location-meta">
-              📍 {story.venue} · {story.date}
+            <div className="story-location-meta" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <MapPinIcon size={14} color="#D4AF37" />
+              <span>{story.venue} · {story.date}</span>
             </div>
 
             <blockquote className="story-quote">
@@ -158,8 +170,10 @@ export const WeddingStories: React.FC<WeddingStoriesProps> = ({ onEnquireForSimi
                 target="_blank"
                 rel="noopener noreferrer"
                 className="story-wa-link"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
               >
-                Discuss on WhatsApp 💬
+                <WhatsAppIcon size={14} color="#25D366" />
+                <span>Discuss on WhatsApp</span>
               </a>
             </div>
           </div>
@@ -168,3 +182,4 @@ export const WeddingStories: React.FC<WeddingStoriesProps> = ({ onEnquireForSimi
     </section>
   );
 };
+export default WeddingStories;

@@ -26,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <p style={{ marginTop: '8px' }}>
             Capturing love, preserving paradise.<br />
             No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu.<br />
-            Phone: <a href="tel:+917708510143" style={{ color: '#D4AF37' }}>+91 7708510143</a>
+            Direct Helpline: <a href="tel:+917708510143" style={{ color: '#D4AF37' }}>+91 7708510143</a>
           </p>
         </div>
 
@@ -38,17 +38,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'stories')}>
             Real Stories
           </button>
+          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'films')}>
+            Cinematic Films
+          </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'services')}>
             Packages
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'calculator')}>
             Package Calculator
           </button>
-          <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'referral')} style={{ color: '#25D366', fontWeight: 600 }}>
-            🎁 Refer &amp; Earn ₹5,000
+          <button
+            type="button"
+            className="ft-link-btn"
+            onClick={() => onNavigate('referral')}
+            style={{ color: '#D4AF37', fontWeight: 600 }}
+          >
+            Refer &amp; Earn (₹5,000 Payout)
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('blog')}>
-            Blog &amp; Guides
+            Journal &amp; Guides
           </button>
           <button type="button" className="ft-link-btn" onClick={() => onNavigate('home', 'contact')}>
             Contact Studio
@@ -117,3 +125,4 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     </footer>
   );
 };
+export default Footer;

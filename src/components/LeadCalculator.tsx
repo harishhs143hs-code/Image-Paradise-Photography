@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { WhatsAppIcon, CheckIcon } from './Icons';
 
 interface EventOption {
   id: string;
@@ -200,10 +201,22 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
             </p>
 
             <div className="summary-inclusions">
-              <div className="summary-inc-item">✓ Dedicated Senior Photographers</div>
-              <div className="summary-inc-item">✓ 48-Hour Preview Gallery Guarantee</div>
-              <div className="summary-inc-item">✓ Archival Color Grading & Retouching</div>
-              <div className="summary-inc-item">✓ High-Res Full Resolution Downloads</div>
+              <div className="summary-inc-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckIcon size={14} color="#D4AF37" />
+                <span>Dedicated Senior Photographers</span>
+              </div>
+              <div className="summary-inc-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckIcon size={14} color="#D4AF37" />
+                <span>48-Hour Preview Gallery Guarantee</span>
+              </div>
+              <div className="summary-inc-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckIcon size={14} color="#D4AF37" />
+                <span>Archival Color Grading &amp; Retouching</span>
+              </div>
+              <div className="summary-inc-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckIcon size={14} color="#D4AF37" />
+                <span>High-Res Full Resolution Downloads</span>
+              </div>
             </div>
 
             <div className="summary-actions">
@@ -212,8 +225,10 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
                 target="_blank"
                 rel="noopener noreferrer"
                 className="summary-wa-btn"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                💬 Lock In This Quote on WhatsApp →
+                <WhatsAppIcon size={16} color="#fff" />
+                <span>Lock In This Quote on WhatsApp →</span>
               </a>
               <button
                 type="button"
@@ -233,3 +248,4 @@ export const LeadCalculator: React.FC<LeadCalculatorProps> = ({ onQuoteRequested
     </section>
   );
 };
+export default LeadCalculator;

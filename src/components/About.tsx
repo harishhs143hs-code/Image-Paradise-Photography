@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapPinIcon, CheckIcon } from './Icons';
 
 interface AboutProps {
   onScrollToContact: () => void;
@@ -50,7 +51,9 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
 
           {/* Studio Physical Location Trust Box */}
           <div className="studio-address-box">
-            <div className="sab-icon">📍</div>
+            <div className="sab-icon" style={{ color: 'var(--pk, #D81B60)' }}>
+              <MapPinIcon size={22} color="var(--pk, #D81B60)" />
+            </div>
             <div className="sab-text">
               <strong>IMAGE PARADISE STUDIO</strong>
               <span>No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024, Tamil Nadu</span>
@@ -59,10 +62,10 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
           </div>
 
           <div className="about-pills">
-            <span>✓ Directed by Hariharan R</span>
-            <span>✓ Same-Week Sneak Peek</span>
-            <span>✓ Authentic Candid Specialists</span>
-            <span>✓ Archival Album Printing</span>
+            <span><CheckIcon size={13} color="var(--pk, #D81B60)" /> Directed by Hariharan R</span>
+            <span><CheckIcon size={13} color="var(--pk, #D81B60)" /> Same-Week Sneak Peek</span>
+            <span><CheckIcon size={13} color="var(--pk, #D81B60)" /> Authentic Candid Specialists</span>
+            <span><CheckIcon size={13} color="var(--pk, #D81B60)" /> Archival Album Printing</span>
           </div>
 
           <button
@@ -81,3 +84,4 @@ export const About: React.FC<AboutProps> = ({ onScrollToContact }) => {
     </section>
   );
 };
+export default About;

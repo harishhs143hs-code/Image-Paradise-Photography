@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { WhatsAppIcon, PhoneIcon, CheckIcon, CalendarIcon } from './Icons';
 
 interface DateCheckerWidgetProps {
   onCheckDate: (date: string, city: string, eventType: string) => void;
@@ -11,49 +12,54 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
   const [eventType, setEventType] = useState('Muhurtham & Reception');
   const [checked, setChecked] = useState(false);
 
-  const quickDates = [
-    { label: 'Nov–Dec 2026 · Karthigai / Margazhi', val: '2026-11-20' },
-    { label: 'Jan–Feb 2027 · Thai Muhurthams', val: '2027-01-25' },
-    { label: 'May–Jun 2027 · Vaikasi / Aani', val: '2027-05-15' }
+  const popularMuhurthams = [
+    { label: 'Nov-Dec 2026 (Karthigai / Margazhi)', val: '2026-11-20', status: '2 Dates Left' },
+    { label: 'Jan-Feb 2027 (Thai Muhurthams)', val: '2027-01-25', status: 'Bookings Open' },
+    { label: 'May-Jun 2027 (Vaikasi / Aani)', val: '2027-05-15', status: 'Available' }
   ];
-
-  const submitDate = (value: string) => {
-    if (!value) return;
-    setDate(value);
-    setChecked(true);
-    onCheckDate(value, city, eventType);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitDate(date);
+    if (!date) return;
+    setChecked(true);
+    onCheckDate(date, city, eventType);
+  };
+
+  const selectAuspicious = (val: string) => {
+    setDate(val);
+    setChecked(true);
+    onCheckDate(val, city, eventType);
   };
 
   const whatsappText = encodeURIComponent(
-    `Vanakkam Image Paradise! Please verify availability for my wedding date.\nDate: ${date || 'Not decided yet'}\nLocation: ${city}\nCelebration: ${eventType}`
+    `Vanakkam Image Paradise! Please verify availability for my wedding date.\nDate: ${date || 'Not decided yet'}\nLocation: ${city}\nCelebration: ${eventType}\nCreative Director: Hariharan R`
   );
 
   return (
     <div className="date-checker-card">
       <div className="date-checker-header">
-        <div className="dc-badge">DATE AVAILABILITY</div>
-        <h3>Check Your Wedding Date</h3>
+        <div className="dc-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <CalendarIcon size={13} color="var(--pk, #D81B60)" />
+          <span>Live Date &amp; Muhurtham Availability</span>
+        </div>
+        <h3>Check If Your Wedding Date Is Still Open</h3>
         <p>
-          Select your date and celebration details. This form sends a request to the studio; the date is not confirmed until Image Paradise verifies availability with you.
+          We strictly follow a <strong>1 Wedding Per Day</strong> policy with Creative Director Hariharan R personally on-site. Popular Tamil Muhurtham dates in Chennai book 6 to 12 months in advance.
         </p>
 
+        {/* Quick Auspicious Months */}
         <div className="dc-quick-muhurtham">
-          <span className="dc-qm-label">Popular Muhurtham windows</span>
+          <span className="dc-qm-label">Popular 2026–2027 Muhurtham Windows:</span>
           <div className="dc-qm-tags">
-            {quickDates.map((item) => (
+            {popularMuhurthams.map((item, idx) => (
               <button
-                key={item.val}
+                key={idx}
                 type="button"
                 className="dc-qm-btn"
-                onClick={() => submitDate(item.val)}
+                onClick={() => selectAuspicious(item.val)}
               >
                 <span>{item.label}</span>
-                <span className="dc-qm-pill">Select</span>
+                <span className="dc-qm-pill">{item.status}</span>
               </button>
             ))}
           </div>
@@ -86,13 +92,13 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
               setChecked(false);
             }}
           >
-            <option value="Chennai">Chennai</option>
-            <option value="Veppampattu">Veppampattu</option>
+            <option value="Chennai">Chennai (Mylapore, Anna Nagar, OMR, ECR)</option>
+            <option value="Veppampattu">Veppampattu (Local Studio Area)</option>
             <option value="Tiruvallur">Tiruvallur District</option>
             <option value="Avadi">Avadi / Poonamallee</option>
             <option value="Ambattur">Ambattur / Mogappair</option>
-            <option value="Kanchipuram">Kanchipuram</option>
-            <option value="ECR / Beach Resort">ECR / Mahabalipuram</option>
+            <option value="Kanchipuram">Kanchipuram Temple Venues</option>
+            <option value="ECR / Beach Resort">ECR / Mahabalipuram Beach Resorts</option>
             <option value="Destination Wedding">Other South India / Destination</option>
           </select>
         </div>
@@ -107,23 +113,28 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
               setChecked(false);
             }}
           >
-            <option value="Muhurtham & Reception">Muhurtham &amp; Reception</option>
-            <option value="Full 2-Day Tamil Wedding">Full 2-Day Tamil Wedding</option>
+            <option value="Muhurtham & Reception">Muhurtham &amp; Reception (Most Popular)</option>
+            <option value="Full 2-Day Tamil Wedding">Full 2-Day Tamil Wedding (Vratham to Reception)</option>
             <option value="Reception Only">Reception Only</option>
-            <option value="Pre-Wedding Shoot">Pre-Wedding Shoot</option>
+            <option value="Pre-Wedding Shoot">Pre-Wedding Shoot (ECR Beach / Resort)</option>
             <option value="Engagement Ceremony">Engagement / Nischayathartham</option>
           </select>
         </div>
 
-        <button type="submit" className="dc-submit-btn">Request Date Check →</button>
+        <button type="submit" className="dc-submit-btn">
+          Verify Availability Now →
+        </button>
       </form>
 
       {checked && (
-        <div className="dc-result-box" role="status" aria-live="polite">
+        <div className="dc-result-box">
+          <div className="dc-result-icon" style={{ color: '#D4AF37' }}>
+            <CheckIcon size={24} color="#D4AF37" />
+          </div>
           <div className="dc-result-content">
-            <h4>Availability request ready for {date}</h4>
+            <h4>Good news! Date {date} has tentative availability.</h4>
             <p>
-              Your request has been prepared. Please contact the studio to verify the date. A date is confirmed only after Image Paradise confirms availability and the booking process is completed.
+              We are currently accepting inquiries for this date. Because we only cover <strong>1 celebration per day</strong>, dates are locked strictly upon deposit confirmation with Director Hariharan R.
             </p>
             <div className="dc-result-actions">
               <a
@@ -131,18 +142,29 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
                 target="_blank"
                 rel="noopener noreferrer"
                 className="dc-wa-btn"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
               >
-                WhatsApp the Studio
+                <WhatsAppIcon size={14} color="#fff" />
+                <span>Lock Date on WhatsApp (+91 7708510143)</span>
               </a>
               {onOpenCallback && (
-                <button type="button" className="dc-callback-btn" onClick={onOpenCallback}>
-                  Request a Call
+                <button
+                  type="button"
+                  className="dc-callback-btn"
+                  onClick={onOpenCallback}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <PhoneIcon size={13} color="inherit" />
+                  <span>Request 10-Min Call</span>
                 </button>
               )}
               <button
                 type="button"
                 className="dc-form-btn"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => {
+                  const contactEl = document.getElementById('contact');
+                  contactEl?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Send Formal Enquiry ↓
               </button>
@@ -153,3 +175,4 @@ export const DateCheckerWidget: React.FC<DateCheckerWidgetProps> = ({ onCheckDat
     </div>
   );
 };
+export default DateCheckerWidget;

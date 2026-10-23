@@ -43,7 +43,7 @@ export const BlogPostView: React.FC<BlogPostViewProps> = ({
         </header>
 
         <div className="post-featured-image">
-          <img src={post.featuredImage} alt={post.title} />
+          <img src={post.featuredImage} alt={post.title} loading="lazy" decoding="async" />
         </div>
 
         <div

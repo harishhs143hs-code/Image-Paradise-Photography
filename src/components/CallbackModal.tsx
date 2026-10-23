@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PhoneIcon, CheckIcon } from './Icons';
 
 interface CallbackModalProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: '63a5b850-8986-415e-989d-cb1d0f6ac37e',
-          subject: `⚡ URGENT Callback Request: ${name} (${phone}) - Preferred Time: ${callTime}`,
+          subject: `Priority Callback Request: ${name} (${phone}) - Preferred Time: ${callTime}`,
           name,
           phone,
           preferred_time: callTime,
@@ -44,7 +45,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
   };
 
   const whatsappText = encodeURIComponent(
-    `*⚡ Quick Callback Request with Creative Director Hariharan R*\n` +
+    `*Direct Callback Request with Creative Director Hariharan R*\n` +
     `Name: ${name}\n` +
     `Phone: ${phone}\n` +
     `Preferred Call Time: ${callTime}\n` +
@@ -74,7 +75,10 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
 
         {!submitted ? (
           <>
-            <div className="cb-badge">📞 VIP Studio Callback</div>
+            <div className="cb-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <PhoneIcon size={12} color="var(--pk, #D81B60)" />
+              <span>Direct Studio Callback</span>
+            </div>
             <h3>Speak Directly With Creative Director Hariharan R</h3>
             <p className="cb-sub">
               Have questions about your wedding photography, package customization, or Muhurtham schedule? Request a 10-minute call without filling lengthy forms.
@@ -112,7 +116,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
                   value={callTime}
                   onChange={(e) => setCallTime(e.target.value)}
                 >
-                  <option value="Within 15 minutes">⚡ Immediately / Within 15 minutes</option>
+                  <option value="Within 15 minutes">Immediately / Within 15 minutes</option>
                   <option value="Today Evening (6:00 PM – 8:30 PM)">Today Evening (6:00 PM – 8:30 PM)</option>
                   <option value="Tomorrow Morning (9:30 AM – 12:00 PM)">Tomorrow Morning (9:30 AM – 12:00 PM)</option>
                   <option value="Weekend Afternoon">Weekend Afternoon</option>
@@ -142,7 +146,9 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
           </>
         ) : (
           <div className="cb-success">
-            <div style={{ fontSize: '46px', marginBottom: '12px' }}>✨</div>
+            <div style={{ color: '#D4AF37', marginBottom: '12px' }}>
+              <CheckIcon size={40} color="#D4AF37" />
+            </div>
             <h3>Callback Scheduled!</h3>
             <p>
               Thank you, <strong>{name}</strong>. Hariharan R has received your request and will connect with you <strong>{callTime.toLowerCase()}</strong>.
@@ -171,3 +177,4 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({ isOpen, onClose })
     </div>
   );
 };
+export default CallbackModal;
