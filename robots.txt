@@ -3,11 +3,9 @@
 
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://www.imageparadisephotography.online/sitemap.xml
-
-Disallow: /api/
-Disallow: /*.json$
 
 User-agent: Googlebot
 Allow: /
@@ -19,4 +17,57 @@ User-agent: Slurp
 Allow: /
 
 User-agent: DuckDuckBot
+Allow: /
+
+# AI/search crawlers: public HTML and media are crawlable.
+# Do not block public JSON resources unless they contain private data.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: OAI-AdsBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
