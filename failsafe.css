@@ -1,0 +1,28 @@
+/* Emergency front-end stability patch */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Never allow a JavaScript failure to leave the full-page loader permanently covering the site. */
+.page-loader {
+  animation: ipp-loader-failsafe 0.01s linear 4s forwards;
+}
+
+@keyframes ipp-loader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Keep the loader out of the document flow and prevent it from affecting page height. */
+.page-loader,
+.page-loader * {
+  box-sizing: border-box;
+}
+
+.page-loader {
+  height: 100vh;
+  max-height: 100vh;
+}
