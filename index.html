@@ -49,8 +49,8 @@
   <!-- Geographic Meta Tags for Local SEO -->
   <meta name="geo.region" content="IN-TN">
   <meta name="geo.placename" content="Chennai">
-  <meta name="geo.position" content="13.0827;80.2707">
-  <meta name="ICBM" content="13.0827, 80.2707">
+  <meta name="geo.position" content="13.1167;80.0700">
+  <meta name="ICBM" content="13.1167, 80.0700">
 
   <!-- Schema.org: LocalBusiness -->
   <script type="application/ld+json">
@@ -255,18 +255,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-
-  <!-- Google Analytics 4 - Add your measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-    window.trackEvent = function(action, category, label) {
-      gtag('event', action, { event_category: category, event_label: label });
-    };
-  </script>
+  <!-- Analytics placeholder removed until a real GA4 Measurement ID is supplied. -->
 
   <!-- Meta Pixel - Add your Pixel ID -->
   <script>
@@ -302,6 +291,20 @@
 
 
 
+
+
+<script id="geo-organization-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://www.imageparadisephotography.online/#professional-service",
+  "name": "Image Paradise Photography",
+  "url": "https://www.imageparadisephotography.online/",
+  "description": "Wedding photography and videography service based in Veppampattu, near Avadi, Chennai, serving Tiruvallur, Chennai and Ambattur.",
+  "areaServed": ["Chennai", "Tiruvallur", "Avadi, Chennai", "Ambattur", "Tamil Nadu"],
+  "serviceType": ["Wedding Photography", "Wedding Videography", "Candid Photography", "Pre-Wedding Photography"]
+}
+</script>
 
 </head>
 <body>
@@ -350,17 +353,17 @@
       <em>capture moments,</em>
       <span>we <b>craft</b> memories.</span>
     </h1>
-    <p class="hero-body" data-reveal="fade-up" data-delay="240">South India's most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.</p>
+    <p class="hero-body" data-reveal="fade-up" data-delay="240">Wedding photography based in Veppampattu, near Avadi, Chennai. We serve couples across Chennai, Tiruvallur and Ambattur with candid and traditional coverage.</p>
     <div class="hero-btns" data-reveal="fade-up" data-delay="360">
       <a href="#portfolio" class="btn-pink" aria-label="View our wedding photography portfolio">View Our Work <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a href="#contact" class="btn-outline" aria-label="Book wedding photography session">Book a Session</a>
     </div>
     <div class="hero-counters" data-reveal="fade-up" data-delay="480">
-      <div class="hc"><span class="count" data-to="6">0</span><span>+</span><label>Years Experience</label></div>
+      <div class="hc"><span>₹35K</span><label>Starting Package</label></div>
       <div class="hc-div" aria-hidden="true"></div>
-      <div class="hc"><span class="count" data-to="500">0</span><span>+</span><label>Weddings Captured</label></div>
+      <div class="hc"><span>Chennai</span><label>Primary Service Area</label></div>
       <div class="hc-div" aria-hidden="true"></div>
-      <div class="hc"><span class="count" data-to="1200">0</span><span>+</span><label>Happy Clients</label></div>
+      <div class="hc"><span>WhatsApp</span><label>Direct Booking</label></div>
     </div>
   </div>
 
@@ -370,7 +373,6 @@
         <video
           id="heroVideo"
           class="hc-video"
-          poster="images/08.jpg"
           autoplay
           muted
           loop
