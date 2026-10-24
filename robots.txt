@@ -1,17 +1,14 @@
 # Robots.txt for Image Paradise Photography
-# https://image-paradise-photography.vercel.app/
+# https://www.imageparadisephotography.online/
 
 User-agent: *
 Allow: /
 
-# Sitemap Location
-Sitemap: https://image-paradise-photography.vercel.app/sitemap.xml
+Sitemap: https://www.imageparadisephotography.online/sitemap.xml
 
-# Disallow admin/private areas (none for this static site)
 Disallow: /api/
 Disallow: /*.json$
 
-# Allow all search engine crawlers
 User-agent: Googlebot
 Allow: /
 
@@ -23,6 +20,3 @@ Allow: /
 
 User-agent: DuckDuckBot
 Allow: /
-
-# Crawl delay for respectful crawling (optional)
-Crawl-delay: 1
