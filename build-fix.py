@@ -1,5 +1,6 @@
 from pathlib import Path
 import re
+
 p = Path('index.html')
 s = p.read_text(encoding='utf-8')
 s = s.replace('Chennai, Tamil Nadu, India', 'No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024')
@@ -16,3 +17,28 @@ s = s.replace('<div><strong>5.0</strong><span>Google Reviews</span></div>', '<di
 s = re.sub(r'imageparadise2020@gmail\.com', '', s, flags=re.I)
 s = s.replace('Chennai · Available across India &amp; Beyond.', 'Chennai · Tiruvallur · Avadi · Ambattur.')
 p.write_text(s, encoding='utf-8')
+
+# Defer the heavy hero video until the page has loaded, while preserving autoplay.
+js = Path('script.js')
+j = js.read_text(encoding='utf-8')
+old = '''  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.play().catch(() => {
+      const start = () => { heroVideo.play().catch(() => {}); };
+      document.addEventListener('touchstart', start, { once: true });
+      document.addEventListener('click',      start, { once: true });
+    });'''
+new = '''  if (heroVideo) {
+    heroVideo.muted = true;
+    const loadHeroVideo = () => {
+      const sources = heroVideo.querySelectorAll('source[data-src]');
+      sources.forEach(source => {
+        if (!source.getAttribute('src')) source.setAttribute('src', source.dataset.src);
+      });
+      heroVideo.load();
+      heroVideo.play().catch(() => {});
+    };
+    window.addEventListener('load', () => setTimeout(loadHeroVideo, 1200), { once: true });'''
+if old in j:
+    j = j.replace(old, new, 1)
+js.write_text(j, encoding='utf-8')
