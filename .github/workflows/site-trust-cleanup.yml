@@ -1,0 +1,50 @@
+name: Site Trust Cleanup
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: ${{ !contains(github.event.head_commit.message, '[trust-cleanup]') || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Clean trust claims and placeholder analytics
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<meta name="geo.position" content="13.0827;80.2707">','<meta name="geo.position" content="13.1167;80.0700">')
+          s=s.replace('<meta name="ICBM" content="13.0827, 80.2707">','<meta name="ICBM" content="13.1167, 80.0700">')
+          s=s.replace('South India\'s most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.','Wedding photography based in Veppampattu, near Avadi, Chennai. We serve couples across Chennai, Tiruvallur and Ambattur with candid and traditional coverage.')
+          s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, 6+ years experience. Candid photography, cinematic films, pre-wedding shoots & luxury albums.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films, pre-wedding shoots and albums.')
+          s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, candid photography, cinematic films, pre-wedding shoots.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films and pre-wedding shoots.')
+          # Replace unsupported counter claims with concrete, verifiable service facts.
+          counter_pattern=r'<div class="hero-counters".*?</div>\s*</div>'
+          m=re.search(counter_pattern,s,flags=re.S)
+          if m:
+              replacement='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span>₹35K</span><label>Starting Package</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>Chennai</span><label>Primary Service Area</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>WhatsApp</span><label>Direct Booking</label></div>\n    </div>'''
+              s=s[:m.start()]+replacement+s[m.end():]
+          # Remove the fake GA4 placeholder rather than making a broken analytics request.
+          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->.*?</script>\n\s*</script>', '', s, count=1, flags=re.S)
+          # More robustly remove any remaining exact placeholder GA block.
+          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->.*?\n\s*</script>\n\s*<!-- Meta Pixel', '\n\n  <!-- Analytics is intentionally omitted until a real GA4 Measurement ID is supplied. -->\n\n  <!-- Meta Pixel', s, count=1, flags=re.S)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "Image Paradise Site Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "[trust-cleanup] Remove unsupported claims and broken analytics placeholder"
+          git push
