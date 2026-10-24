@@ -1,0 +1,47 @@
+name: Final Trust and Lead Fix
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: ${{ !contains(github.event.head_commit.message, '[final-fix]') || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove email and Pinterest, strengthen WhatsApp trust flow
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          # Replace the email contact row with WhatsApp.
+          s=re.sub(r'\s*<div class="ci-row">\s*<div class="ci-icon">✉</div>.*?</div>\s*</div>','\n        <div class="ci-row">\n          <div class="ci-icon">💬</div>\n          <div><label>WhatsApp</label><p>+91 77085 10143</p></div>\n        </div>',s,count=1,flags=re.S)
+          # Remove Pinterest/Facebook placeholder social rows and use real profiles.
+          s=re.sub(r'\s*<div class="soc-row">.*?</div>','\n      <div class="soc-row">\n        <a href="https://www.instagram.com/image_paradise_photography/" class="soc">Instagram</a>\n        <a href="https://www.linkedin.com/company/image-paradise/" class="soc">LinkedIn</a>\n        <a href="https://www.youtube.com/@imageparadisephotography6251" class="soc">YouTube</a>\n      </div>',s,count=1,flags=re.S)
+          # Remove any remaining Pinterest anchors and email links from visible homepage navigation/footer.
+          s=re.sub(r'<a[^>]*>Pinterest</a>','',s,flags=re.I)
+          s=re.sub(r'<a[^>]*href="mailto:[^"]*"[^>]*>Email[^<]*</a>','',s,flags=re.I)
+          # Remove visible email text from the contact area.
+          s=re.sub(r'<label>Email</label>\s*<p>[^<]*</p>','<label>WhatsApp</label><p>+91 77085 10143</p>',s,count=1,flags=re.I)
+          # Do not claim a Google rating without a verified source on the page.
+          s=s.replace('<div><strong>5.0</strong><span>Google Reviews</span></div>','<div><strong>Client</strong><span>Reviews &amp; feedback</span></div>')
+          # Make footer location/address truthful and remove email/social placeholders.
+          s=s.replace('Chennai · Available across India &amp; Beyond.','Chennai · Tiruvallur · Avadi · Ambattur.')
+          s=re.sub(r'<div class="ft-col"><h4>Connect</h4>.*?</div>', '<div class="ft-col"><h4>Connect</h4><a href="https://www.instagram.com/image_paradise_photography/">Instagram</a><a href="https://www.linkedin.com/company/image-paradise/">LinkedIn</a><a href="https://www.youtube.com/@imageparadisephotography6251">YouTube</a><a href="https://wa.me/917708510143">WhatsApp</a></div>', s, count=1, flags=re.S)
+          s=s.replace('<p>Chennai, Tamil Nadu, India</p>','<p>No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024</p>')
+          p.write_text(s,encoding='utf-8')
+      - name: Commit
+        run: |
+          git config user.name "Image Paradise Site Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "[final-fix] Remove email and Pinterest, strengthen WhatsApp leads"
+          git push
