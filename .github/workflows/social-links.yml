@@ -25,6 +25,7 @@ jobs:
 
           instagram = 'https://www.instagram.com/image_paradise_photography/'
           linkedin = 'https://www.linkedin.com/company/image-paradise/'
+          youtube = 'https://www.youtube.com/@imageparadisephotography6251'
 
           for p in files:
               s = p.read_text(encoding='utf-8')
@@ -35,21 +36,34 @@ jobs:
               # Replace existing LinkedIn href/profile references with the official company page.
               s = re.sub(r'https?://(?:www\.)?linkedin\.com/[^\"\'<>\s)]+/?', linkedin, s, flags=re.I)
 
+              # Replace existing YouTube channel references with the official channel.
+              s = re.sub(r'https?://(?:www\.)?youtube\.com/(?:@[^\"\'<>\s)]+|channel/[^\"\'<>\s)]+|c/[^\"\'<>\s)]+|user/[^\"\'<>\s)]+)/?', youtube, s, flags=re.I)
+
               # Remove Pinterest from sameAs arrays and visible anchor links.
               s = re.sub(r'\s*"https?://[^\"]*pinterest[^\"]*",?', '', s, flags=re.I)
               s = re.sub(r'\s*<a\b[^>]*href=[\"\'][^\"\']*pinterest[^\"\'][^>]*>.*?</a>', '', s, flags=re.I | re.S)
 
               # Ensure the official profiles are represented in schema sameAs.
-              if '"https://www.linkedin.com/company/image-paradise/"' not in s and 'sameAs' in s:
+              if '"' + linkedin + '"' not in s and 'sameAs' in s:
                   s = s.replace('"https://www.facebook.com/imageparadisephotography"', '"https://www.facebook.com/imageparadisephotography",\n      "' + linkedin + '"', 1)
+
+              if '"' + youtube + '"' not in s and 'sameAs' in s:
+                  marker = '"' + linkedin + '"'
+                  if marker in s:
+                      s = s.replace(marker, marker + ',\n      "' + youtube + '"', 1)
 
               p.write_text(s, encoding='utf-8')
 
-          # Add a compact visible social block to the homepage footer if the official Instagram link is not already present.
+          # Ensure the homepage has a compact visible block for all official profiles.
           index = Path('index.html')
           s = index.read_text(encoding='utf-8')
-          if instagram not in s:
-              block = '''\n          <div class="official-social-links" aria-label="Official social profiles">\n            <span>Follow Image Paradise</span>\n            <a href="https://www.instagram.com/image_paradise_photography/" target="_blank" rel="noopener noreferrer">Instagram</a>\n            <a href="https://www.linkedin.com/company/image-paradise/" target="_blank" rel="noopener noreferrer">LinkedIn</a>\n          </div>\n          '''
+          if instagram in s:
+              if youtube not in s:
+                  youtube_link = '<a href="https://www.youtube.com/@imageparadisephotography6251" target="_blank" rel="noopener noreferrer">YouTube</a>'
+                  if '</div>' in s and 'official-social-links' in s:
+                      s = s.replace('</div>', youtube_link + '\n          </div>', 1)
+          else:
+              block = '''\n          <div class="official-social-links" aria-label="Official social profiles">\n            <span>Follow Image Paradise</span>\n            <a href="https://www.instagram.com/image_paradise_photography/" target="_blank" rel="noopener noreferrer">Instagram</a>\n            <a href="https://www.linkedin.com/company/image-paradise/" target="_blank" rel="noopener noreferrer">LinkedIn</a>\n            <a href="https://www.youtube.com/@imageparadisephotography6251" target="_blank" rel="noopener noreferrer">YouTube</a>\n          </div>\n          '''
               if '</footer>' in s:
                   s = s.replace('</footer>', block + '\n</footer>', 1)
               else:
@@ -78,6 +92,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Social links already up to date"
           else
-            git commit -m "Add official Instagram and LinkedIn profiles"
+            git commit -m "Add official YouTube profile"
             git push
           fi
