@@ -1,5 +1,10 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/wedding-photographer-chennai", "destination": "/wedding-photographer-chennai.html" },
+    { "source": "/wedding-photographer-avadi", "destination": "/wedding-photographer-avadi.html" },
+    { "source": "/wedding-videography-chennai", "destination": "/wedding-videography-chennai.html" }
+  ]
 }
