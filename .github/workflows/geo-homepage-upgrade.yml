@@ -1,0 +1,129 @@
+name: Upgrade homepage SEO and GEO
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upgrade homepage content and metadata
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Replace weak/long homepage description with an answer-first description.
+          s = re.sub(
+              r'<meta\s+name=["\']description["\'][^>]*>',
+              '<meta name="description" content="Image Paradise Photography provides wedding photography and videography in Chennai, Tiruvallur, Avadi and Ambattur, including candid photography, traditional photography, cinematic wedding films, pre-wedding shoots and wedding albums.">',
+              s, count=1, flags=re.I)
+
+          # Add answer-first GEO block after the main hero when not already present.
+          if 'id="geo-answer"' not in s:
+              block = r'''
+          <!-- ══════════ GEO ANSWER / WEDDING PHOTOGRAPHY IN CHENNAI ══════════ -->
+          <section id="geo-answer" class="geo-answer-section" aria-labelledby="geo-answer-heading">
+            <div class="geo-answer-wrap">
+              <p class="geo-kicker">WEDDING PHOTOGRAPHY IN CHENNAI</p>
+              <h2 id="geo-answer-heading">Wedding Photography &amp; Videography in Chennai</h2>
+              <p class="geo-answer-lead"><strong>Image Paradise Photography is a wedding photography and videography service serving Chennai, Tiruvallur, Avadi and Ambattur.</strong> We provide candid wedding photography, traditional photography, cinematic wedding films, pre-wedding photography and printed wedding albums. Couples can share their event date, location and requirements to check availability and choose a suitable package.</p>
+              <div class="geo-facts" role="list">
+                <div class="geo-fact" role="listitem"><strong>Service</strong><span>Wedding photography &amp; videography</span></div>
+                <div class="geo-fact" role="listitem"><strong>Locations</strong><span>Chennai, Tiruvallur, Avadi &amp; Ambattur</span></div>
+                <div class="geo-fact" role="listitem"><strong>Coverage</strong><span>Candid, traditional, cinematic &amp; pre-wedding</span></div>
+                <div class="geo-fact" role="listitem"><strong>Booking</strong><span>Share your date, location and requirements</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ══════════ PHOTOGRAPHY TERMS / DEFINITIONS ══════════ -->
+          <section id="photography-guide" class="geo-guide-section" aria-labelledby="photography-guide-heading">
+            <div class="geo-guide-wrap">
+              <p class="geo-kicker">PHOTOGRAPHY GUIDE</p>
+              <h2 id="photography-guide-heading">Wedding Photography Terms, Explained</h2>
+              <div class="geo-definitions">
+                <article class="geo-definition"><h3>What is candid wedding photography?</h3><p>Candid wedding photography captures natural moments without asking people to pose for every photograph. It focuses on real emotions, interactions, laughter and meaningful details throughout the wedding.</p></article>
+                <article class="geo-definition"><h3>What is traditional wedding photography?</h3><p>Traditional wedding photography records important ceremonies, family portraits, group photographs and formal moments with planned compositions. It complements candid coverage by making sure key people and rituals are documented.</p></article>
+                <article class="geo-definition"><h3>What is cinematic wedding videography?</h3><p>Cinematic wedding videography presents your wedding as a story using carefully selected moments, movement, audio and edited sequences. A highlight film focuses on the emotion and atmosphere of the celebration.</p></article>
+                <article class="geo-definition"><h3>What is a pre-wedding photoshoot?</h3><p>A pre-wedding photoshoot is a photography session before the wedding. Couples can choose a location, concept and outfit style that reflects their relationship and personality.</p></article>
+                <article class="geo-definition"><h3>How long does wedding photo delivery take?</h3><p>A preview selection is typically shared within 24–48 hours. Full edited wedding galleries are generally delivered within 4–6 weeks, while album design and printing may require additional time.</p></article>
+                <article class="geo-definition"><h3>How do I book a wedding photographer?</h3><p>Start by sharing your name, WhatsApp number, event date, location and coverage requirements. The team can then check availability, discuss your needs and recommend a suitable package.</p></article>
+              </div>
+            </div>
+          </section>
+          '''
+              marker = '<!-- ══════════ CONTACT / ENQUIRY ══════════ -->'
+              if marker in s:
+                  s = s.replace(marker, block + '\n' + marker, 1)
+              else:
+                  s = s.replace('</main>', block + '\n</main>', 1)
+
+          # Add lightweight, page-level Organization/WebSite structured data without replacing existing schema.
+          if 'id="geo-organization-schema"' not in s:
+              schema = r'''
+          <script id="geo-organization-schema" type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            "@id": "https://www.imageparadisephotography.online/#organization",
+            "name": "Image Paradise Photography",
+            "url": "https://www.imageparadisephotography.online/",
+            "description": "Wedding photography and videography service serving Chennai, Tiruvallur, Avadi and Ambattur.",
+            "areaServed": ["Chennai", "Tiruvallur", "Avadi", "Ambattur", "Tamil Nadu"],
+            "serviceType": ["Wedding Photography", "Wedding Videography", "Candid Photography", "Pre-Wedding Photography"]
+          }
+          </script>
+          '''
+              s = s.replace('</head>', schema + '\n</head>', 1)
+
+          p.write_text(s, encoding='utf-8')
+
+      - name: Add GEO styles
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('geo-homepage.css')
+          css = r'''
+          .geo-answer-section,.geo-guide-section{padding:5.5rem 7vw;background:var(--white)}
+          .geo-guide-section{background:var(--cream,#faf7f4)}
+          .geo-answer-wrap,.geo-guide-wrap{max-width:1100px;margin:0 auto}
+          .geo-kicker{margin:0 0 .8rem;color:var(--pk);font:700 .72rem/1.2 var(--sans);letter-spacing:.16em}
+          .geo-answer-section h2,.geo-guide-section h2{margin:0 0 1.1rem;color:var(--ink);font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);line-height:1.1}
+          .geo-answer-lead{max-width:900px;margin:0;color:var(--muted);font-size:1.03rem;line-height:1.85}
+          .geo-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2.5rem;border:1px solid var(--border);background:var(--border)}
+          .geo-fact{padding:1.35rem;background:var(--white);display:flex;flex-direction:column;gap:.45rem}.geo-fact strong{color:var(--ink);font-family:var(--serif)}.geo-fact span{color:var(--muted);font-size:.86rem;line-height:1.55}
+          .geo-definitions{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem}.geo-definition{padding:1.5rem;background:var(--white);border:1px solid var(--border)}
+          .geo-definition h3{margin:0 0 .65rem;color:var(--ink);font-family:var(--serif);font-size:1.15rem}.geo-definition p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.8}
+          @media(max-width:800px){.geo-answer-section,.geo-guide-section{padding:4rem 1.25rem}.geo-facts,.geo-definitions{grid-template-columns:1fr}.geo-answer-lead{font-size:.96rem}}
+          '''
+          p.write_text(css,encoding='utf-8')
+
+          idx=Path('index.html')
+          s=idx.read_text(encoding='utf-8')
+          link='<link rel="stylesheet" href="geo-homepage.css">'
+          if link not in s:
+              s=s.replace('<head>', '<head>\n  '+link, 1)
+          idx.write_text(s,encoding='utf-8')
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html geo-homepage.css
+          if git diff --cached --quiet; then
+            echo "Homepage GEO upgrade already installed"
+          else
+            git commit -m "Improve homepage SEO and GEO content"
+            git push
+          fi
