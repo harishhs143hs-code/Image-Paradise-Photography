@@ -67,17 +67,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const menu     = document.getElementById('navMenu');
   const btt      = document.getElementById('btt');
 
+  /* Mobile menu visual fix: the nav uses backdrop-filter, which can trap a fixed child.
+     Disable that containing context while the full-screen mobile menu is open. */
+  if (nav && ham && menu) {
+    const mobileMenuStyle = document.createElement('style');
+    mobileMenuStyle.textContent = `
+      @media (max-width: 768px) {
+        #nav.menu-open { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: #fff !important; }
+        #nav.menu-open .hamburger { position: relative; z-index: 1003; }
+        #nav.menu-open .brand { z-index: 1003; }
+        .nav-menu.open {
+          position: fixed !important;
+          top: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          width: 100vw !important;
+          height: 100dvh !important;
+          min-height: 100vh !important;
+          display: flex !important;
+          z-index: 1002 !important;
+          background: #fff !important;
+          overflow-y: auto !important;
+          padding: 6.5rem 1.5rem 2.5rem !important;
+          justify-content: flex-start !important;
+          gap: 0 !important;
+        }
+        .nav-menu.open li { width: min(100%, 520px); }
+        .nav-menu.open a {
+          display: flex !important;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 1.05rem 0;
+          border-bottom: 1px solid rgba(216,27,96,.12);
+          font-family: var(--serif);
+          font-size: 1.45rem !important;
+          font-weight: 500 !important;
+          color: var(--ink) !important;
+        }
+        .nav-menu.open a::after { display: none !important; }
+        .nav-menu.open .nav-enquire {
+          justify-content: center !important;
+          margin-top: 1.5rem;
+          padding: .95rem 1.4rem !important;
+          border: 0 !important;
+          border-radius: 999px !important;
+          color: #fff !important;
+          background: var(--pk) !important;
+          font-family: var(--sans) !important;
+          font-size: 1rem !important;
+        }
+        .hamburger.is-open { gap: 0; }
+        .hamburger.is-open span { background: var(--pk); }
+        .hamburger.is-open span:nth-child(1) { transform: translateY(1.5px) rotate(45deg); }
+        .hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.is-open span:nth-child(3) { transform: translateY(-1.5px) rotate(-45deg); }
+      }
+    `;
+    document.head.appendChild(mobileMenuStyle);
+  }
+
   if (nav) window.addEventListener('scroll', () => {
     nav.classList.toggle('slim', window.scrollY > 60);
     if (btt) btt.classList.toggle('show', window.scrollY > 400);
   }, { passive: true });
 
+  function syncMenuState() {
+    const open = !!(menu && menu.classList.contains('open'));
+    if (nav) nav.classList.toggle('menu-open', open);
+    if (ham) {
+      ham.classList.toggle('is-open', open);
+      ham.setAttribute('aria-expanded', String(open));
+      ham.setAttribute('aria-label', open ? 'Close menu' : 'Toggle menu');
+    }
+  }
+
   if (ham && menu) ham.addEventListener('click', () => {
     menu.classList.toggle('open');
+    syncMenuState();
     document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
   });
   if (menu) menu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => { menu.classList.remove('open'); document.body.style.overflow = ''; });
+    a.addEventListener('click', () => { menu.classList.remove('open'); syncMenuState(); document.body.style.overflow = ''; });
   });
   if (btt) btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
@@ -198,14 +270,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── PERFORMANCE: LAZY LOAD IMAGES ─────────── */
   const lazyImages = document.querySelectorAll('img[loading="lazy"]');
   if ('IntersectionObserver' in window) {
-    const imgObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (!entry.isIntersecting) return; const img = entry.target; if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } img.onload = () => img.classList.add('loaded'); img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23FCE4EC" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D81B60" font-family="sans-serif"%3EImage%3C/text%3E%3C/svg%3E'; }; observer.unobserve(img); }); }, { rootMargin: '50px 0px' });
+    const imgObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (!entry.isIntersecting) return; const img = entry.target; if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } img.onload = () => img.classList.add('loaded'); img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23FCE4EC" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D81B60" font-family="sans-serif">Image%3C/text%3E%3C/svg%3E'; }; observer.unobserve(img); }); }, { rootMargin: '50px 0px' });
     lazyImages.forEach(img => imgObserver.observe(img));
   }
 
   /* ── ACCESSIBILITY: ARROW KEY NAVIGATION ───── */
   const menuLinks = menu?.querySelectorAll('a');
   if (menuLinks) Array.from(menuLinks).forEach((link,index,links) => link.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); links[(index+1)%links.length]?.focus(); } if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); links[(index-1+links.length)%links.length]?.focus(); } }));
-  if (ham && menu) ham.addEventListener('click', () => ham.setAttribute('aria-expanded', menu.classList.contains('open')));
 
   /* ── PERFORMANCE: BASIC OBSERVABILITY ──────── */
   if ('PerformanceObserver' in window) { try { const lcpObserver = new PerformanceObserver(list => { const entries=list.getEntries(); const lastEntry=entries[entries.length-1]; if(lastEntry) console.log('LCP:',lastEntry.startTime.toFixed(2),'ms'); }); lcpObserver.observe({type:'largest-contentful-paint',buffered:true}); } catch(e) {} }
