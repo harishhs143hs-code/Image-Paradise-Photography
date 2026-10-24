@@ -1,0 +1,113 @@
+name: Apply Site Audit Fixes
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-site:
+    if: ${{ !contains(github.event.head_commit.message, '[site-audit]') || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply SEO, trust, accessibility and performance fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          from datetime import date
+
+          root = Path('.')
+          index = root / 'index.html'
+          text = index.read_text(encoding='utf-8')
+
+          text = re.sub(r'<title>.*?</title>', '<title>Wedding Photographer in Chennai | Image Paradise</title>', text, count=1, flags=re.S)
+          text = re.sub(r'<meta name="title" content="[^"]*">', '<meta name="title" content="Wedding Photographer in Chennai | Image Paradise">', text, count=1)
+          text = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.">', text, count=1)
+          text = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="Wedding Photographer in Chennai | Image Paradise">', text, count=1)
+          text = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore packages, real work and WhatsApp booking.">', text, count=1)
+          text = re.sub(r'<meta name="twitter:title" content="[^"]*">', '<meta name="twitter:title" content="Wedding Photographer in Chennai | Image Paradise">', text, count=1)
+          text = re.sub(r'<meta name="twitter:description" content="[^"]*">', '<meta name="twitter:description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore packages, real work and WhatsApp booking.">', text, count=1)
+
+          text = text.replace('"description": "Award-winning wedding photographer in Chennai specializing in candid wedding photography, cinematic videography, pre-wedding shoots, bridal portraits and luxury album design. Serving Chennai, Tiruvallur, Avadi, Ambattur and across South India."', '"description": "Wedding photography and videography service based in Veppampattu, near Avadi, Chennai, serving Tiruvallur, Chennai, Ambattur and Tamil Nadu."')
+          text = re.sub(r'"email": "[^"]*",\n', '', text, count=1)
+          text = text.replace('"streetAddress": "Chennai",\n      "addressLocality": "Chennai",\n      "addressRegion": "Tamil Nadu",\n      "postalCode": "600001",', '"streetAddress": "No. 2/670, Kudiyanvur Street 87",\n      "addressLocality": "Veppampattu",\n      "addressRegion": "Tamil Nadu",\n      "postalCode": "602024",')
+          text = re.sub(r'"geo": \{.*?\},\n    "openingHoursSpecification"', '"geo": {\n      "@type": "GeoCoordinates",\n      "latitude": "13.1167",\n      "longitude": "80.0700"\n    },\n    "openingHoursSpecification"', text, count=1, flags=re.S)
+          text = text.replace('"name": "Avadi"', '"name": "Avadi, Chennai"', 1)
+          text = re.sub(r',\n\s*\]\s*,\n\s*"aggregateRating": \{.*?\n\s*\}\n\s*\}', '\n    ]\n  }', text, count=1, flags=re.S)
+          text = text.replace('      "https://www.youtube.com/@imageparadisephotography6251",\n', '      "https://www.youtube.com/@imageparadisephotography6251"\n')
+          text = re.sub(r'\n<script id="geo-organization-schema" type="application/ld\+json">.*?</script>\n', '\n', text, count=1, flags=re.S)
+
+          text = text.replace('preload="metadata"\n          aria-label="Image Paradise Photography promo video"', 'preload="none"\n          poster="/images/08.jpg"\n          aria-label="Image Paradise Photography wedding photography promo video"\n          data-video-load="deferred"')
+          text = text.replace('<source src="/videos/promo.webm" type="video/webm">\n          <source src="/videos/promo.mp4" type="video/mp4">', '<source data-src="/videos/promo.mp4" type="video/mp4">\n          <source data-src="/videos/promo.webm" type="video/webm">')
+
+          mobile_css = '''\n  <style id="mobile-foundation">\n    html { -webkit-text-size-adjust: 100%; }\n    img, video { max-width: 100%; height: auto; }\n    @media (max-width: 768px) {\n      .container, .section-inner, .hero-inner { width: min(100% - 32px, 720px); margin-inline: auto; }\n      .hero-video-wrap, .hero-media, video { max-width: 100%; }\n      button, a { -webkit-tap-highlight-color: transparent; }\n    }\n  </style>\n'''
+          if 'id="mobile-foundation"' not in text:
+              text = text.replace('</head>', mobile_css + '</head>', 1)
+
+          text = re.sub(r'\srole="banner"', '', text, count=1)
+          text = re.sub(r'\srole="navigation"', '', text, count=1)
+          text = re.sub(r'<div([^>]*?)\saria-label="([^"]*)"([^>]*)>', lambda m: '<div' + m.group(1) + m.group(3) + '>', text)
+
+          alt_map = {
+              'gallery1.jpeg': 'Candid wedding photography moment by Image Paradise Photography',
+              'gallery2.jpg': 'Traditional wedding ceremony photography in Chennai',
+              'gallery3.jpg': 'Bride and groom wedding portrait in Chennai',
+              'gallery4.jpg': 'Candid couple portrait by Image Paradise Photography',
+              'gallery5.jpg': 'Wedding celebration photography in Chennai',
+              'gallery6.jpg': 'Wedding ceremony detail photographed by Image Paradise Photography',
+          }
+          def fix_alt(m):
+              tag = m.group(0)
+              if 'alt=""' not in tag:
+                  return tag
+              src = re.search(r'src="([^"]+)"', tag)
+              key = src.group(1).split('/')[-1] if src else ''
+              alt = alt_map.get(key, 'Wedding photography by Image Paradise Photography')
+              return tag.replace('alt=""', f'alt="{alt}"')
+          text = re.sub(r'<img\b[^>]*>', fix_alt, text, flags=re.I)
+
+          link_section = '''\n<section class="audit-internal-links" aria-labelledby="helpful-guides-title">\n  <div class="section-inner">\n    <p class="eyebrow">Wedding Photography Guides</p>\n    <h2 id="helpful-guides-title">Plan your wedding photography with clear answers</h2>\n    <p>Compare wedding photography options, locations and budgets before you book. These guides are designed to help couples in Chennai, near Avadi, and Tiruvallur choose the right coverage.</p>\n    <div class="audit-link-grid">\n      <a href="/wedding-photographer-chennai.html">Wedding Photographer Chennai</a>\n      <a href="/wedding-photographer-avadi.html">Wedding Photographer near Avadi, Chennai</a>\n      <a href="/wedding-photographer-tiruvallur.html">Wedding Photographer Tiruvallur</a>\n      <a href="/wedding-photographer-ambattur.html">Wedding Photographer Ambattur</a>\n      <a href="/wedding-videography-chennai.html">Wedding Videography Chennai</a>\n      <a href="/pre-wedding-shoot-chennai.html">Pre-Wedding Shoot Chennai</a>\n      <a href="/wedding-photography-under-50000-chennai.html">Wedding Photography Under ₹50,000</a>\n      <a href="#faq">Wedding Photography FAQ</a>\n    </div>\n  </div>\n</section>\n'''
+          if 'audit-internal-links' not in text:
+              text = text.replace('</main>', link_section + '\n</main>', 1)
+
+          if 'site-audit-fixes.css' not in text:
+              text = text.replace('</head>', '  <link rel="stylesheet" href="site-audit-fixes.css">\n</head>', 1)
+          if 'whatsapp-lead.js' not in text:
+              text = text.replace('</body>', '  <script src="whatsapp-lead.js" defer></script>\n</body>', 1)
+
+          lead_form = '''<form id="whatsappLeadForm" class="whatsapp-lead-form" novalidate>\n  <h3>Get Your Wedding Quote on WhatsApp</h3>\n  <p>Tell us your basic event details. We will recommend a package for your date and budget.</p>\n  <label for="clientName">Client Name</label>\n  <input id="clientName" name="clientName" type="text" autocomplete="name" required>\n  <label for="clientMobile">Mobile Number</label>\n  <input id="clientMobile" name="clientMobile" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9 +()-]{10,}" required>\n  <label for="clientLocation">Location</label>\n  <input id="clientLocation" name="clientLocation" type="text" autocomplete="address-level2" placeholder="e.g. Avadi, Chennai" required>\n  <label for="eventType">Event Type</label>\n  <select id="eventType" name="eventType" required>\n    <option value="">Select event type</option>\n    <option>Wedding</option>\n    <option>Engagement</option>\n    <option>Pre-Wedding Shoot</option>\n    <option>Wedding + Reception</option>\n    <option>Other</option>\n  </select>\n  <label for="eventDate">Event Date</label>\n  <input id="eventDate" name="eventDate" type="date">\n  <label for="budget">Budget</label>\n  <select id="budget" name="budget">\n    <option value="">Select budget</option>\n    <option>Under ₹50,000</option>\n    <option>₹50,000 – ₹75,000</option>\n    <option>₹75,000 – ₹1,50,000</option>\n    <option>₹1,50,000+</option>\n    <option>Not sure yet</option>\n  </select>\n  <button type="submit" class="whatsapp-lead-button">Get Quote on WhatsApp</button>\n  <p class="lead-privacy">Your details are used only to respond to your enquiry.</p>\n</form>'''
+          text = re.sub(r'<form\s+id="eForm".*?</form>', lead_form, text, count=1, flags=re.S|re.I)
+
+          index.write_text(text, encoding='utf-8')
+
+          Path('site-audit-fixes.css').write_text('''\n.audit-internal-links{padding:64px 0}.audit-internal-links .section-inner{max-width:1100px;margin:auto;padding:0 20px}.audit-internal-links h2{max-width:720px}.audit-link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}.audit-link-grid a{display:block;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:10px;text-decoration:none}.whatsapp-lead-form{display:grid;gap:10px;max-width:620px}.whatsapp-lead-form h3{margin:0 0 4px}.whatsapp-lead-form p{margin:0 0 10px}.whatsapp-lead-form input,.whatsapp-lead-form select{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(0,0,0,.18);border-radius:8px;font:inherit;background:#fff}.whatsapp-lead-form label{font-weight:600;margin-top:4px}.whatsapp-lead-button{border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer}.lead-privacy{font-size:.82rem;opacity:.72}@media(max-width:700px){.audit-internal-links{padding:44px 0}.audit-link-grid{grid-template-columns:1fr}.whatsapp-lead-form{width:100%}}\n''', encoding='utf-8')
+
+          Path('whatsapp-lead.js').write_text('''document.addEventListener("DOMContentLoaded",()=>{const f=document.getElementById("whatsappLeadForm");if(!f)return;const phone="917708510143";f.addEventListener("submit",e=>{e.preventDefault();if(!f.checkValidity()){f.reportValidity();return;}const d=new FormData(f);const msg=["Hello Image Paradise Photography, I would like a wedding photography quote.","","Client Name: "+d.get("clientName"),"Mobile: "+d.get("clientMobile"),"Location: "+d.get("clientLocation"),"Event Type: "+d.get("eventType"),"Event Date: "+(d.get("eventDate")||"Not decided"),"Budget: "+(d.get("budget")||"Not decided")].join("\\n");window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(msg),"_blank","noopener");});});\n''', encoding='utf-8')
+
+          budget = Path('wedding-photography-under-50000-chennai.html')
+          budget.write_text('''<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Wedding Photography Under ₹50,000 in Chennai | Image Paradise</title>\n<meta name="description" content="Wedding photography under ₹50,000 near Avadi, Chennai and Tiruvallur. Image Paradise Photography offers an Essential package from ₹35,000. WhatsApp for availability.">\n<meta name="robots" content="index,follow,max-image-preview:large">\n<link rel="canonical" href="https://www.imageparadisephotography.online/wedding-photography-under-50000-chennai.html">\n<meta property="og:type" content="website">\n<meta property="og:title" content="Wedding Photography Under ₹50,000 in Chennai | Image Paradise">\n<meta property="og:description" content="Explore wedding photography options under ₹50,000 near Avadi, Chennai and Tiruvallur. Packages start from ₹35,000.">\n<meta property="og:url" content="https://www.imageparadisephotography.online/wedding-photography-under-50000-chennai.html">\n<style>body{margin:0;font-family:Arial,sans-serif;line-height:1.6;color:#222;background:#fff}.wrap{max-width:1000px;margin:auto;padding:28px 20px}.hero{padding:56px 20px;background:#f7f4f0}.cta{display:inline-block;padding:14px 22px;border-radius:999px;background:#111;color:#fff;text-decoration:none;font-weight:700;margin:8px 8px 8px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border:1px solid #ddd;border-radius:12px;padding:20px}.faq{border-top:1px solid #ddd;padding:16px 0}@media(max-width:700px){.cards{grid-template-columns:1fr}.hero{padding:40px 20px}h1{font-size:2rem}}</style>\n<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Wedding Photography Under ₹50,000 in Chennai","provider":{"@type":"LocalBusiness","@id":"https://www.imageparadisephotography.online/#localbusiness","name":"Image Paradise Photography","telephone":"+91-7708510143","address":{"@type":"PostalAddress","streetAddress":"No. 2/670, Kudiyanvur Street 87","addressLocality":"Veppampattu","addressRegion":"Tamil Nadu","postalCode":"602024","addressCountry":"IN"}},"areaServed":["Chennai","Avadi, Chennai","Tiruvallur","Ambattur"],"offers":{"@type":"Offer","price":"35000","priceCurrency":"INR","itemOffered":{"@type":"Service","name":"Essential Wedding Photography Package"}}}</script>\n<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is wedding photography available under ₹50,000 in Chennai?","acceptedAnswer":{"@type":"Answer","text":"Yes. Image Paradise Photography lists an Essential wedding photography package from ₹35,000. Final coverage and availability depend on the event date and requirements."}},{"@type":"Question","name":"What is the lowest listed wedding photography package?","acceptedAnswer":{"@type":"Answer","text":"The Essential Wedding Photography Package is listed at ₹35,000."}},{"@type":"Question","name":"Do you serve Avadi and nearby Chennai areas?","acceptedAnswer":{"@type":"Answer","text":"Yes. Image Paradise Photography is based in Veppampattu and serves Avadi, Chennai, Tiruvallur, Ambattur and surrounding areas."}},{"@type":"Question","name":"Can I request a package within my exact budget?","acceptedAnswer":{"@type":"Answer","text":"Yes. Send your event date, location, event type and budget on WhatsApp so the team can confirm suitable coverage and availability."}}]}</script>\n</head>\n<body>\n<header class="wrap"><a href="/">Image Paradise Photography</a></header>\n<main>\n<section class="hero"><div class="wrap"><p>IMAGE PARADISE PHOTOGRAPHY</p><h1>Wedding Photography Under ₹50,000 in Chennai</h1><p>Looking for wedding photography on a controlled budget? Image Paradise Photography offers an Essential package from <strong>₹35,000</strong> and serves Chennai, near Avadi, Tiruvallur and Ambattur.</p><a class="cta" href="https://wa.me/917708510143?text=Hello%20Image%20Paradise%20Photography%2C%20I%20am%20looking%20for%20wedding%20photography%20under%20Rs%2050%2C000.">WhatsApp for Availability</a><a class="cta" href="/">View Main Website</a></div></section>\n<section class="wrap"><h2>What can I get under ₹50,000?</h2><p>The currently listed photography package that fits this budget is the <strong>Essential Wedding Photography Package at ₹35,000</strong>. Premium and Luxury packages are listed at higher prices, so couples with a ₹50,000 ceiling should contact us for the most suitable coverage for their date.</p><div class="cards"><div class="card"><h3>Essential — ₹35,000</h3><p>4 hours coverage, 1 photographer, 1 videographer, 200+ edited photos, printed album and private gallery.</p></div><div class="card"><h3>Your Location</h3><p>Chennai, Avadi and nearby areas, Tiruvallur and Ambattur.</p></div><div class="card"><h3>WhatsApp Booking</h3><p>Send your date, location, event type and budget for availability and package guidance.</p></div></div></section>\n<section class="wrap"><h2>Who is this budget option for?</h2><p>This option is suitable for couples who want professional wedding coverage while keeping the photography budget below ₹50,000. The right coverage depends on event duration, venue and the moments you want documented.</p></section>\n<section class="wrap"><h2>Frequently Asked Questions</h2><div class="faq"><h3>Is wedding photography available under ₹50,000 in Chennai?</h3><p>Yes. The currently listed Essential package starts at ₹35,000. Availability and final coverage should be confirmed for your event date.</p></div><div class="faq"><h3>What is the lowest listed package?</h3><p>The Essential Wedding Photography Package is listed at ₹35,000.</p></div><div class="faq"><h3>Do you serve Avadi, Chennai?</h3><p>Yes. Image Paradise Photography is based in Veppampattu and serves Avadi, Chennai, Tiruvallur, Ambattur and surrounding areas.</p></div><div class="faq"><h3>How do I get a quote?</h3><p>WhatsApp your name, mobile number, location, event type, date and budget. The team can then confirm availability and suitable coverage.</p></div></section>\n<section class="wrap"><h2>Explore more wedding photography services</h2><p><a href="/wedding-photographer-chennai.html">Chennai Wedding Photographer</a> · <a href="/wedding-photographer-avadi.html">Wedding Photographer near Avadi</a> · <a href="/wedding-photographer-tiruvallur.html">Tiruvallur Wedding Photographer</a> · <a href="/wedding-videography-chennai.html">Wedding Videography Chennai</a> · <a href="/pre-wedding-shoot-chennai.html">Pre-Wedding Shoot Chennai</a></p></section>\n</main>\n<footer class="wrap"><p><strong>Image Paradise Photography</strong><br>No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024<br>WhatsApp: +91 77085 10143</p><p><a href="https://www.instagram.com/image_paradise_photography/">Instagram</a> · <a href="https://www.linkedin.com/company/image-paradise/">LinkedIn</a> · <a href="https://www.youtube.com/@imageparadisephotography6251">YouTube</a></p></footer>\n</body></html>\n''', encoding='utf-8')
+
+          for sp in [Path('sitemap.xml'), Path('public/sitemap.xml')]:
+              if sp.exists():
+                  s = sp.read_text(encoding='utf-8')
+                  if 'wedding-photography-under-50000-chennai.html' not in s:
+                      s = s.replace('</urlset>', '  <url><loc>https://www.imageparadisephotography.online/wedding-photography-under-50000-chennai.html</loc><lastmod>'+str(date.today())+'</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>\n</urlset>')
+                  sp.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit fixes
+        run: |
+          git config user.name "Image Paradise Site Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html site-audit-fixes.css whatsapp-lead.js wedding-photography-under-50000-chennai.html sitemap.xml public/sitemap.xml
+          if git diff --cached --quiet; then echo "No changes needed."; exit 0; fi
+          git commit -m "[site-audit] Fix SEO, trust, mobile, performance and WhatsApp leads"
+          git push
