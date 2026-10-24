@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -f *.html dist/",
+    "build": "python3 build-fix.py && vite build && cp -f *.html dist/",
     "preview": "vite preview"
   },
   "devDependencies": {
