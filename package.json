@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "python3 build-fix.py && vite build && cp -f *.html *.css *.js *.json *.xml *.png *.jpg *.jpeg *.webp *.svg *.ico dist/ 2>/dev/null || true; if [ -d images ]; then cp -a images dist/; fi; if [ -d videos ]; then cp -a videos dist/; fi",
+    "build": "python3 build-fix.py && python3 postbuild-fix.py && vite build && python3 copy-assets.py",
     "preview": "vite preview"
   },
   "devDependencies": {
