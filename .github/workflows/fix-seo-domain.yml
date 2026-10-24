@@ -1,0 +1,35 @@
+name: Fix SEO domain references
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  replace-vercel-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace old Vercel domain in SEO metadata
+        shell: bash
+        run: |
+          OLD='https://image-paradise-photography.vercel.app'
+          NEW='https://www.imageparadisephotography.online'
+          find . -type f \( -name '*.html' -o -name '*.json' -o -name '*.js' \) -not -path './.git/*' -print0 | xargs -0 -r sed -i "s#${OLD}#${NEW}#g"
+
+      - name: Commit SEO domain fix
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet; then
+            echo 'No old Vercel domain references found.'
+            exit 0
+          fi
+          git add -A
+          git commit -m 'Fix SEO canonical and social URLs for custom domain'
+          git push
