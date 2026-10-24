@@ -1,0 +1,83 @@
+name: Update official social links
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  social-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update social profiles
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          files = list(Path('.').rglob('*.html')) + list(Path('.').rglob('*.js')) + list(Path('.').rglob('*.jsx'))
+          files = [p for p in files if '.git' not in p.parts]
+
+          instagram = 'https://www.instagram.com/image_paradise_photography/'
+          linkedin = 'https://www.linkedin.com/company/image-paradise/'
+
+          for p in files:
+              s = p.read_text(encoding='utf-8')
+
+              # Replace existing Instagram href/profile references with the official profile.
+              s = re.sub(r'https?://(?:www\.)?instagram\.com/[^\"\'<>\s)]+/?', instagram, s, flags=re.I)
+
+              # Replace existing LinkedIn href/profile references with the official company page.
+              s = re.sub(r'https?://(?:www\.)?linkedin\.com/[^\"\'<>\s)]+/?', linkedin, s, flags=re.I)
+
+              # Remove Pinterest from sameAs arrays and visible anchor links.
+              s = re.sub(r'\s*"https?://[^\"]*pinterest[^\"]*",?', '', s, flags=re.I)
+              s = re.sub(r'\s*<a\b[^>]*href=[\"\'][^\"\']*pinterest[^\"\'][^>]*>.*?</a>', '', s, flags=re.I | re.S)
+
+              # Ensure the official profiles are represented in schema sameAs.
+              if '"https://www.linkedin.com/company/image-paradise/"' not in s and 'sameAs' in s:
+                  s = s.replace('"https://www.facebook.com/imageparadisephotography"', '"https://www.facebook.com/imageparadisephotography",\n      "' + linkedin + '"', 1)
+
+              p.write_text(s, encoding='utf-8')
+
+          # Add a compact visible social block to the homepage footer if the official Instagram link is not already present.
+          index = Path('index.html')
+          s = index.read_text(encoding='utf-8')
+          if instagram not in s:
+              block = '''\n          <div class="official-social-links" aria-label="Official social profiles">\n            <span>Follow Image Paradise</span>\n            <a href="https://www.instagram.com/image_paradise_photography/" target="_blank" rel="noopener noreferrer">Instagram</a>\n            <a href="https://www.linkedin.com/company/image-paradise/" target="_blank" rel="noopener noreferrer">LinkedIn</a>\n          </div>\n          '''
+              if '</footer>' in s:
+                  s = s.replace('</footer>', block + '\n</footer>', 1)
+              else:
+                  s = s.replace('</body>', block + '\n</body>', 1)
+          index.write_text(s, encoding='utf-8')
+
+      - name: Add social link styles
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('social-links.css')
+          p.write_text('''.official-social-links{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap;margin:1.5rem auto 0;font:500 .78rem/1.4 var(--sans);letter-spacing:.04em}.official-social-links span{color:var(--muted)}.official-social-links a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(216,27,96,.35);padding-bottom:.12rem}.official-social-links a:hover{color:var(--pk)}@media(max-width:600px){.official-social-links{gap:.7rem;font-size:.74rem}}\n''', encoding='utf-8')
+
+          idx=Path('index.html')
+          s=idx.read_text(encoding='utf-8')
+          link='<link rel="stylesheet" href="social-links.css">'
+          if link not in s:
+              s=s.replace('</head>', '  '+link+'\n</head>', 1)
+          idx.write_text(s, encoding='utf-8')
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "Social links already up to date"
+          else
+            git commit -m "Add official Instagram and LinkedIn profiles"
+            git push
+          fi
