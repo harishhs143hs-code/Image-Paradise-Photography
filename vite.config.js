@@ -26,6 +26,7 @@ export default defineConfig({
         avadi: 'wedding-photographer-avadi.html',
         tiruvallur: 'wedding-photographer-tiruvallur.html',
         videography: 'wedding-videography-chennai.html',
+        referEarn: 'refer-earn.html',
       },
     },
   },
