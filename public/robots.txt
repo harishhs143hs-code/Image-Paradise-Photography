@@ -1,0 +1,22 @@
+# Robots.txt for Image Paradise Photography
+# https://www.imageparadisephotography.online/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.imageparadisephotography.online/sitemap.xml
+
+Disallow: /api/
+Disallow: /*.json$
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
