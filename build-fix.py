@@ -16,6 +16,18 @@ s = re.sub(r'<a[^>]*>Pinterest</a>', '', s, flags=re.I)
 s = s.replace('<div><strong>5.0</strong><span>Google Reviews</span></div>', '<div><strong>Client</strong><span>Reviews &amp; feedback</span></div>')
 s = re.sub(r'imageparadise2020@gmail\.com', '', s, flags=re.I)
 s = s.replace('Chennai · Available across India &amp; Beyond.', 'Chennai · Tiruvallur · Avadi · Ambattur.')
+
+# Fix the contact-page preview strip: these legacy filenames no longer exist.
+# Use the optimized portfolio images that are present in /images/.
+preview_replacements = {
+    'images/gallery2.jpg': 'images/DSC06228-opt.JPG',
+    'images/gallery1.jpg': 'images/DSC09905-opt.JPG',
+    'images/gallery5.jpg': 'images/MPS_6098-opt.JPG',
+    'images/gallery6.jpg': 'images/AR_02707-opt.JPG',
+}
+for old, new in preview_replacements.items():
+    s = s.replace(old, new)
+
 p.write_text(s, encoding='utf-8')
 
 # Defer the heavy hero video until the page has loaded, while preserving autoplay.
