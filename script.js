@@ -182,84 +182,69 @@ document.addEventListener('DOMContentLoaded', () => {
   const tAuto = setInterval(() => tGo(tCur + 1), 4500);
   window.addEventListener('resize', () => tGo(tCur));
 
- /* ── CONTACT FORM ────────────────────────────── */
+  /* ── CONTACT FORM ────────────────────────────── */
+  const eForm   = document.getElementById('eForm');
+  const fSuc    = document.getElementById('fSuccess');
+  const fsubBtn = document.getElementById('fsub');
 
-const eForm=document.getElementById('eForm');
-const fsubBtn=document.getElementById('fsub');
+  function setErr(id, errId, msg) {
+    document.getElementById(id)?.classList.add('bad');
+    const e = document.getElementById(errId); if (e) e.textContent = msg;
+  }
+  function clrErr(id, errId) {
+    document.getElementById(id)?.classList.remove('bad');
+    const e = document.getElementById(errId); if (e) e.textContent = '';
+  }
 
-function setErr(id,errId,msg){
-document.getElementById(id)?.classList.add('bad');
-const el=document.getElementById(errId);
-if(el)el.textContent=msg;
-}
+  function validate() {
+    let ok = true;
+    const fname   = document.getElementById('f_fname')?.value.trim();
+    const lname   = document.getElementById('f_lname')?.value.trim();
+    const email   = document.getElementById('f_email')?.value.trim();
+    const session = document.getElementById('f_session')?.value;
+    const msg     = document.getElementById('f_msg')?.value.trim();
 
-function clrErr(id,errId){
-document.getElementById(id)?.classList.remove('bad');
-const el=document.getElementById(errId);
-if(el)el.textContent='';
-}
+    if (!fname)  { setErr('f_fname','fe_fname','First name required'); ok=false; } else clrErr('f_fname','fe_fname');
+    if (!lname)  { setErr('f_lname','fe_lname','Last name required');  ok=false; } else clrErr('f_lname','fe_lname');
+    if (!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr('f_email','fe_email','Valid email required'); ok=false; } else clrErr('f_email','fe_email');
+    if (!session) { setErr('f_session','fe_session','Please select a session'); ok=false; } else clrErr('f_session','fe_session');
+    if (!msg||msg.length<20) { setErr('f_msg','fe_msg','Write at least 20 characters'); ok=false; } else clrErr('f_msg','fe_msg');
+    return ok;
+  }
 
-function validate(){
+  ['f_fname','f_lname','f_email','f_session','f_msg'].forEach(id => {
+    document.getElementById(id)?.addEventListener('blur', validate);
+  });
 
-let ok=true;
+  eForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) return;
+    fsubBtn.disabled = true;
+    fsubBtn.querySelector('span, #btnTxt') && (fsubBtn.textContent = 'Sending...');
 
-const fname=document.getElementById('f_fname')?.value.trim();
-const lname=document.getElementById('f_lname')?.value.trim();
-const email=document.getElementById('f_email')?.value.trim();
-const session=document.getElementById('f_session')?.value;
-const msg=document.getElementById('f_msg')?.value.trim();
+    const payload = {
+      firstName:   document.getElementById('f_fname').value.trim(),
+      lastName:    document.getElementById('f_lname').value.trim(),
+      email:       document.getElementById('f_email').value.trim(),
+      phone:       document.getElementById('f_phone').value.trim(),
+      sessionType: document.getElementById('f_session').value,
+      date:        document.getElementById('f_date').value.trim(),
+      budget:      document.getElementById('f_budget').value,
+      message:     document.getElementById('f_msg').value.trim(),
+      newsletter:  document.getElementById('f_news').checked,
+      submittedAt: new Date().toISOString()
+    };
 
-if(!fname){
-setErr('f_fname','fe_fname','Required');
-ok=false;
-}else clrErr('f_fname','fe_fname');
+    try {
+      const res = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      await res.json();
+    } catch(_) {}
 
-if(!lname){
-setErr('f_lname','fe_lname','Required');
-ok=false;
-}else clrErr('f_lname','fe_lname');
+    eForm.style.display = 'none';
+    fSuc.classList.add('on');
+    fsubBtn.disabled = false;
+  });
 
-if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-setErr('f_email','fe_email','Valid email required');
-ok=false;
-}else clrErr('f_email','fe_email');
-
-if(!session){
-setErr('f_session','fe_session','Select one');
-ok=false;
-}else clrErr('f_session','fe_session');
-
-if(!msg||msg.length<20){
-setErr('f_msg','fe_msg','Minimum 20 characters');
-ok=false;
-}else clrErr('f_msg','fe_msg');
-
-return ok;
-
-}
-
-['f_fname','f_lname','f_email','f_session','f_msg']
-.forEach(id=>{
-document.getElementById(id)
-?.addEventListener('blur',validate);
-});
-
-if(eForm){
-
-eForm.addEventListener('submit',(e)=>{
-
-if(!validate()){
-
-e.preventDefault();
-return;
-
-}
-
-fsubBtn.disabled=true;
-
-});
-
-}
   /* ── ACTIVE NAV HIGHLIGHT ────────────────────── */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-menu a:not(.nav-enquire)');
@@ -271,97 +256,5 @@ fsubBtn.disabled=true;
   }, { rootMargin: '-40% 0px -55% 0px' }).observe && secs.forEach(s => new IntersectionObserver(entries => {
     entries.forEach(en => { if (en.isIntersecting) navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+en.target.id?'var(--pk)':''; }); });
   }, { rootMargin: '-40% 0px -55% 0px' }).observe(s));
-
-  /* ── PERFORMANCE: LAZY LOAD IMAGES ────────────────────── */
-  const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-  const imgObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-          img.removeAttribute('data-src');
-        }
-        img.onload = () => img.classList.add('loaded');
-        img.onerror = () => {
-          img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23FCE4EC" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D81B60" font-family="sans-serif"%3EImage%3C/text%3E%3C/svg%3E';
-        };
-        observer.unobserve(img);
-      }
-    });
-  }, { rootMargin: '50px 0px' });
-  lazyImages.forEach(img => imgObserver.observe(img));
-
-  /* ── PERFORMANCE: PRELOAD CRITICAL IMAGES ────────────────────── */
-  const criticalImages = document.querySelectorAll('img[fetchpriority="high"]');
-  criticalImages.forEach(img => {
-    if (!img.complete && img.loading !== 'eager') {
-      img.loading = 'eager';
-    }
-  });
-
-  /* ── ACCESSIBILITY: ARROW KEY NAVIGATION ────────────────────── */
-  const menuLinks = menu?.querySelectorAll('a');
-  if (menuLinks) {
-    Array.from(menuLinks).forEach((link, index, links) => {
-      link.addEventListener('keydown', e => {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-          e.preventDefault();
-          const next = links[(index + 1) % links.length];
-          next?.focus();
-        }
-        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          const prev = links[(index - 1 + links.length) % links.length];
-          prev?.focus();
-        }
-      });
-    });
-  }
-
-  /* ── ACCESSIBILITY: UPDATE ARIA STATES ────────────────────── */
-  if (ham) {
-    ham.addEventListener('click', () => {
-      const isOpen = menu.classList.contains('open');
-      ham.setAttribute('aria-expanded', isOpen);
-    });
-  }
-
-  /* ── PERFORMANCE: DEBOUNCE UTILITY ────────────────────── */
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  /* ── PERFORMANCE: THROTTLE UTILITY ────────────────────── */
-  function throttle(func, limit) {
-    let inThrottle;
-    return function executedFunction(...args) {
-      if (!inThrottle) {
-        func(...args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
-      }
-    };
-  }
-
-  /* ── PERFORMANCE: REPORT LARGEST CONTENTFUL PAINT ────────────────────── */
-  if ('PerformanceObserver' in window) {
-    try {
-      const lcpObserver = new PerformanceObserver((list) => {
-        const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1];
-        console.log('LCP:', lastEntry.startTime.toFixed(2), 'ms');
-      });
-      lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-    } catch (e) {}
-  }
 
 });
