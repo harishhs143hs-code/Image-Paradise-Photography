@@ -23,11 +23,14 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          # Replace weak/long homepage description with an answer-first description.
-          s = re.sub(
-              r'<meta\s+name=["\']description["\'][^>]*>',
-              '<meta name="description" content="Image Paradise Photography provides wedding photography and videography in Chennai, Tiruvallur, Avadi and Ambattur, including candid photography, traditional photography, cinematic wedding films, pre-wedding shoots and wedding albums.">',
-              s, count=1, flags=re.I)
+          # Keep the homepage title and description concise and buyer-focused.
+          s = re.sub(r'<title>.*?</title>', '<title>Wedding Photographer in Chennai | Image Paradise</title>', s, count=1, flags=re.S|re.I)
+          s = re.sub(r'<meta\s+name=["\']title["\'][^>]*>', '<meta name="title" content="Wedding Photographer in Chennai | Image Paradise">', s, count=1, flags=re.I)
+          s = re.sub(r'<meta\s+name=["\']description["\'][^>]*>', '<meta name="description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.">', s, count=1, flags=re.I)
+          s = re.sub(r'<meta\s+property=["\']og:title["\'][^>]*>', '<meta property="og:title" content="Wedding Photographer in Chennai | Image Paradise">', s, count=1, flags=re.I)
+          s = re.sub(r'<meta\s+property=["\']og:description["\'][^>]*>', '<meta property="og:description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore packages, real work and WhatsApp booking.">', s, count=1, flags=re.I)
+          s = re.sub(r'<meta\s+name=["\']twitter:title["\'][^>]*>', '<meta name="twitter:title" content="Wedding Photographer in Chennai | Image Paradise">', s, count=1, flags=re.I)
+          s = re.sub(r'<meta\s+name=["\']twitter:description["\'][^>]*>', '<meta name="twitter:description" content="Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore packages, real work and WhatsApp booking.">', s, count=1, flags=re.I)
 
           # Add answer-first GEO block after the main hero when not already present.
           if 'id="geo-answer"' not in s:
@@ -69,18 +72,18 @@ jobs:
               else:
                   s = s.replace('</main>', block + '\n</main>', 1)
 
-          # Add lightweight, page-level Organization/WebSite structured data without replacing existing schema.
+          # Add the GEO schema once, using its own ID so it does not collide with Organization.
           if 'id="geo-organization-schema"' not in s:
               schema = r'''
           <script id="geo-organization-schema" type="application/ld+json">
           {
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
-            "@id": "https://www.imageparadisephotography.online/#organization",
+            "@id": "https://www.imageparadisephotography.online/#professional-service",
             "name": "Image Paradise Photography",
             "url": "https://www.imageparadisephotography.online/",
-            "description": "Wedding photography and videography service serving Chennai, Tiruvallur, Avadi and Ambattur.",
-            "areaServed": ["Chennai", "Tiruvallur", "Avadi", "Ambattur", "Tamil Nadu"],
+            "description": "Wedding photography and videography service based in Veppampattu, near Avadi, Chennai, serving Tiruvallur, Chennai and Ambattur.",
+            "areaServed": ["Chennai", "Tiruvallur", "Avadi, Chennai", "Ambattur", "Tamil Nadu"],
             "serviceType": ["Wedding Photography", "Wedding Videography", "Candid Photography", "Pre-Wedding Photography"]
           }
           </script>
@@ -89,12 +92,13 @@ jobs:
 
           p.write_text(s, encoding='utf-8')
 
-      - name: Add GEO styles
+      - name: Add GEO styles and enforce technical trust fixes
         shell: python
         run: |
           from pathlib import Path
-          p = Path('geo-homepage.css')
-          css = r'''
+          import re
+
+          Path('geo-homepage.css').write_text(r'''
           .geo-answer-section,.geo-guide-section{padding:5.5rem 7vw;background:var(--white)}
           .geo-guide-section{background:var(--cream,#faf7f4)}
           .geo-answer-wrap,.geo-guide-wrap{max-width:1100px;margin:0 auto}
@@ -106,14 +110,51 @@ jobs:
           .geo-definitions{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem}.geo-definition{padding:1.5rem;background:var(--white);border:1px solid var(--border)}
           .geo-definition h3{margin:0 0 .65rem;color:var(--ink);font-family:var(--serif);font-size:1.15rem}.geo-definition p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.8}
           @media(max-width:800px){.geo-answer-section,.geo-guide-section{padding:4rem 1.25rem}.geo-facts,.geo-definitions{grid-template-columns:1fr}.geo-answer-lead{font-size:.96rem}}
-          '''
-          p.write_text(css,encoding='utf-8')
+          ''',encoding='utf-8')
 
           idx=Path('index.html')
           s=idx.read_text(encoding='utf-8')
-          link='<link rel="stylesheet" href="geo-homepage.css">'
-          if link not in s:
-              s=s.replace('<head>', '<head>\n  '+link, 1)
+          if 'geo-homepage.css' not in s:
+              s=s.replace('<head>', '<head>\n  <link rel="stylesheet" href="geo-homepage.css">', 1)
+
+          # Correct the business identity in schema.
+          s=s.replace('"streetAddress": "Chennai",\n      "addressLocality": "Chennai",\n      "addressRegion": "Tamil Nadu",\n      "postalCode": "600001",','"streetAddress": "No. 2/670, Kudiyanvur Street 87",\n      "addressLocality": "Veppampattu",\n      "addressRegion": "Tamil Nadu",\n      "postalCode": "602024",')
+          s=re.sub(r'"geo": \{.*?\},\n    "openingHoursSpecification"','"geo": {\n      "@type": "GeoCoordinates",\n      "latitude": "13.1167",\n      "longitude": "80.0700"\n    },\n    "openingHoursSpecification"',s,count=1,flags=re.S)
+          s=s.replace('<meta name="geo.position" content="13.0827;80.2707">','<meta name="geo.position" content="13.1167;80.0700">')
+          s=s.replace('<meta name="ICBM" content="13.0827, 80.2707">','<meta name="ICBM" content="13.1167, 80.0700">')
+          s=s.replace('"name": "Avadi"','"name": "Avadi, Chennai"',1)
+          s=re.sub(r'\n\s*"email": "[^"]*",','',s,count=1)
+          # Remove unsupported aggregate rating from structured data.
+          s=re.sub(r',\s*"aggregateRating":\s*\{.*?\n\s*\}', '', s, count=1, flags=re.S)
+          # Repair the exact sameAs list if an old trailing comma remains.
+          s=s.replace('"https://www.youtube.com/@imageparadisephotography6251",\n    ]','"https://www.youtube.com/@imageparadisephotography6251"\n    ]')
+          # Replace unsupported homepage claims.
+          s=s.replace("South India's most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.","Wedding photography based in Veppampattu, near Avadi, Chennai. We serve couples across Chennai, Tiruvallur and Ambattur with candid and traditional coverage.")
+          s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, 6+ years experience. Candid photography, cinematic films, pre-wedding shoots & luxury albums.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films, pre-wedding shoots and albums.')
+          s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, candid photography, cinematic films, pre-wedding shoots.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films and pre-wedding shoots.')
+          old='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span class="count" data-to="6">0</span><span>+</span><label>Years Experience</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span class="count" data-to="500">0</span><span>+</span><label>Weddings Captured</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span class="count" data-to="1200">0</span><span>+</span><label>Happy Clients</label></div>\n    </div>'''
+          new='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span>₹35K</span><label>Starting Package</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>Chennai</span><label>Primary Service Area</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>WhatsApp</span><label>Direct Booking</label></div>\n    </div>'''
+          s=s.replace(old,new)
+          # Remove placeholder GA4 and leave a clean note instead of a broken tracking request.
+          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->\s*<script async src="https://www.googletagmanager.com/gtag/js\?id=G-XXXXXXXXXX"></script>\s*<script>.*?</script>','\n  <!-- Analytics placeholder removed until a real GA4 Measurement ID is supplied. -->',s,count=1,flags=re.S)
+          # Keep the ProfessionalService block but give it a unique ID.
+          s=s.replace('"@id": "https://www.imageparadisephotography.online/#organization",\n  "name": "Image Paradise Photography",','"@id": "https://www.imageparadisephotography.online/#professional-service",\n  "name": "Image Paradise Photography",',1) if 'id="geo-organization-schema"' in s else s
+          # Hero video: use a poster, defer the actual 25MB media request, and prefer MP4.
+          s=s.replace('          poster="images/08.jpg"\n          autoplay','          autoplay')
+          s=s.replace('<source src="/videos/promo.webm" type="video/webm">\n          <source src="/videos/promo.mp4" type="video/mp4">','<source data-src="/videos/promo.mp4" type="video/mp4">\n          <source data-src="/videos/promo.webm" type="video/webm">')
+          s=s.replace('preload="metadata"\n          aria-label="Image Paradise Photography promo video"','preload="none"\n          poster="/images/08.jpg"\n          aria-label="Image Paradise Photography wedding photography promo video"\n          data-video-load="deferred"')
+          # Fix validator issues flagged by the audit.
+          s=re.sub(r'\srole="banner"','',s,count=1)
+          s=re.sub(r'\srole="navigation"','',s,count=1)
+          s=re.sub(r'<div([^>]*?)\saria-label="([^"]*)"([^>]*)>',lambda m:'<div'+m.group(1)+m.group(3)+'>',s)
+          # Add useful alt text to empty image tags.
+          amap={'gallery1.jpeg':'Candid wedding photography moment by Image Paradise Photography','gallery2.jpg':'Traditional wedding ceremony photography in Chennai','gallery3.jpg':'Bride and groom wedding portrait in Chennai','gallery4.jpg':'Candid couple portrait by Image Paradise Photography','gallery5.jpg':'Wedding celebration photography in Chennai','gallery6.jpg':'Wedding ceremony detail photographed by Image Paradise Photography'}
+          def altfix(m):
+              t=m.group(0)
+              if 'alt=""' not in t:return t
+              mm=re.search(r'src="([^"]+)"',t); k=mm.group(1).split('/')[-1] if mm else ''
+              return t.replace('alt=""','alt="'+amap.get(k,'Wedding photography by Image Paradise Photography')+'"')
+          s=re.sub(r'<img\b[^>]*>',altfix,s,flags=re.I)
           idx.write_text(s,encoding='utf-8')
 
       - name: Commit changes
@@ -122,8 +163,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html geo-homepage.css
           if git diff --cached --quiet; then
-            echo "Homepage GEO upgrade already installed"
+            echo "Homepage SEO/GEO fixes already applied"
           else
-            git commit -m "Improve homepage SEO and GEO content"
+            git commit -m "Improve homepage SEO, trust, performance and GEO"
             git push
           fi
