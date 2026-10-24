@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Clean trust claims and placeholder analytics
+      - name: Clean trust claims, duplicate schema and placeholder analytics
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -25,19 +25,18 @@ jobs:
           s=p.read_text(encoding='utf-8')
           s=s.replace('<meta name="geo.position" content="13.0827;80.2707">','<meta name="geo.position" content="13.1167;80.0700">')
           s=s.replace('<meta name="ICBM" content="13.0827, 80.2707">','<meta name="ICBM" content="13.1167, 80.0700">')
-          s=s.replace('South India\'s most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.','Wedding photography based in Veppampattu, near Avadi, Chennai. We serve couples across Chennai, Tiruvallur and Ambattur with candid and traditional coverage.')
+          s=s.replace("South India's most sought-after wedding photographer in Chennai. Every frame tells your love story, forever. Serving couples across Tamil Nadu including Tiruvallur, Avadi, and Ambattur.","Wedding photography based in Veppampattu, near Avadi, Chennai. We serve couples across Chennai, Tiruvallur and Ambattur with candid and traditional coverage.")
           s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, 6+ years experience. Candid photography, cinematic films, pre-wedding shoots & luxury albums.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films, pre-wedding shoots and albums.')
           s=s.replace('Award-winning wedding photographer in Chennai. 500+ weddings, candid photography, cinematic films, pre-wedding shoots.','Wedding photography and videography near Avadi, Chennai, with candid photography, cinematic films and pre-wedding shoots.')
-          # Replace unsupported counter claims with concrete, verifiable service facts.
-          counter_pattern=r'<div class="hero-counters".*?</div>\s*</div>'
-          m=re.search(counter_pattern,s,flags=re.S)
-          if m:
-              replacement='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span>₹35K</span><label>Starting Package</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>Chennai</span><label>Primary Service Area</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>WhatsApp</span><label>Direct Booking</label></div>\n    </div>'''
-              s=s[:m.start()]+replacement+s[m.end():]
-          # Remove the fake GA4 placeholder rather than making a broken analytics request.
-          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->.*?</script>\n\s*</script>', '', s, count=1, flags=re.S)
-          # More robustly remove any remaining exact placeholder GA block.
-          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->.*?\n\s*</script>\n\s*<!-- Meta Pixel', '\n\n  <!-- Analytics is intentionally omitted until a real GA4 Measurement ID is supplied. -->\n\n  <!-- Meta Pixel', s, count=1, flags=re.S)
+          old='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span class="count" data-to="6">0</span><span>+</span><label>Years Experience</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span class="count" data-to="500">0</span><span>+</span><label>Weddings Captured</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span class="count" data-to="1200">0</span><span>+</span><label>Happy Clients</label></div>\n    </div>'''
+          new='''<div class="hero-counters" data-reveal="fade-up" data-delay="480">\n      <div class="hc"><span>₹35K</span><label>Starting Package</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>Chennai</span><label>Primary Service Area</label></div>\n      <div class="hc-div" aria-hidden="true"></div>\n      <div class="hc"><span>WhatsApp</span><label>Direct Booking</label></div>\n    </div>'''
+          s=s.replace(old,new)
+          # Remove the exact placeholder GA4 block.
+          s=re.sub(r'\n\s*<!-- Google Analytics 4 - Add your measurement ID -->\s*<script async src="https://www.googletagmanager.com/gtag/js\?id=G-XXXXXXXXXX"></script>\s*<script>.*?</script>\s*', '\n  <!-- Analytics placeholder removed until a real GA4 Measurement ID is supplied. -->\n\n', s, count=1, flags=re.S)
+          # Remove duplicate ProfessionalService schema left by earlier GEO work; LocalBusiness/Organization remain authoritative.
+          s=re.sub(r'\n<script id="geo-organization-schema" type="application/ld\+json">.*?</script>\n', '\n', s, count=1, flags=re.S)
+          # Remove duplicate poster attribute on hero video.
+          s=s.replace('          poster="images/08.jpg"\n          autoplay', '          autoplay')
           p.write_text(s,encoding='utf-8')
           PY
       - name: Commit
