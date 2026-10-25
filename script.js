@@ -25,24 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ── LOADER ──────────────────────────────────── */
-  const loader   = document.getElementById('pageLoader');
-  const fillEl   = document.getElementById('loaderFill');
-  let pct = 0;
-  const loadTimer = setInterval(() => {
-    pct = Math.min(pct + Math.random() * 20, 95);
-    if (fillEl) fillEl.style.width = pct + '%';
-  }, 80);
-  window.addEventListener('load', () => {
-    clearInterval(loadTimer);
-    if (fillEl) fillEl.style.width = '100%';
-    if (loader) setTimeout(() => loader.classList.add('out'), 500);
-  });
-
-  /* ── CUSTOM CURSOR ───────────────────────────── */
+  // The full-screen loader was removed so content is visible immediately.\n  /* ── CUSTOM CURSOR ───────────────────────────── */
   const cur  = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  if (cur && ring) {
+  if (cur && ring && window.matchMedia('(pointer: fine)').matches) {
     let rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
       cur.style.left = e.clientX + 'px';
