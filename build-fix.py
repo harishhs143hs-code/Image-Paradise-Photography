@@ -75,13 +75,67 @@ seo_block = '''
   </div>
 </section>
 '''
-if 'class="ai-seo-content"' not in s:
-    s = s.replace('<body>', '<body>\n' + seo_block, 1)
+# Keep the visual homepage first and give the page a semantic main landmark.
+if '<main id="main-content">' not in s:
+    if '</header>' in s:
+        s = s.replace('</header>', '</header>\n<main id="main-content">', 1)
+    if '<footer>' in s:
+        s = s.replace('<footer>', '</main>\n<footer>', 1)
 
-# Add compact styles so the information layer is readable without changing the site's visual identity.
-seo_css = '''\n<style id="ai-seo-content-styles">\n.ai-seo-content{background:#fff;color:#1b1b1b;padding:52px 20px}.ai-seo-inner{max-width:1080px;margin:0 auto}.ai-seo-content h1{font-family:Georgia,serif;font-size:clamp(30px,4vw,52px);line-height:1.12;margin:8px 0 20px}.ai-seo-content h2{font-family:Georgia,serif;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:38px 0 12px}.ai-seo-content p,.ai-seo-content li{font-size:17px;line-height:1.75}.ai-seo-content ul,.ai-seo-content ol{padding-left:26px}.ai-seo-content a{text-decoration:underline;text-underline-offset:3px}.ai-eyebrow{font-size:12px!important;letter-spacing:.16em;text-transform:uppercase;font-weight:700}.ai-direct-answer{font-size:19px!important;max-width:950px}.ai-takeaway{margin-top:34px;padding:20px 22px;border-left:4px solid currentColor}.ai-seo-content strong{font-weight:700}@media(max-width:768px){.ai-seo-content{padding:34px 18px}.ai-seo-content p,.ai-seo-content li{font-size:16px;line-height:1.65}.ai-direct-answer{font-size:18px!important}}\n</style>\n'''
-if 'id="ai-seo-content-styles"' not in s:
-    s = s.replace('</head>', seo_css + '\n</head>', 1)
+if 'class="ai-seo-content"' not in s:
+    if '</main>' in s:
+        s = s.replace('</main>', seo_block + '\n</main>', 1)
+    else:
+        s = s.replace('</body>', seo_block + '\n</body>', 1)
+
+# Remove reveal attributes from above-the-fold hero content so the H1 is not hidden while JS loads.
+hero_start = s.find('<section id="hero"')
+hero_end = s.find('<!-- MARQUEE -->', hero_start)
+if hero_start >= 0 and hero_end > hero_start:
+    hero = s[hero_start:hero_end]
+    hero = re.sub(r'\s+data-reveal=["\'][^"\']*["\']', '', hero)
+    hero = re.sub(r'\s+data-delay=["\']\d+["\']', '', hero)
+    s = s[:hero_start] + hero + s[hero_end:]
+
+# Update the homepage snippet and point social previews at a real image asset.
+s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Wedding Photographer Chennai | Image Paradise Photography</title>')
+s = s.replace('content="Wedding Photographer in Chennai | Image Paradise"', 'content="Wedding Photographer Chennai | Image Paradise Photography"')
+s = s.replace('Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.', 'Wedding photography in Chennai, Avadi and Tiruvallur. Explore candid photos, videography packages and book on WhatsApp.')
+s = s.replace('https://www.imageparadisephotography.online/og-image.png', 'https://www.imageparadisephotography.online/images/08.jpg')
+s = re.sub(r'\s*"https://www\.facebook\.com/imageparadisephotography",?', '', s)
+
+# Remove the unconfigured Meta Pixel loader: it fetched a third-party script without a configured ID.
+pixel_marker = '<!-- Meta Pixel - Add your Pixel ID -->'
+if pixel_marker in s:
+    pixel_start = s.index(pixel_marker)
+    pixel_script_start = s.find('<script>', pixel_start)
+    pixel_script_end = s.find('</script>', pixel_script_start)
+    if pixel_script_start >= 0 and pixel_script_end >= 0:
+        s = s[:pixel_start] + s[pixel_script_end + len('</script>'):]
+
+# Add useful standard pages to the homepage footer.
+old_copy = '<p>&copy; 2026 Image Paradise Photography · Chennai, India · All rights reserved</p>'
+new_copy = '<p>&copy; 2026 Image Paradise Photography · Chennai, India · All rights reserved <span class="footer-legal-links"><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/packages.html">Packages</a><a href="/privacy-policy.html">Privacy</a><a href="/sitemap.xml">Sitemap</a></span></p>'
+s = s.replace(old_copy, new_copy)
+
+# Keep this section's CSS external so it does not add another inline style block.
+seo_css = '''
+.ai-seo-content{background:#fff;color:#1b1b1b;padding:52px 20px}
+.ai-seo-inner{max-width:1080px;margin:0 auto}
+.ai-seo-content h2{font-family:Georgia,serif;font-size:clamp(23px,3vw,34px);line-height:1.2;margin:38px 0 12px}
+.ai-seo-content p,.ai-seo-content li{font-size:17px;line-height:1.75}
+.ai-seo-content ul,.ai-seo-content ol{padding-left:26px}
+.ai-seo-content a{text-decoration:underline;text-underline-offset:3px}
+.ai-eyebrow{font-size:12px!important;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.ai-direct-answer{font-size:19px!important;max-width:950px}
+.ai-takeaway{margin-top:34px;padding:20px 22px;border-left:4px solid currentColor}
+.ai-seo-content strong{font-weight:700}
+@media(max-width:768px){.ai-seo-content{padding:34px 18px}.ai-seo-content p,.ai-seo-content li{font-size:16px;line-height:1.65}.ai-direct-answer{font-size:18px!important}}
+'''
+seo_css_path = Path('geo-homepage.css')
+seo_css_existing = seo_css_path.read_text(encoding='utf-8')
+if '.ai-seo-content{' not in seo_css_existing and '.ai-seo-content {' not in seo_css_existing:
+    seo_css_path.write_text(seo_css_existing + '\n' + seo_css + '\n', encoding='utf-8')
 
 # Add HowTo schema for the booking workflow if it is not already present.
 howto = '''\n<script id="geo-howto-schema" type="application/ld+json">\n{\n  "@context":"https://schema.org",\n  "@type":"HowTo",\n  "name":"How to book wedding photography with Image Paradise Photography",\n  "description":"Four simple steps to enquire about wedding photography and videography in Chennai, Avadi or Tiruvallur.",\n  "step":[\n    {"@type":"HowToStep","position":1,"name":"Share event details","text":"Share your name, mobile number, event date, location and event type on WhatsApp."},\n    {"@type":"HowToStep","position":2,"name":"Discuss coverage","text":"Discuss photography style, coverage hours, video requirements and album needs."},\n    {"@type":"HowToStep","position":3,"name":"Choose a package","text":"Receive a package recommendation and quotation based on the event plan."},\n    {"@type":"HowToStep","position":4,"name":"Confirm the booking","text":"Confirm availability and booking details for the wedding date."}\n  ]\n}\n</script>\n'''
