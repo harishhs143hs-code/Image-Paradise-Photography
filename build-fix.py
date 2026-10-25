@@ -77,10 +77,12 @@ seo_block = '''
 '''
 # Keep the visual homepage first and give the page a semantic main landmark.
 if '<main id="main-content">' not in s:
-    if '</header>' in s:
-        s = s.replace('</header>', '</header>\n<main id="main-content">', 1)
-    if '<footer>' in s:
-        s = s.replace('<footer>', '</main>\n<footer>', 1)
+    navbar_start = s.find('<header class="navbar">')
+    navbar_end = s.find('</header>', navbar_start)
+    footer_start = s.find('<footer>')
+    if navbar_start >= 0 and navbar_end > navbar_start and footer_start > navbar_end:
+        after_nav = navbar_end + len('</header>')
+        s = s[:after_nav] + '\n<main id="main-content">' + s[after_nav:footer_start] + '\n</main>\n' + s[footer_start:]
 
 if 'class="ai-seo-content"' not in s:
     if '</main>' in s:
