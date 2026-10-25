@@ -1,2 +1,39 @@
-
 .audit-internal-links{padding:64px 0}.audit-internal-links .section-inner{max-width:1100px;margin:auto;padding:0 20px}.audit-internal-links h2{max-width:720px}.audit-link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}.audit-link-grid a{display:block;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:10px;text-decoration:none}.whatsapp-lead-form{display:grid;gap:10px;max-width:620px}.whatsapp-lead-form h3{margin:0 0 4px}.whatsapp-lead-form p{margin:0 0 10px}.whatsapp-lead-form input,.whatsapp-lead-form select{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(0,0,0,.18);border-radius:8px;font:inherit;background:#fff}.whatsapp-lead-form label{font-weight:600;margin-top:4px}.whatsapp-lead-button{border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer}.lead-privacy{font-size:.82rem;opacity:.72}@media(max-width:700px){.audit-internal-links{padding:44px 0}.audit-link-grid{grid-template-columns:1fr}.whatsapp-lead-form{width:100%}}
+
+/* Responsive About section repair — prevents fixed-width clipping and horizontal overflow. */
+#about{width:100%;overflow:clip}
+#about .about-inner{width:min(calc(100% - 48px),1180px);max-width:1180px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:center}
+#about .about-photos,#about .about-copy{min-width:0;width:100%;max-width:100%}
+#about .about-photos{display:flex;justify-content:center}
+#about .ap-main{width:min(100%,560px);max-width:560px;min-width:0;position:relative}
+#about .ap-main img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:5 / 7;object-fit:cover}
+#about .ap-years{max-width:136px;box-sizing:border-box}
+#about .about-copy{overflow-wrap:anywhere}
+#about .about-copy h2{max-width:100%;overflow-wrap:normal}
+#about .about-pills{display:flex;flex-wrap:wrap;gap:10px;width:100%;max-width:100%}
+#about .about-pills span{max-width:100%;box-sizing:border-box;white-space:normal}
+#about .about-copy .btn-pink{display:inline-flex;max-width:100%;box-sizing:border-box}
+
+@media (max-width:1100px){
+  #about .about-inner{width:min(calc(100% - 40px),980px);gap:44px}
+}
+
+@media (max-width:768px){
+  #about .about-inner{width:min(calc(100% - 32px),720px);grid-template-columns:1fr;gap:44px}
+  #about .about-photos{order:1}
+  #about .about-copy{order:2}
+  #about .ap-main{width:min(100%,520px)}
+  #about .ap-years{right:0;bottom:0}
+  #about .about-pills{gap:8px}
+  #about .about-copy .btn-pink{width:100%;justify-content:center}
+}
+
+@media (max-width:420px){
+  #about .about-inner{width:calc(100% - 24px)}
+  #about .ap-years{transform:scale(.9);transform-origin:bottom right}
+}
+
+/* Global guard for legacy fixed-width children. */
+html,body{max-width:100%;overflow-x:hidden}
+section{max-width:100%;}
+section > *{min-width:0}
