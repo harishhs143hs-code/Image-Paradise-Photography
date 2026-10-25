@@ -53,11 +53,11 @@ def _image_dimensions(image_path):
         data = image_path.read_bytes()
     except (OSError, ValueError):
         return None
-    if data.startswith(b"\\x89PNG\\r\\n\\x1a\\n") and len(data) >= 24:
+    if data.startswith(b"\x89PNG\r\n\x1a\n") and len(data) >= 24:
         return struct.unpack(">II", data[16:24])
     if data[:6] in (b"GIF87a", b"GIF89a") and len(data) >= 10:
         return struct.unpack("<HH", data[6:10])
-    if data[:2] == b"\\xff\\xd8":
+    if data[:2] == b"\xff\xd8":
         pos = 2
         sof_markers = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
         while pos + 4 < len(data):
@@ -92,8 +92,8 @@ def _image_dimensions(image_path):
 
 
 _image_dimension_cache = {}
-_img_tag = re.compile(r"<img\\b[^>]*>", re.I | re.S)
-_src_attr = re.compile(r"\\bsrc\\s*=\\s*(['\"])(.*?)\\1", re.I | re.S)
+_img_tag = re.compile(r"<img\b[^>]*>", re.I | re.S)
+_src_attr = re.compile(r"\bsrc\s*=\s*(['\"])(.*?)\1", re.I | re.S)
 
 
 def _upgrade_image_tag(match):
@@ -115,15 +115,15 @@ def _upgrade_image_tag(match):
     if not dimensions:
         return tag
     width, height = dimensions
-    if not re.search(r"\\bwidth\\s*=", tag, re.I):
-        tag = re.sub(r"<img\\b", '<img width="' + str(width) + '"', tag, count=1, flags=re.I)
-    if not re.search(r"\\bheight\\s*=", tag, re.I):
-        tag = re.sub(r"<img\\b", '<img height="' + str(height) + '"', tag, count=1, flags=re.I)
+    if not re.search(r"\bwidth\s*=", tag, re.I):
+        tag = re.sub(r"<img\b", '<img width="' + str(width) + '"', tag, count=1, flags=re.I)
+    if not re.search(r"\bheight\s*=", tag, re.I):
+        tag = re.sub(r"<img\b", '<img height="' + str(height) + '"', tag, count=1, flags=re.I)
     # Keep the nav logo eager; other images can load as they approach the viewport.
-    if not re.search(r"\\bloading\\s*=", tag, re.I) and "Logo with Text Png.png" not in src and "Logo.png" not in src:
-        tag = re.sub(r"<img\\b", '<img loading="lazy" decoding="async"', tag, count=1, flags=re.I)
-    elif not re.search(r"\\bdecoding\\s*=", tag, re.I):
-        tag = re.sub(r"<img\\b", '<img decoding="async"', tag, count=1, flags=re.I)
+    if not re.search(r"\bloading\s*=", tag, re.I) and "Logo with Text Png.png" not in src and "Logo.png" not in src:
+        tag = re.sub(r"<img\b", '<img loading="lazy" decoding="async"', tag, count=1, flags=re.I)
+    elif not re.search(r"\bdecoding\s*=", tag, re.I):
+        tag = re.sub(r"<img\b", '<img decoding="async"', tag, count=1, flags=re.I)
     return tag
 
 
@@ -155,9 +155,9 @@ _org_schema = '''
 for _html_path in Path(".").glob("*.html"):
     _html = _html_path.read_text(encoding="utf-8")
     _original = _html
-    if not re.search(r'"@type"\\s*:\\s*"Organization"', _html) and 'id="site-organization-schema"' not in _html:
+    if not re.search(r'"@type"\s*:\s*"Organization"', _html) and 'id="site-organization-schema"' not in _html:
         if "</head>" in _html:
-            _html = _html.replace("</head>", _org_schema + "\\n</head>", 1)
+            _html = _html.replace("</head>", _org_schema + "\n</head>", 1)
     _html = _img_tag.sub(_upgrade_image_tag, _html)
     if _html != _original:
         _html_path.write_text(_html, encoding="utf-8")
