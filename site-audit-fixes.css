@@ -1,2 +1,38 @@
-
 .audit-internal-links{padding:64px 0}.audit-internal-links .section-inner{max-width:1100px;margin:auto;padding:0 20px}.audit-internal-links h2{max-width:720px}.audit-link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}.audit-link-grid a{display:block;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:10px;text-decoration:none}.whatsapp-lead-form{display:grid;gap:10px;max-width:620px}.whatsapp-lead-form h3{margin:0 0 4px}.whatsapp-lead-form p{margin:0 0 10px}.whatsapp-lead-form input,.whatsapp-lead-form select{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(0,0,0,.18);border-radius:8px;font:inherit;background:#fff}.whatsapp-lead-form label{font-weight:600;margin-top:4px}.whatsapp-lead-button{border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer}.lead-privacy{font-size:.82rem;opacity:.72}@media(max-width:700px){.audit-internal-links{padding:44px 0}.audit-link-grid{grid-template-columns:1fr}.whatsapp-lead-form{width:100%}}
+
+/* FINAL ABOUT REPAIR v2: use the actual image dimensions and remove the legacy side grid. */
+#about{width:100%;max-width:100%;padding:7rem clamp(16px,4vw,64px);background:var(--dark);overflow:visible;box-sizing:border-box}
+#about .about-inner{width:100%;max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:clamp(32px,5vw,64px);box-sizing:border-box}
+#about .about-photos{flex:1 1 0;width:0;min-width:0;max-width:none;display:block;box-sizing:border-box}
+#about .about-copy{flex:1 1 0;width:0;min-width:0;max-width:none;margin:0;padding:0;box-sizing:border-box;overflow:visible}
+#about .ap-main{position:relative;width:100%;max-width:540px;margin:0 auto;box-sizing:border-box;border-radius:14px;overflow:visible}
+#about .ap-main>div{display:none!important}
+#about .ap-main img{display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center top;border-radius:14px;box-sizing:border-box}
+#about .ap-years{position:absolute;right:-18px;bottom:16px;z-index:3;max-width:140px;box-sizing:border-box}
+#about .about-copy>*{max-width:100%;box-sizing:border-box}
+#about .about-copy h2{max-width:100%;margin-right:0;white-space:normal;overflow-wrap:normal;word-break:normal}
+#about .about-copy p{max-width:100%;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#about .about-pills{display:flex!important;flex-wrap:wrap!important;align-items:flex-start;justify-content:flex-start;width:100%;max-width:100%;gap:8px;box-sizing:border-box}
+#about .about-pills span{display:inline-flex;flex:0 1 auto;min-width:0;max-width:100%;white-space:normal;box-sizing:border-box}
+#about .about-copy .btn-pink{display:inline-flex;max-width:100%;min-width:0;box-sizing:border-box;white-space:normal}
+#about [data-reveal]{opacity:1!important;transform:none!important}
+#about *,#about *::before,#about *::after{box-sizing:border-box;min-width:0}
+@media(max-width:820px){
+  #about{padding:5rem 20px}
+  #about .about-inner{flex-direction:column;gap:42px;max-width:680px}
+  #about .about-photos,#about .about-copy{width:100%;flex:0 0 auto}
+  #about .ap-main{max-width:520px}
+  #about .about-copy h2{font-size:clamp(2rem,7vw,3rem)}
+}
+@media(max-width:560px){
+  #about{padding:4rem 16px}
+  #about .about-inner{gap:32px}
+  #about .ap-main{max-width:100%}
+  #about .ap-years{right:10px;bottom:10px}
+  #about .about-pills{gap:7px}
+  #about .about-pills span{max-width:100%}
+  #about .about-copy .btn-pink{width:100%;justify-content:center}
+}
+
+/* Performance: never keep a full-screen loader over the page. */
+.page-loader{display:none!important}
