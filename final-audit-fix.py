@@ -31,9 +31,8 @@ if index.exists():
     s = re.sub(r'<meta property="og:image" content="[^"]*">', '<meta property="og:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:image" content="[^"]*">', '<meta name="twitter:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = s.replace('src="images/Logo.webp"', 'src="/favicon.png"')
-    s = re.sub(r'(<img\b[^>]*src=["\']/favicon\.png["\'][^>]*?)\s+(?:height|width)=["\'](?:5893|4167)["\']', r'\1', s, flags=re.I)
-    # Add compact, correct dimensions to UI favicon instances if absent.
-    s = re.sub(r'<img\b([^>]*src=["\']/favicon\.png["\'][^>]*)>', lambda m: m.group(0) if ('width=' in m.group(1).lower() and 'height=' in m.group(1).lower()) else m.group(0)[:-1] + ' width="44" height="44">', s, flags=re.I)
+    s = s.replace('height="5893" width="4167" src="/favicon.png"', 'width="44" height="44" src="/favicon.png"')
+    s = s.replace('width="4167" height="5893" src="/favicon.png"', 'width="44" height="44" src="/favicon.png"')
     s = re.sub(r'\s*<!-- Meta Pixel - Add your Pixel ID -->\s*<script>.*?</script>\s*', '\n', s, count=1, flags=re.I | re.S)
     s = re.sub(r'\s*"https://www\.facebook\.com/imageparadisephotography",?', '', s, flags=re.I)
     org_marker = '"@type": "Organization"'
