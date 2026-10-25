@@ -616,3 +616,26 @@ color:#fff !important;
 background:#FCE4EC !important;
 color:#D81B60 !important;
 }
+
+
+/* 2026 audit fixes: visible content, stable mobile layout and accessible interactions */
+*, *::before, *::after { box-sizing: border-box; }
+html { max-width: 100%; overflow-x: clip; }
+body { max-width: 100%; overflow-x: clip; }
+main { display: block; min-width: 0; }
+#main-content, #main-content > section, .hero-left, .hero-right,
+.footer-top, .footer-btm, .gallery, .gallery-grid { min-width: 0; }
+img, video, iframe, svg { max-width: 100%; }
+.page-loader { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
+button, .btn-pink, .btn-outline, .whatsapp-lead-button { min-height: 44px; touch-action: manipulation; }
+.footer-legal-links { display: inline-flex; flex-wrap: wrap; gap: .45rem .8rem; margin-left: .45rem; }
+.footer-legal-links a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 768px) {
+  .footer-legal-links { margin: .4rem 0 0; }
+  #main-content { width: 100%; }
+  #hero, #portfolio, #about, #services, #testimonials, #contact { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
