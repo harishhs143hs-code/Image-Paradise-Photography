@@ -19,7 +19,12 @@ for path in HTML_FILES:
         s,
         flags=re.I,
     )
-    s = re.sub(r'(<button\b[^>]*?)\s+role=["\']tab["\']', r'\1', s, flags=re.I)
+    # The portfolio filters are buttons, not a true ARIA tab interface.
+    # Remove tab-only semantics so the gallery is not incorrectly exposed as a tabpanel.
+    s = re.sub(r'\s+role=["\']tablist["\']', '', s, flags=re.I)
+    s = re.sub(r'\s+role=["\']tabpanel["\']', '', s, flags=re.I)
+    s = re.sub(r'\s+role=["\']tab["\']', '', s, flags=re.I)
+    s = re.sub(r'\s+aria-selected=["\'](?:true|false)["\']', '', s, flags=re.I)
     if s != original:
         path.write_text(s, encoding='utf-8')
 
