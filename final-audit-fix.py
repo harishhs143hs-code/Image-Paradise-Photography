@@ -16,6 +16,9 @@ for path in HTML_FILES:
         flags=re.I,
     )
 
+    # Absolute image paths need the same poster optimization treatment.
+    s = s.replace('/images/08.jpg', '/images/08.webp')
+
     # A <source> element must have src. Keep data-src so the existing deferred JS can use it.
     s = re.sub(
         r'<source(\s+data-src=["\']([^"\']+)["\'])(\s+type=["\'][^"\']+["\'])\s*>',
@@ -25,7 +28,6 @@ for path in HTML_FILES:
     )
 
     # Native buttons do not need role=tab when there is no tabpanel implementation.
-    # Removing the redundant role preserves button behavior and clears the validator error.
     s = re.sub(r'(<button\b[^>]*?)\s+role=["\']tab["\']', r'\1', s, flags=re.I)
 
     if s != original:
@@ -61,14 +63,9 @@ if index.exists():
         flags=re.I,
     )
 
-    # Use the small favicon for the visual loader instead of downloading the oversized source logo.
-    s = re.sub(
-        r'(<img\s+src=["\'])images/Logo\.png(["\']\s+class=["\']loader-logo)',
-        r'\1/favicon.png\2',
-        s,
-        count=1,
-        flags=re.I,
-    )
+    # Small visual mark for UI logos; keep the original high-resolution logo files in the repo.
+    s = s.replace('src="images/Logo.webp"', 'src="/favicon.png"')
+    s = s.replace('src="images/Logo%20with%20Text%20Png.webp"', 'src="images/Logo%20with%20Text%20Png.webp"')
 
     # Remove any unconfigured Meta Pixel loader; it adds third-party cost without a Pixel ID.
     s = re.sub(
