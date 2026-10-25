@@ -1,0 +1,32 @@
+/* Minimal, shared stylesheet for standalone information and error pages. */
+:root{color-scheme:light;--pink:#d81b60;--ink:#21131a;--muted:#6d5a63;--bg:#fff8fb;--line:#eadde3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--pink);text-underline-offset:3px}
+.site-header{background:#fff;border-bottom:1px solid var(--line);padding:16px 20px}
+.site-header-inner,.page-main,.site-footer-inner{width:min(100% - 32px,1000px);margin-inline:auto}
+.site-header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand-name{font-weight:800;color:var(--ink);text-decoration:none}
+.top-nav{display:flex;gap:16px;flex-wrap:wrap}
+.top-nav a{font-size:.94rem}
+.page-main{padding-block:clamp(32px,6vw,68px);min-height:60vh}
+.eyebrow{color:var(--pink);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
+h1,h2{line-height:1.2;letter-spacing:-.02em}
+h1{font-size:clamp(2rem,5vw,3.5rem);margin:.2em 0 .5em}
+h2{font-size:clamp(1.3rem,3vw,1.8rem);margin:2em 0 .5em}
+p,li{max-width:75ch}
+.lead{font-size:1.13rem;color:var(--muted)}
+.link-row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 18px;border-radius:999px;background:var(--pink);color:#fff;font-weight:750;text-decoration:none}
+.cta.secondary{background:#fff;color:var(--pink);border:1px solid var(--pink)}
+.info-list{padding-left:22px}
+.price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.price-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:20px;min-width:0}
+.price-card strong{font-size:1.4rem;color:var(--pink)}
+.site-footer{background:#21131a;color:#fff;padding:20px}
+.site-footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.9rem}
+.site-footer a{color:#fff}
+.notice{border-left:4px solid var(--pink);padding:14px 18px;background:#fff}
+@media(max-width:680px){.top-nav{gap:10px}.price-grid{grid-template-columns:1fr}.site-header-inner{align-items:flex-start;flex-direction:column}.page-main{padding-block:32px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
