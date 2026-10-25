@@ -75,6 +75,15 @@ seo_block = '''
   </div>
 </section>
 '''
+# Close the navbar header before the hero. The source markup previously omitted this closing tag.
+nav_close = s.find('</nav>')
+hero_marker = s.find('<!-- ══════════ HERO ══════════ -->', nav_close)
+if nav_close >= 0 and hero_marker > nav_close:
+    between_nav_and_hero = s[nav_close + len('</nav>'):hero_marker]
+    if '</header>' not in between_nav_and_hero:
+        insert_at = nav_close + len('</nav>')
+        s = s[:insert_at] + '\n</header>\n' + s[insert_at:]
+
 # Keep the visual homepage first and give the page a semantic main landmark.
 if '<main id="main-content">' not in s:
     navbar_start = s.find('<header class="navbar">')
