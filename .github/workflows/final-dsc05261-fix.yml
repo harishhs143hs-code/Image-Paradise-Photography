@@ -1,0 +1,43 @@
+name: Final DSC05261 Fix
+on:
+  push:
+    paths:
+      - '.github/workflows/final-dsc05261-fix.yml'
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix DSC05261 image reference and bottom crop
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          for p in Path('.').rglob('*.html'):
+              if '.git' in p.parts:
+                  continue
+              s = p.read_text(encoding='utf-8')
+              pattern = re.compile(r'<img(?=[^>]*DSC05261)[^>]*>', re.I | re.S)
+              def fix(m):
+                  tag = m.group(0)
+                  tag = re.sub(r'src=["\'][^"\']*DSC05261[^"\']*["\']', 'src="/images/DSC05261-opt.JPG"', tag, flags=re.I)
+                  tag = re.sub(r'width=["\']\d+["\']', 'width="500"', tag, flags=re.I)
+                  tag = re.sub(r'height=["\']\d+["\']', 'height="700"', tag, flags=re.I)
+                  if 'object-fit' in tag.lower():
+                      tag = re.sub(r'style=["\'][^"\']*["\']', 'style="object-fit:cover;object-position:center bottom;"', tag, flags=re.I)
+                  else:
+                      tag = tag.replace('>', ' style="object-fit:cover;object-position:center bottom;">')
+                  return tag
+              fixed = pattern.sub(fix, s)
+              if fixed != s:
+                  p.write_text(fixed, encoding='utf-8')
+          PY
+          rm -f .github/workflows/fix-dsc05261.yml .github/workflows/apply-dsc05261-fix.yml .github/workflows/final-dsc05261-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix DSC05261 image and bottom crop" || exit 0
+          git push
