@@ -1,0 +1,52 @@
+name: Fix DSC05261 image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-dsc05261.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Crop replacement image from bottom
+        run: |
+          mkdir -p images
+          magick images/DSC05261.JPG -gravity South -crop 1263x1768+0+0 +repage -resize 1000x1400 -quality 90 images/DSC05261-cropped.jpg
+
+      - name: Fix HTML image reference
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          for p in Path('.').rglob('*.html'):
+              if '.git' in p.parts:
+                  continue
+              s = p.read_text(encoding='utf-8')
+              pattern = re.compile(r'<img(?=[^>]*DSC05261)[^>]*>', re.I | re.S)
+              def fix(m):
+                  tag = m.group(0)
+                  tag = re.sub(r'src=["\'][^"\']*DSC05261[^"\']*["\']', 'src="/images/DSC05261-cropped.jpg"', tag, flags=re.I)
+                  if 'object-fit' not in tag:
+                      tag = tag.replace('>', ' style="object-fit:cover;object-position:center bottom;">')
+                  return tag
+              fixed = pattern.sub(fix, s)
+              if fixed != s:
+                  p.write_text(fixed, encoding='utf-8')
+          PY
+
+      - name: Commit fix and remove workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/fix-dsc05261.yml
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Fix DSC05261 image crop and display"
+          git push
