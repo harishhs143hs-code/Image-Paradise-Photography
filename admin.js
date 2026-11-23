@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  catch(e){$("loginStatus").textContent=e.message;return;}
  const session=async()=> (await supabase.auth.getSession()).data.session;
  async function api(method="GET",body){const s=await session();if(!s)throw new Error("Please sign in again.");const r=await fetch("/api/admin/leads",{method,headers:{Authorization:"Bearer "+s.access_token,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});const data=await r.json();if(!r.ok)throw new Error(data.error||"Dashboard request failed");return data;}
- $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginStatus").textContent="Sending secure sign-in link…";const {error}=await supabase.auth.signInWithOtp({email:$("loginEmail").value.trim(),options:{emailRedirectTo:location.origin+"/admin.html"}});$("loginStatus").textContent=error?error.message:"Check your email for the sign-in link.";});
+ $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginStatus").textContent="Sending secure sign-in link…";const {error}=await supabase.auth.signInWithOtp({email:$("loginEmail").value.trim(),options:{emailRedirectTo:location.origin+"/admin.html",shouldCreateUser:false}});$("loginStatus").textContent=error?error.message:"Check your email for the sign-in link.";});
  $("signOut").addEventListener("click",async()=>{await supabase.auth.signOut();});
  $("refresh").addEventListener("click",load);
  $("search").addEventListener("input",render);$("statusFilter").addEventListener("change",render);
