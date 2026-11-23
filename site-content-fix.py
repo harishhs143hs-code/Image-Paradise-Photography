@@ -159,7 +159,7 @@ for _html_path in Path(".").glob("*.html"):
         if "</head>" in _html:
             _html = _html.replace("</head>", _org_schema + "\n</head>", 1)
     _html = _img_tag.sub(_upgrade_image_tag, _html)
-    _analytics_script = '<script defer src="/marketing-analytics.js"></script>'
+    _analytics_script = '<script type="module" src="/marketing-analytics.js"></script>'
     if _analytics_script not in _html and "</body>" in _html:
         _html = _html.replace("</body>", _analytics_script + "\n</body>", 1)
     if _html != _original:
