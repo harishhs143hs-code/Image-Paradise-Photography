@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
       submitButton.textContent = "Preparing your enquiry…";
     }
     if (status) status.textContent = "Preparing your enquiry. Please wait…";
-    emit("lead_form_submit_attempt", { form_id: form.id, service_type: service });
 
     let saved = false;
     try {
