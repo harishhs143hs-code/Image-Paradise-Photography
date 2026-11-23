@@ -31,9 +31,13 @@ for path in HTML_FILES:
 index = Path('index.html')
 if index.exists():
     s = index.read_text(encoding='utf-8')
-    s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Wedding Photographer Chennai | Image Paradise Photography</title>')
+    s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Affordable Professional Photography Worldwide | Image Paradise</title>')
     # Keep the homepage description aligned with the branded SEO version in source control.
-    s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wedding photography and cinematic wedding films in Chennai, Avadi and Tiruvallur. Explore candid, traditional and pre-wedding packages, real work and WhatsApp booking.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Affordable professional photography from ₹8,000 for qualifying shoots. Worldwide destination photography, wedding albums and video delivery within the agreed 10-day timeline.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="Affordable Professional Photography Worldwide | Image Paradise">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="Affordable professional photography from ₹8,000 for qualifying shoots. Worldwide destination bookings and wedding album shipping.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="twitter:title" content="[^"]*">', '<meta name="twitter:title" content="Affordable Professional Photography Worldwide | Image Paradise">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="twitter:description" content="[^"]*">', '<meta name="twitter:description" content="Affordable professional photography from ₹8,000 for qualifying shoots. Worldwide destination bookings and wedding album shipping.">', s, count=1, flags=re.I)
     s = re.sub(r'<meta property="og:image" content="[^"]*">', '<meta property="og:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:image" content="[^"]*">', '<meta name="twitter:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = s.replace('src="images/Logo.webp"', 'src="/favicon.png"')
