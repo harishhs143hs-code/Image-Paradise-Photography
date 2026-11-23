@@ -15,6 +15,13 @@ This branch contains review-stage changes only. Do not merge into `main` or prom
 - Replaced the Ambattur testimonials block with a portfolio link.
 - Updated the pre-wedding page to request a tailored quotation instead of displaying unconfirmed package prices.
 - Rebuilt the wedding budget guide around current published prices and removed obsolete ₹35,000/₹75,000 package claims.
+- Corrected budget-page Offer structured data to match the qualifying ₹8,000 photography session and the ₹8,000 / ₹15,000 album options; removed outdated ₹35,000 / ₹75,000 / ₹1,50,000 Offer values.
+- Repaired malformed nested JSON-LD on the Chennai wedding videography page.
+- Removed retired wedding-package links from the homepage and pointed them directly to the current packages page.
+- Standardised the blog index canonical to `/blog` and aligned the sitemap; removed the generic dynamic blog-post template from the sitemap.
+- Kept the dynamic blog-post template `noindex` until individual articles can be generated as stable, crawlable pages. Added DOMPurify sanitisation for CMS rich text and related-card markup, and dynamic Article schema for loaded posts.
+- Added `/admin.html` to the served `public/robots.txt` disallow list.
+- Aligned homepage Open Graph title and SEO description in the build-time metadata fixer.
 - Retired the old under-₹40,000 and under-₹50,000 wedding package pages; redirect those old URLs to the current packages page.
 - Removed a public street-address disclosure from the budget page and removed the old pages that exposed it in their content/schema.
 - Normalised service-page URLs in the XML sitemap and removed retired budget URLs.
@@ -26,12 +33,13 @@ This branch contains review-stage changes only. Do not merge into `main` or prom
 
 1. Provide a real GA4 Measurement ID or GTM container ID and configure consent-aware analytics. Current browser events are queued in `window.dataLayer`; they are not transmitted until a real analytics tag is installed.
 2. Confirm Google Search Console and Bing Webmaster Tools access, submit the final sitemap and inspect indexing/canonical coverage.
-3. Confirm whether a Google Business Profile exists, whether it is verified, and which service areas it genuinely serves. Keep any residential street address hidden if customers are not served at that address.
-4. Supply genuine, permissioned customer reviews if the owner wants a testimonial section restored.
-5. Confirm current pre-wedding and videography rates if public fixed prices are desired.
-6. Configure and test Supabase environment variables and migration before enabling the booking lead dashboard.
-7. For reliable referral attribution, add a dedicated referrals table, partner/referral IDs, server-side agreement-version and consent records, eligibility status and reward/payout ledger. The present Refer & Earn form still hands the user to WhatsApp and does not create a durable server-side referral record.
-8. Confirm the final legal terms for reward eligibility, cancellation, payout date/method and taxes with an appropriate legal/accounting adviser before treating the web agreement as a formal contract.
+3. Build static/server-rendered article URLs and per-article metadata before enabling blog-post indexing; the current dynamic template is intentionally noindex.
+4. Confirm whether a Google Business Profile exists, whether it is verified, and which service areas it genuinely serves. Keep any residential street address hidden if customers are not served at that address.
+5. Supply genuine, permissioned customer reviews if the owner wants a testimonial section restored.
+6. Confirm current pre-wedding and videography rates if public fixed prices are desired.
+7. Configure and test Supabase environment variables and migration before enabling the booking lead dashboard.
+8. For reliable referral attribution, add a dedicated referrals table, partner/referral IDs, server-side agreement-version and consent records, eligibility status and reward/payout ledger. The present Refer & Earn form still hands the user to WhatsApp and does not create a durable server-side referral record.
+9. Confirm the final legal terms for reward eligibility, cancellation, payout date/method and taxes with an appropriate legal/accounting adviser before treating the web agreement as a formal contract.
 
 ## QA required before production
 
