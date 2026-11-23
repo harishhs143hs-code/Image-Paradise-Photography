@@ -98,15 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   if (btt) btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* ── REFER & EARN NAV TAB ───────────────────── */
-  if (menu && !menu.querySelector('a[href="/refer-earn.html"]')) {
-    const li = document.createElement('li');
-    li.setAttribute('role', 'none');
-    li.innerHTML = '<a href="/refer-earn.html" role="menuitem" class="nav-refer">Refer &amp; Earn</a>';
-    const enquire = menu.querySelector('.nav-enquire')?.closest('li');
-    if (enquire) menu.insertBefore(li, enquire); else menu.appendChild(li);
-  }
-
   /* ── SMOOTH SCROLL ───────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
@@ -218,10 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (!entry.isIntersecting) return; const img = entry.target; if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } img.onload = () => img.classList.add('loaded'); img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23FCE4EC" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D81B60" font-family="sans-serif">Image%3C/text%3E%3C/svg%3E'; }; observer.unobserve(img); }); }, { rootMargin: '50px 0px' });
     lazyImages.forEach(img => imgObserver.observe(img));
   }
-
-  /* ── ACCESSIBILITY: ARROW KEY NAVIGATION ───── */
-  const menuLinks = menu?.querySelectorAll('a');
-  if (menuLinks) Array.from(menuLinks).forEach((link,index,links) => link.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); links[(index+1)%links.length]?.focus(); } if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); links[(index-1+links.length)%links.length]?.focus(); } }));
 
   /* ── PERFORMANCE: BASIC OBSERVABILITY ──────── */
   if ('PerformanceObserver' in window) { try { const lcpObserver = new PerformanceObserver(list => { const entries=list.getEntries(); const lastEntry=entries[entries.length-1]; if(lastEntry) console.log('LCP:',lastEntry.startTime.toFixed(2),'ms'); }); lcpObserver.observe({type:'largest-contentful-paint',buffered:true}); } catch(e) {} }
