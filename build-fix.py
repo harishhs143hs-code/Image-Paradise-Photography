@@ -3,7 +3,7 @@ import re
 
 p = Path('index.html')
 s = p.read_text(encoding='utf-8')
-s = s.replace('Chennai, Tamil Nadu, India', 'No. 2/670, Kudiyanvur Street 87, Veppampattu – 602024')
+s = s.replace('Chennai, Tamil Nadu, India', 'Veppampattu, Tiruvallur, Tamil Nadu')
 s = re.sub(r'<label>Email</label>\s*<p>[^<]*</p>', '<label>WhatsApp</label><p>+91 77085 10143</p>', s, count=1, flags=re.I)
 s = re.sub(r'<div class="ci-icon">✉</div>', '<div class="ci-icon">💬</div>', s, count=1)
 s = re.sub(r'<a[^>]*href=["\']mailto:[^"\']*["\'][^>]*>.*?</a>', '', s, flags=re.I|re.S)
