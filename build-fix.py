@@ -32,8 +32,8 @@ seo_block = '''
 <section class="ai-seo-content" aria-label="Wedding photography information">
   <div class="ai-seo-inner">
     <p class="ai-eyebrow">IMAGE PARADISE PHOTOGRAPHY · CHENNAI</p>
-    <h1>Wedding Photographer in Chennai for Candid, Traditional &amp; Cinematic Wedding Stories</h1>
-    <p class="ai-direct-answer"><strong>Image Paradise Photography is a wedding photography and videography service based in Veppampattu near Avadi, serving Chennai, Tiruvallur and Ambattur.</strong> We photograph weddings, engagements, pre-wedding sessions and family celebrations with candid, traditional and cinematic coverage. Couples can enquire on WhatsApp, discuss their event date and location, and choose coverage based on the size and style of their celebration.</p>
+    <h2>Wedding Photographer in Chennai for Candid, Traditional &amp; Cinematic Wedding Stories</h2>
+    <p class="ai-direct-answer"><strong>Image Paradise Photography is a photography and videography service based in Veppampattu near Avadi, Tamil Nadu, India.</strong> We serve Chennai, Tiruvallur, Avadi, Ambattur and nearby locations for weddings, pre-wedding sessions, baby and newborn milestones, birthdays, maternity, family portraits and events. Destination assignments elsewhere in India and internationally are available by prior arrangement, subject to availability and an agreed travel quotation.</p>
 
     <h2>What wedding photography services do we offer?</h2>
     <p>Our core services include candid wedding photography, traditional wedding photography, wedding videography, bridal portraits, engagement photography, pre-wedding photography and wedding album design. Coverage can be planned for intimate ceremonies, full wedding days or multi-event celebrations.</p>
@@ -111,7 +111,7 @@ if hero_start >= 0 and hero_end > hero_start:
 # Update the homepage snippet and point social previews at a real image asset.
 s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Wedding Photographer Chennai | Image Paradise Photography</title>')
 s = s.replace('content="Wedding Photographer in Chennai | Image Paradise"', 'content="Wedding Photographer Chennai | Image Paradise Photography"')
-s = s.replace('Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.', 'Wedding photography in Chennai, Avadi and Tiruvallur. Explore candid photos, videography packages and book on WhatsApp.')
+s = s.replace('Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.', 'Photographer in Chennai, Tiruvallur and Avadi for weddings, families and events. Destination assignments worldwide by prior arrangement. Check availability and request a quote.')
 s = s.replace('https://www.imageparadisephotography.online/og-image.png', 'https://www.imageparadisephotography.online/images/08.jpg')
 s = re.sub(r'\s*"https://www\.facebook\.com/imageparadisephotography",?', '', s)
 
