@@ -13,6 +13,8 @@
   "redirects": [
     {"source":"/index.html","destination":"/","permanent":true},
     {"source":"/index.php","destination":"/","permanent":true},
+    {"source":"/wedding-photography-under-40000-chennai.html","destination":"/packages.html","permanent":true},
+    {"source":"/wedding-photography-under-50000-chennai.html","destination":"/packages.html","permanent":true},
     {"source":"/wedding-photographer-chennai.html","destination":"/wedding-photographer-chennai","permanent":true},
     {"source":"/wedding-photographer-avadi.html","destination":"/wedding-photographer-avadi","permanent":true},
     {"source":"/wedding-photographer-tiruvallur.html","destination":"/wedding-photographer-tiruvallur","permanent":true},
