@@ -47,7 +47,7 @@ seo_block = '''
     </ul>
 
     <h2>How much does wedding photography cost in Chennai?</h2>
-    <p>Our published package examples start at <strong>₹35,000</strong> for essential coverage, with a <strong>₹75,000</strong> premium example and a <strong>₹1,50,000</strong> luxury example. Final pricing depends on coverage hours, number of photographers and videographers, album requirements, travel and additional events, so the final quote is confirmed after discussing the wedding plan.</p>
+    <p>Qualifying photography sessions start at <strong>₹8,000 for up to 3 hours</strong>. Videography is quoted separately. Wedding photography quotations depend on coverage hours, event schedule, crew requirements, album selection and destination travel. The final scope and price are confirmed in writing before booking.</p>
     <ul>
       <li><strong>Essential:</strong> example package at ₹35,000 for shorter coverage.</li>
       <li><strong>Premium:</strong> example package at ₹75,000 with broader photo/video coverage.</li>
@@ -69,7 +69,7 @@ seo_block = '''
     <p>Candid wedding photography focuses on genuine moments rather than only posed portraits. The approach records reactions, family interactions, rituals, laughter and quiet emotional moments as they happen, while traditional portraits can be planned around the couple, family and ceremony.</p>
 
     <h2>How quickly are wedding photos delivered?</h2>
-    <p>The published service information states that preview selections can be provided within 24–48 hours, while full edited galleries are typically delivered within 4–6 weeks. Album design and printing can require additional time depending on the selected album and approval process.</p>
+    <p>Delivery timing is confirmed in the final quotation and depends on the event, editing scope, customer photo selection and album approval. International album shipping is available; courier transit and customs can affect arrival time.</p>
 
     <p class="ai-takeaway"><strong>Planning a wedding in Chennai, Avadi or Tiruvallur?</strong> Start by sharing your event date and location on WhatsApp so the team can check availability and recommend suitable photography and videography coverage.</p>
   </div>
