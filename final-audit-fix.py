@@ -36,7 +36,7 @@ if index.exists():
     s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
     s = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="Wedding Photographer Chennai &amp; Tiruvallur | Image Paradise">', s, count=1, flags=re.I)
     s = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
-    s = re.sub(r'<meta name="twitter:title" content="[^"]*">', '<meta name="twitter:title" content="Photographer in Chennai &amp; Tiruvallur | Image Paradise Photography">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="twitter:title" content="[^"]*">', '<meta name="twitter:title" content="Wedding Photographer Chennai &amp; Tiruvallur | Image Paradise">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:description" content="[^"]*">', '<meta name="twitter:description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
     s = re.sub(r'<meta property="og:image" content="[^"]*">', '<meta property="og:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:image" content="[^"]*">', '<meta name="twitter:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
