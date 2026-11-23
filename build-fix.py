@@ -93,11 +93,8 @@ if '<main id="main-content">' not in s:
         after_nav = navbar_end + len('</header>')
         s = s[:after_nav] + '\n<main id="main-content">' + s[after_nav:footer_start] + '\n</main>\n' + s[footer_start:]
 
-if 'class="ai-seo-content"' not in s:
-    if '</main>' in s:
-        s = s.replace('</main>', seo_block + '\n</main>', 1)
-    else:
-        s = s.replace('</body>', seo_block + '\n</body>', 1)
+# The homepage now has concise, customer-first service information in its main sections.
+# Do not append a second keyword-heavy SEO block.
 
 # Remove reveal attributes from above-the-fold hero content so the H1 is not hidden while JS loads.
 hero_start = s.find('<section id="hero"')
@@ -145,7 +142,7 @@ seo_css = '''
 '''
 seo_css_path = Path('geo-homepage.css')
 seo_css_existing = seo_css_path.read_text(encoding='utf-8')
-if '.ai-seo-content{' not in seo_css_existing and '.ai-seo-content {' not in seo_css_existing:
+if False and '.ai-seo-content{' not in seo_css_existing and '.ai-seo-content {' not in seo_css_existing:
     seo_css_path.write_text(seo_css_existing + '\n' + seo_css + '\n', encoding='utf-8')
 
 # Add HowTo schema for the booking workflow if it is not already present.
