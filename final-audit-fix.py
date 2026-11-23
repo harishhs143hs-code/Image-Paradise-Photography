@@ -31,13 +31,13 @@ for path in HTML_FILES:
 index = Path('index.html')
 if index.exists():
     s = index.read_text(encoding='utf-8')
-    s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Photographer in Chennai &amp; Tiruvallur | Image Paradise Photography</title>')
+    s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Wedding Photographer Chennai &amp; Tiruvallur | Image Paradise</title>')
     # Keep the homepage description aligned with the branded SEO version in source control.
-    s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wedding, pre-wedding, baby, birthday, maternity, family and event photography in Chennai, Tiruvallur, Avadi and nearby Tamil Nadu. Based in Veppampattu near Avadi. Destination bookings by prior arrangement.">', s, count=1, flags=re.I)
-    s = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="Photographer in Chennai &amp; Tiruvallur | Image Paradise Photography">', s, count=1, flags=re.I)
-    s = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="Photography and videography for weddings, families and events in Chennai and Tamil Nadu, with destination bookings worldwide by prior arrangement.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="Wedding Photographer Chennai &amp; Tiruvallur | Image Paradise">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:title" content="[^"]*">', '<meta name="twitter:title" content="Photographer in Chennai &amp; Tiruvallur | Image Paradise Photography">', s, count=1, flags=re.I)
-    s = re.sub(r'<meta name="twitter:description" content="[^"]*">', '<meta name="twitter:description" content="Wedding, family, baby and event photography in Chennai and Tamil Nadu, with destination bookings worldwide by arrangement.">', s, count=1, flags=re.I)
+    s = re.sub(r'<meta name="twitter:description" content="[^"]*">', '<meta name="twitter:description" content="Wedding and family photography in Chennai, Avadi and Tiruvallur. View our work, explore prices and ask about your event date.">', s, count=1, flags=re.I)
     s = re.sub(r'<meta property="og:image" content="[^"]*">', '<meta property="og:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = re.sub(r'<meta name="twitter:image" content="[^"]*">', '<meta name="twitter:image" content="https://www.imageparadisephotography.online/images/08.webp">', s, count=1, flags=re.I)
     s = s.replace('src="images/Logo.webp"', 'src="/favicon.png"')
