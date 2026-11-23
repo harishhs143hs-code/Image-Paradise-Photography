@@ -252,13 +252,13 @@
     }
 
     const html = related.map(post => `
-      <a href="/blog-post.html?slug=${post.slug}" class="related-card">
+      <a href="/blog-post.html?slug=${encodeURIComponent(post.slug)}" class="related-card">
         <h4>${post.title}</h4>
         <p>${formatDate(post.published_at)}</p>
       </a>
     `).join('');
 
-    document.getElementById('relatedGrid').innerHTML = html;
+    document.getElementById('relatedGrid').innerHTML = window.DOMPurify ? window.DOMPurify.sanitize(html) : '';
   }
 
   // Initialize
