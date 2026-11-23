@@ -166,7 +166,7 @@
 
     // A real published article has loaded: make its URL canonical and indexable.
     const robotsMeta = document.querySelector('meta[name="robots"]');
-    if (robotsMeta) robotsMeta.content = 'index, follow';
+    if (robotsMeta) robotsMeta.content = 'noindex, follow';
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
     canonical.href = 'https://www.imageparadisephotography.online/blog-post.html?slug=' + encodeURIComponent(post.slug);
