@@ -62,3 +62,36 @@ This branch contains review-stage changes only. Do not merge into `main` or prom
 - Videography: quoted separately.
 - Album options: 100 selected photos ₹8,000; 200 selected photos ₹15,000.
 - Travel/location costs: included in the final agreed quotation.
+
+ 
+## Corporate conversion rebuild — 24 November 2026
+
+The three external audits supplied by the business owner were reviewed as a combined evidence set:
+
+- WebEnture Website Grader: 89/100 across 21 crawled pages; 177 findings reported, 0 critical. The PDF groups findings by category and page but does not expose the complete 177-item evidence list, so it cannot support a claim that every individual finding has been cleared.
+- SEOmator: 91/100, with 3 failed checks, 23 warnings and 149 passed checks. Main actionable items included keyword repetition, long meta description, multiple CSS requests, missing LCP preload, image delivery/responsive-image opportunities, and accessibility labels/skip navigation.
+- The HOTH: A− overall; on-page SEO A−, GEO A+, links A+, usability A, performance A−. It flagged a long title/description, keyword consistency, CSS requests, and external trust/technical items.
+
+The reports were generated on 23 November 2026. Some findings conflict with the repository state inspected on 24 November (for example, viewport metadata and the Indian phone number), so the reports should be treated as dated snapshots rather than a live test of the current branch.
+
+### Changes prepared on the preview branch
+
+- Reworked the homepage hero around a real portfolio image, clearer local positioning and an accurate qualifying-session price statement.
+- Removed the autoplay hero video, reduced motion-heavy decoration, consolidated the homepage CSS into one stylesheet request, and added an LCP image preload.
+- Added skip navigation, accessible lightbox button names, direct telephone links and a persistent mobile call/WhatsApp bar.
+- Rebuilt the enquiry form layout so only name, phone, event location and service are required; optional fields remain available for a more accurate quote.
+- Connected the form to the public lead intake API, then prepares a service-specific WhatsApp message. The browser event stream distinguishes a confirmed database save from a storage-unavailable fallback and does not send personal data to analytics.
+- Removed unverified testimonials, unsupported claims about years/volume of experience, and unverified delivery promises from the affected service pages.
+- Aligned service-page pricing language with the published qualifying-session and album prices; removed a redirected URL from the sitemap.
+
+### Items requiring owner or external account setup
+
+1. **Supabase lead storage:** The Vercel project currently has no environment variables. Follow LEAD_DASHBOARD_SETUP.md, apply supabase/migrations/20261124090000_create_photography_leads.sql, and add SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY (server-side only), and DASHBOARD_ADMIN_EMAILS in Vercel. Never place the service-role key in frontend code or GitHub.
+2. **Analytics:** No real GA4 Measurement ID or GTM container is configured. Events are queued in window.dataLayer but are not transmitted until a real consent-aware analytics tag is configured. Follow ANALYTICS_SETUP.md.
+3. **Google Business Profile:** Verify/optimise the business profile using the owner's Google account. Use the correct service-area configuration and do not publish a private residential street address if customers are not received there.
+4. **Email DNS:** The HOTH report flags SPF. The correct SPF record depends on the actual email provider; do not publish a guessed SPF record. Confirm the sending provider before changing DNS.
+5. **Visual verification:** Desktop/mobile visual QA, Core Web Vitals and a fresh crawl must be performed on the latest preview deployment before production approval.
+
+### Deployment safety
+
+All changes are on feature/corporate-conversion-rebuild-2026 and PR #8. No production branch merge or production deployment has been made. The latest preview build could not be triggered during this session because Vercel returned its daily API deployment quota limit; do not treat the existing older preview deployment as the latest code.

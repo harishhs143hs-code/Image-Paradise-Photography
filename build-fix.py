@@ -93,11 +93,8 @@ if '<main id="main-content">' not in s:
         after_nav = navbar_end + len('</header>')
         s = s[:after_nav] + '\n<main id="main-content">' + s[after_nav:footer_start] + '\n</main>\n' + s[footer_start:]
 
-if 'class="ai-seo-content"' not in s:
-    if '</main>' in s:
-        s = s.replace('</main>', seo_block + '\n</main>', 1)
-    else:
-        s = s.replace('</body>', seo_block + '\n</body>', 1)
+# The homepage now has concise, customer-first service information in its main sections.
+# Do not append a second keyword-heavy SEO block.
 
 # Remove reveal attributes from above-the-fold hero content so the H1 is not hidden while JS loads.
 hero_start = s.find('<section id="hero"')
@@ -145,11 +142,11 @@ seo_css = '''
 '''
 seo_css_path = Path('geo-homepage.css')
 seo_css_existing = seo_css_path.read_text(encoding='utf-8')
-if '.ai-seo-content{' not in seo_css_existing and '.ai-seo-content {' not in seo_css_existing:
+if False and '.ai-seo-content{' not in seo_css_existing and '.ai-seo-content {' not in seo_css_existing:
     seo_css_path.write_text(seo_css_existing + '\n' + seo_css + '\n', encoding='utf-8')
 
 # Add HowTo schema for the booking workflow if it is not already present.
-howto = '''\n<script id="geo-howto-schema" type="application/ld+json">\n{\n  "@context":"https://schema.org",\n  "@type":"HowTo",\n  "name":"How to book wedding photography with Image Paradise Photography",\n  "description":"Four simple steps to enquire about wedding photography and videography in Chennai, Avadi or Tiruvallur.",\n  "step":[\n    {"@type":"HowToStep","position":1,"name":"Share event details","text":"Share your name, mobile number, event date, location and event type on WhatsApp."},\n    {"@type":"HowToStep","position":2,"name":"Discuss coverage","text":"Discuss photography style, coverage hours, video requirements and album needs."},\n    {"@type":"HowToStep","position":3,"name":"Choose a package","text":"Receive a package recommendation and quotation based on the event plan."},\n    {"@type":"HowToStep","position":4,"name":"Confirm the booking","text":"Confirm availability and booking details for the wedding date."}\n  ]\n}\n</script>\n'''
+howto = '''\n<script id="geo-howto-schema" type="application/ld+json">\n{\n  "@context":"https://schema.org",\n  "@type":"HowTo",\n  "name":"How to enquire about photography with Image Paradise Photography",\n  "description":"How to send a photography enquiry, review the prepared WhatsApp message and confirm a written quotation.",\n  "step":[\n    {"@type":"HowToStep","position":1,"name":"Share your enquiry details","text":"Complete the enquiry form with your name, phone number, event location and service. Add the event date if known."},\n    {"@type":"HowToStep","position":2,"name":"Review the WhatsApp message","text":"Review the prepared WhatsApp message and tap Send to share your enquiry."},\n    {"@type":"HowToStep","position":3,"name":"Discuss coverage","text":"Discuss photography style, coverage hours, video requirements, album options and location needs."},\n    {"@type":"HowToStep","position":4,"name":"Confirm the quotation","text":"Availability, deliverables, travel and the final price are confirmed in writing before booking."}\n  ]\n}\n</script>\n'''
 if 'id="geo-howto-schema"' not in s:
     s = s.replace('</head>', howto + '\n</head>', 1)
 
