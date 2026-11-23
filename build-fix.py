@@ -49,9 +49,9 @@ seo_block = '''
     <h2>How much does wedding photography cost in Chennai?</h2>
     <p>Qualifying photography sessions start at <strong>₹8,000 for up to 3 hours</strong>. Videography is quoted separately. Wedding photography quotations depend on coverage hours, event schedule, crew requirements, album selection and destination travel. The final scope and price are confirmed in writing before booking.</p>
     <ul>
-      <li><strong>Essential:</strong> example package at ₹35,000 for shorter coverage.</li>
-      <li><strong>Premium:</strong> example package at ₹75,000 with broader photo/video coverage.</li>
-      <li><strong>Luxury:</strong> example package at ₹1,50,000 for full-day and expanded coverage.</li>
+      <li><strong>Photography:</strong> qualifying sessions from ₹8,000 for up to 3 hours.</li>
+      <li><strong>Videography:</strong> quoted separately according to requirements.</li>
+      <li><strong>Albums:</strong> ₹8,000 for 100 selected photos or ₹15,000 for 200 selected photos.</li>
     </ul>
 
     <h2>How does the wedding photography booking process work?</h2>
