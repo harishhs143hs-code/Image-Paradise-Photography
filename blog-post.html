@@ -110,6 +110,7 @@
 
 <button class="btt" id="btt" title="Back to top">↑</button>
 
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // Initialize Supabase client
@@ -163,6 +164,13 @@
       return;
     }
 
+    // A real published article has loaded: make its URL canonical and indexable.
+    const robotsMeta = document.querySelector('meta[name="robots"]');
+    if (robotsMeta) robotsMeta.content = 'index, follow';
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+    canonical.href = 'https://www.imageparadisephotography.online/blog-post.html?slug=' + encodeURIComponent(post.slug);
+
     // Update page meta tags
     document.title = post.meta_title || post.title + ' | Image Paradise Photography';
     document.querySelector('meta[name="description"]').content = post.meta_description || post.excerpt || '';
@@ -173,45 +181,50 @@
     // Update breadcrumb
     document.getElementById('postBreadcrumb').textContent = post.title;
 
-    // Render post
+    // Render post. Escape metadata fields and sanitise rich-text content from the CMS.
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const categoryHtml = post.blog_categories
-      ? `<span class="post-category">${post.blog_categories.name}</span>`
+      ? `<span class="post-category">${escapeHtml(post.blog_categories.name)}</span>`
       : '';
 
-    const imageHtml = post.featured_image
-      ? `<div class="post-featured-image"><img src="${post.featured_image}" alt="${post.title}"></div>`
+    const safeImageUrl = /^https:\/\//i.test(post.featured_image || '') ? post.featured_image : '';
+    const imageHtml = safeImageUrl
+      ? `<div class="post-featured-image"><img src="${escapeHtml(safeImageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy" decoding="async"></div>`
       : '';
+    const safeContent = window.DOMPurify
+      ? window.DOMPurify.sanitize(post.content || '', { USE_PROFILES: { html: true } })
+      : escapeHtml(post.content || '').replace(/\n/g, '<br>');
 
     document.getElementById('postContent').innerHTML = `
       <header class="post-header">
         ${categoryHtml}
-        <h1>${post.title}</h1>
+        <h1>${escapeHtml(post.title)}</h1>
         <div class="post-meta">
           <span>📅 ${formatDate(post.published_at || post.created_at)}</span>
-          <span>✍️ ${post.author_name || 'Image Paradise Photography'}</span>
+          <span>✍️ ${escapeHtml(post.author_name || 'Image Paradise Photography')}</span>
         </div>
       </header>
       ${imageHtml}
       <div class="post-content">
-        ${post.content}
+        ${safeContent}
       </div>
-      <!-- Schema.org Article markup -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "${post.title.replace(/"/g, '\\"')}",
-        "description": "${(post.excerpt || '').replace(/"/g, '\\"')}",
-        "author": { "@type": "Organization", "name": "Image Paradise Photography" },
-        "datePublished": "${post.published_at || post.created_at}",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Image Paradise Photography",
-          "logo": { "@type": "ImageObject", "url": "https://www.imageparadisephotography.online/images/Logo.png" }
-        }
-      }
-      <\/script>
+
     `;
+
+    // Add Article structured data as a real DOM script element (innerHTML scripts do not execute).
+    const articleSchema = {
+      "@context": "https://schema.org", "@type": "Article",
+      headline: post.title, description: post.meta_description || post.excerpt || '',
+      url: canonical.href, datePublished: post.published_at || post.created_at,
+      author: { "@type": "Person", name: post.author_name || "Image Paradise Photography" },
+      publisher: { "@type": "Organization", name: "Image Paradise Photography", logo: { "@type": "ImageObject", url: "https://www.imageparadisephotography.online/images/Logo.png" } }
+    };
+    const previousSchema = document.getElementById('dynamic-article-schema');
+    if (previousSchema) previousSchema.remove();
+    const schemaScript = document.createElement('script');
+    schemaScript.id = 'dynamic-article-schema'; schemaScript.type = 'application/ld+json';
+    schemaScript.textContent = JSON.stringify(articleSchema);
+    document.head.appendChild(schemaScript);
 
     // Load related posts
     loadRelatedPosts(post);
