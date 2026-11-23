@@ -442,7 +442,7 @@
   <h3>Tell us about your event</h3>
   <p>Start with four details. The remaining fields are optional and help us prepare a more accurate quotation.</p>
   <div class="lead-field"><label for="clientName">Your name *</label><input id="clientName" name="clientName" type="text" autocomplete="name" maxlength="100" placeholder="Your full name" required></div>
-  <div class="lead-field"><label for="clientMobile">WhatsApp / phone number *</label><input id="clientMobile" name="clientMobile" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="+91 77000 00000" required></div>
+  <div class="lead-field"><label for="clientMobile">WhatsApp / phone number *</label><input id="clientMobile" name="clientMobile" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[+()0-9 .-]{7,30}" title="Enter a valid phone number, including country code if needed" placeholder="+91 77000 00000" required></div>
   <div class="lead-field"><label for="clientEmail">Email (optional)</label><input id="clientEmail" name="clientEmail" type="email" autocomplete="email" maxlength="160" placeholder="you@example.com"></div>
   <div class="lead-field"><label for="clientLocation">Event city and country *</label><input id="clientLocation" name="clientLocation" type="text" autocomplete="country-name" maxlength="160" placeholder="e.g. Chennai, India / Dubai, UAE" required></div>
   <div class="lead-field"><label for="eventType">Photography service *</label><select id="eventType" name="eventType" required>
