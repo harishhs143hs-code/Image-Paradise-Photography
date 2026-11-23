@@ -32,8 +32,8 @@ seo_block = '''
 <section class="ai-seo-content" aria-label="Wedding photography information">
   <div class="ai-seo-inner">
     <p class="ai-eyebrow">IMAGE PARADISE PHOTOGRAPHY · CHENNAI</p>
-    <h1>Wedding Photographer in Chennai for Candid, Traditional &amp; Cinematic Wedding Stories</h1>
-    <p class="ai-direct-answer"><strong>Image Paradise Photography is a wedding photography and videography service based in Veppampattu near Avadi, serving Chennai, Tiruvallur and Ambattur.</strong> We photograph weddings, engagements, pre-wedding sessions and family celebrations with candid, traditional and cinematic coverage. Couples can enquire on WhatsApp, discuss their event date and location, and choose coverage based on the size and style of their celebration.</p>
+    <h2>Wedding Photographer in Chennai for Candid, Traditional &amp; Cinematic Wedding Stories</h2>
+    <p class="ai-direct-answer"><strong>Image Paradise Photography is a photography and videography service based in Veppampattu near Avadi, Tamil Nadu, India.</strong> We serve Chennai, Tiruvallur, Avadi, Ambattur and nearby locations for weddings, pre-wedding sessions, baby and newborn milestones, birthdays, maternity, family portraits and events. Destination assignments elsewhere in India and internationally are available by prior arrangement, subject to availability and an agreed travel quotation.</p>
 
     <h2>What wedding photography services do we offer?</h2>
     <p>Our core services include candid wedding photography, traditional wedding photography, wedding videography, bridal portraits, engagement photography, pre-wedding photography and wedding album design. Coverage can be planned for intimate ceremonies, full wedding days or multi-event celebrations.</p>
@@ -47,11 +47,11 @@ seo_block = '''
     </ul>
 
     <h2>How much does wedding photography cost in Chennai?</h2>
-    <p>Our published package examples start at <strong>₹35,000</strong> for essential coverage, with a <strong>₹75,000</strong> premium example and a <strong>₹1,50,000</strong> luxury example. Final pricing depends on coverage hours, number of photographers and videographers, album requirements, travel and additional events, so the final quote is confirmed after discussing the wedding plan.</p>
+    <p>Qualifying photography sessions start at <strong>₹8,000 for up to 3 hours</strong>. Videography is quoted separately. Wedding photography quotations depend on coverage hours, event schedule, crew requirements, album selection and destination travel. The final scope and price are confirmed in writing before booking.</p>
     <ul>
-      <li><strong>Essential:</strong> example package at ₹35,000 for shorter coverage.</li>
-      <li><strong>Premium:</strong> example package at ₹75,000 with broader photo/video coverage.</li>
-      <li><strong>Luxury:</strong> example package at ₹1,50,000 for full-day and expanded coverage.</li>
+      <li><strong>Photography:</strong> qualifying sessions from ₹8,000 for up to 3 hours.</li>
+      <li><strong>Videography:</strong> quoted separately according to requirements.</li>
+      <li><strong>Albums:</strong> ₹8,000 for 100 selected photos or ₹15,000 for 200 selected photos.</li>
     </ul>
 
     <h2>How does the wedding photography booking process work?</h2>
@@ -69,7 +69,7 @@ seo_block = '''
     <p>Candid wedding photography focuses on genuine moments rather than only posed portraits. The approach records reactions, family interactions, rituals, laughter and quiet emotional moments as they happen, while traditional portraits can be planned around the couple, family and ceremony.</p>
 
     <h2>How quickly are wedding photos delivered?</h2>
-    <p>The published service information states that preview selections can be provided within 24–48 hours, while full edited galleries are typically delivered within 4–6 weeks. Album design and printing can require additional time depending on the selected album and approval process.</p>
+    <p>Delivery timing is confirmed in the final quotation and depends on the event, editing scope, customer photo selection and album approval. International album shipping is available; courier transit and customs can affect arrival time.</p>
 
     <p class="ai-takeaway"><strong>Planning a wedding in Chennai, Avadi or Tiruvallur?</strong> Start by sharing your event date and location on WhatsApp so the team can check availability and recommend suitable photography and videography coverage.</p>
   </div>
@@ -111,7 +111,7 @@ if hero_start >= 0 and hero_end > hero_start:
 # Update the homepage snippet and point social previews at a real image asset.
 s = s.replace('<title>Wedding Photographer in Chennai | Image Paradise</title>', '<title>Wedding Photographer Chennai | Image Paradise Photography</title>')
 s = s.replace('content="Wedding Photographer in Chennai | Image Paradise"', 'content="Wedding Photographer Chennai | Image Paradise Photography"')
-s = s.replace('Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.', 'Wedding photography in Chennai, Avadi and Tiruvallur. Explore candid photos, videography packages and book on WhatsApp.')
+s = s.replace('Wedding photography and videography near Avadi, Chennai and across Tiruvallur. Explore candid photography, packages, pre-wedding shoots and WhatsApp booking.', 'Photographer in Chennai, Tiruvallur and Avadi for weddings, families and events. Destination assignments worldwide by prior arrangement. Check availability and request a quote.')
 s = s.replace('https://www.imageparadisephotography.online/og-image.png', 'https://www.imageparadisephotography.online/images/08.jpg')
 s = re.sub(r'\s*"https://www\.facebook\.com/imageparadisephotography",?', '', s)
 

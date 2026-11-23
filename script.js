@@ -11,24 +11,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (heroVideo) {
     heroVideo.muted = true;
-    heroVideo.play().catch(() => {
-      const start = () => { heroVideo.play().catch(() => {}); };
-      document.addEventListener('touchstart', start, { once: true });
-      document.addEventListener('click',      start, { once: true });
-    });
-    if (heroMuteBtn) {
-      heroMuteBtn.addEventListener('click', () => {
-        heroVideo.muted = !heroVideo.muted;
-        if (heroMuteLbl) heroMuteLbl.textContent = heroVideo.muted ? 'Sound off' : 'Sound on';
-        heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Unmute promo video' : 'Mute promo video');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      // Respect the visitor's motion preference: keep the poster visible, do not autoplay.
+      heroVideo.pause();
+      heroVideo.removeAttribute('autoplay');
+      if (heroMuteBtn) heroMuteBtn.hidden = true;
+    } else {
+      heroVideo.play().catch(() => {
+        const start = () => { heroVideo.play().catch(() => {}); };
+        document.addEventListener('touchstart', start, { once: true });
+        document.addEventListener('click',      start, { once: true });
       });
+      if (heroMuteBtn) {
+        heroMuteBtn.addEventListener('click', () => {
+          heroVideo.muted = !heroVideo.muted;
+          if (heroMuteLbl) heroMuteLbl.textContent = heroVideo.muted ? 'Sound off' : 'Sound on';
+          heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Unmute promo video' : 'Mute promo video');
+        });
+      }
     }
   }
 
   // The full-screen loader was removed so content is visible immediately.\n  /* ── CUSTOM CURSOR ───────────────────────────── */
   const cur  = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  if (cur && ring && window.matchMedia('(pointer: fine)').matches) {
+  if (cur && ring && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
       cur.style.left = e.clientX + 'px';
