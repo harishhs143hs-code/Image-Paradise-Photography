@@ -4,56 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── HERO PROMO VIDEO ────────────────────────── */
-  const heroVideo   = document.getElementById('heroVideo');
-  const heroMuteBtn = document.getElementById('heroVideoMute');
-  const heroMuteLbl = heroMuteBtn ? heroMuteBtn.querySelector('.hero-video-mute-label') : null;
-
-  if (heroVideo) {
-    heroVideo.muted = true;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
-      // Respect the visitor's motion preference: keep the poster visible, do not autoplay.
-      heroVideo.pause();
-      heroVideo.removeAttribute('autoplay');
-      if (heroMuteBtn) heroMuteBtn.hidden = true;
-    } else {
-      heroVideo.play().catch(() => {
-        const start = () => { heroVideo.play().catch(() => {}); };
-        document.addEventListener('touchstart', start, { once: true });
-        document.addEventListener('click',      start, { once: true });
-      });
-      if (heroMuteBtn) {
-        heroMuteBtn.addEventListener('click', () => {
-          heroVideo.muted = !heroVideo.muted;
-          if (heroMuteLbl) heroMuteLbl.textContent = heroVideo.muted ? 'Sound off' : 'Sound on';
-          heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Unmute promo video' : 'Mute promo video');
-        });
-      }
-    }
-  }
-
-  // The full-screen loader was removed so content is visible immediately.\n  /* ── CUSTOM CURSOR ───────────────────────────── */
-  const cur  = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  if (cur && ring && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    let rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => {
-      cur.style.left = e.clientX + 'px';
-      cur.style.top  = e.clientY + 'px';
-    });
-    (function loop() {
-      rx += (parseFloat(cur.style.left||0) - rx) * .13;
-      ry += (parseFloat(cur.style.top||0)  - ry) * .13;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(loop);
-    })();
-    document.querySelectorAll('a,button,.chip,.g-item').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.style.width='18px'; cur.style.height='18px'; ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='.25'; });
-      el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='.5'; });
-    });
-  }
+  // The hero uses a static, optimised portfolio photograph for fast, accessible loading.
 
   /* ── NAVBAR ──────────────────────────────────── */
   const nav      = document.getElementById('nav');
