@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (status) status.textContent = "Preparing your enquiry. Please wait…";
 
     let saved = false;
+    let storageState = "temporary";
     try {
       const response = await fetch("/api/leads", {
         method: "POST",
@@ -83,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       });
       saved = response.status === 201;
+      if (saved) storageState = "saved";
+      else if (response.status === 503) storageState = "not_configured";
     } catch (_) {
       saved = false;
     }
@@ -99,7 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (status) {
       status.textContent = saved
         ? "Your enquiry has been saved. WhatsApp is opening with your details; review the message and tap Send."
-        : "Your message is ready in WhatsApp. Online lead storage is not connected yet, so please tap Send to share your enquiry.";
+        : storageState === "not_configured"
+          ? "Your message is ready in WhatsApp. Online lead storage is not connected yet, so please tap Send to share your enquiry."
+          : "Your message is ready in WhatsApp. We could not save it online just now, so please tap Send to share your enquiry.";
     }
     if (submitButton) {
       submitButton.disabled = false;
