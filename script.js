@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // The full-screen loader was removed so content is visible immediately.\n  /* ── CUSTOM CURSOR ───────────────────────────── */
   const cur  = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  if (cur && ring && window.matchMedia('(pointer: fine)').matches) {
+  if (cur && ring && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
       cur.style.left = e.clientX + 'px';
