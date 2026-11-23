@@ -5,7 +5,7 @@ import struct
 # Blog index: keep canonical URL consistent with the sitemap.
 p = Path('blog.html')
 s = p.read_text(encoding='utf-8')
-s = s.replace('https://www.imageparadisephotography.online/blog"', 'https://www.imageparadisephotography.online/blog.html"')
+s = s.replace('https://www.imageparadisephotography.online/blog.html"', 'https://www.imageparadisephotography.online/blog"')
 p.write_text(s, encoding='utf-8')
 
 # Pre-wedding page: keep canonical consistent with the sitemap filename.
@@ -24,7 +24,7 @@ s = s.replace('<meta property="og:title" content="">', '<meta property="og:title
 s = s.replace('<meta property="og:description" content="">', '<meta property="og:description" content="Wedding photography tips, planning guides and practical advice for couples in Chennai and Tamil Nadu.">')
 s = s.replace('<meta property="og:image" content="">', '<meta property="og:image" content="https://www.imageparadisephotography.online/images/08.jpg">')
 if 'rel="canonical" href="https://www.imageparadisephotography.online/blog-post.html"' not in s:
-    s = s.replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="index, follow">\n  <link rel="canonical" href="https://www.imageparadisephotography.online/blog-post.html">', 1)
+    s = s.replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="noindex, follow">', 1)
 fallback = '''<article id="postContent">
     <header class="post-header">
       <span class="post-category">Wedding Photography Guide</span>
