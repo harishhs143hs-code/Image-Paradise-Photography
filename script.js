@@ -272,6 +272,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuLinks = menu?.querySelectorAll('a');
   if (menuLinks) Array.from(menuLinks).forEach((link,index,links) => link.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); links[(index+1)%links.length]?.focus(); } if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); links[(index-1+links.length)%links.length]?.focus(); } }));
 
+  /* ── ABOUT PHOTO SLIDESHOW ─────────────────── */
+  const aboutSlides = Array.from(document.querySelectorAll('#about .ap-slide'));
+  const aboutDots = Array.from(document.querySelectorAll('#about .ap-dot'));
+  if (aboutSlides.length > 1) {
+    let activeSlide = 0;
+    let slideTimer = null;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const showAboutSlide = (nextIndex) => {
+      activeSlide = (nextIndex + aboutSlides.length) % aboutSlides.length;
+      aboutSlides.forEach((slide, index) => {
+        const active = index === activeSlide;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+      });
+      aboutDots.forEach((dot, index) => {
+        const active = index === activeSlide;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-pressed', String(active));
+      });
+    };
+
+    const stopAboutSlideshow = () => {
+      if (slideTimer) window.clearInterval(slideTimer);
+      slideTimer = null;
+    };
+    const startAboutSlideshow = () => {
+      stopAboutSlideshow();
+      if (!reducedMotion && !document.hidden) {
+        slideTimer = window.setInterval(() => showAboutSlide(activeSlide + 1), 4200);
+      }
+    };
+
+    aboutDots.forEach((dot, index) => dot.addEventListener('click', () => {
+      showAboutSlide(index);
+      startAboutSlideshow();
+    }));
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopAboutSlideshow();
+      else startAboutSlideshow();
+    });
+    showAboutSlide(0);
+    startAboutSlideshow();
+  }
+
   /* ── PERFORMANCE: BASIC OBSERVABILITY ──────── */
   if ('PerformanceObserver' in window) { try { const lcpObserver = new PerformanceObserver(list => { const entries=list.getEntries(); const lastEntry=entries[entries.length-1]; if(lastEntry) console.log('LCP:',lastEntry.startTime.toFixed(2),'ms'); }); lcpObserver.observe({type:'largest-contentful-paint',buffered:true}); } catch(e) {} }
 
