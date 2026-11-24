@@ -646,3 +646,93 @@ button, .btn-pink, .btn-outline, .whatsapp-lead-button { min-height: 44px; touch
   outline: 3px solid var(--pk, #D81B60);
   outline-offset: 3px;
 }
+
+
+/* ABOUT PHOTO SLIDESHOW — aligned single-frame layout */
+#about .about-photos {
+  display: block;
+  width: 100%;
+  max-width: 470px;
+  margin: 0 auto;
+  padding: 0 1.2rem 2rem 0;
+}
+#about .ap-main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: visible;
+  isolation: isolate;
+}
+#about .ap-slideshow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #21151b;
+  box-shadow: 0 18px 48px rgba(0,0,0,.28);
+}
+#about .ap-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.035);
+  transition: opacity 900ms ease, transform 5s ease;
+}
+#about .ap-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+#about .ap-years {
+  z-index: 2;
+  right: -1rem;
+  bottom: 1.25rem;
+  padding: .9rem 1.1rem;
+  border: 1px solid rgba(255,255,255,.18);
+}
+#about .ap-years span { font-size: 1.7rem; }
+#about .ap-slide-indicators {
+  position: absolute;
+  z-index: 3;
+  left: 1rem;
+  bottom: 1.25rem;
+  display: flex;
+  gap: .45rem;
+  padding: .55rem .7rem;
+  border-radius: 30px;
+  background: rgba(15,8,12,.48);
+  backdrop-filter: blur(8px);
+}
+#about .ap-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  cursor: pointer;
+  transition: width .25s ease, background .25s ease;
+}
+#about .ap-dot.is-active {
+  width: 24px;
+  border-radius: 10px;
+  background: #fff;
+}
+@media (max-width: 900px) {
+  #about .about-photos { max-width: 390px; padding-right: .8rem; }
+}
+@media (max-width: 600px) {
+  #about .about-photos { max-width: 340px; padding-right: .7rem; padding-bottom: 1.5rem; }
+  #about .ap-main { aspect-ratio: 4 / 5; }
+  #about .ap-years { right: -.55rem; bottom: .9rem; padding: .7rem .85rem; }
+  #about .ap-years span { font-size: 1.35rem; }
+  #about .ap-slide-indicators { left: .7rem; bottom: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #about .ap-slide { transition: none; transform: none; }
+}
