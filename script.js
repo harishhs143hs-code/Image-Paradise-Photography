@@ -320,4 +320,40 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── PERFORMANCE: BASIC OBSERVABILITY ──────── */
   if ('PerformanceObserver' in window) { try { const lcpObserver = new PerformanceObserver(list => { const entries=list.getEntries(); const lastEntry=entries[entries.length-1]; if(lastEntry) console.log('LCP:',lastEntry.startTime.toFixed(2),'ms'); }); lcpObserver.observe({type:'largest-contentful-paint',buffered:true}); } catch(e) {} }
 
+
+  /* ── CTA COPY A/B TEST (one variable: wording) ── */
+  const primaryCta = document.querySelector('[data-cta-ab="primary"]');
+  if (primaryCta) {
+    const experimentKey = 'ip_cta_copy_v1';
+    let variant = '';
+    try {
+      variant = window.localStorage.getItem(experimentKey) || '';
+      if (!variant) {
+        variant = Math.random() < 0.5 ? 'A' : 'B';
+        window.localStorage.setItem(experimentKey, variant);
+      }
+    } catch (_) {
+      variant = Math.random() < 0.5 ? 'A' : 'B';
+    }
+
+    const copy = variant === 'B' ? 'Get a Quote' : 'Check Availability';
+    primaryCta.textContent = copy;
+    primaryCta.dataset.ctaVariant = variant;
+
+    const track = (eventName) => {
+      const detail = { experiment: experimentKey, variant, event_category: 'CTA experiment' };
+      if (typeof window.gtag === 'function') window.gtag('event', eventName, detail);
+      if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: eventName, ...detail });
+    };
+
+    track('cta_experiment_view');
+    primaryCta.addEventListener('click', () => track('cta_experiment_click'));
+
+    const enquiryForm = document.getElementById('whatsappLeadForm');
+    if (enquiryForm) enquiryForm.addEventListener('submit', () => {
+      if (enquiryForm.checkValidity()) track('cta_experiment_enquiry_submit');
+    });
+  }
+
+
 });
