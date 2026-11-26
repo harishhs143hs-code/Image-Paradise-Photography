@@ -1,2 +1,63 @@
 
 .audit-internal-links{padding:64px 0}.audit-internal-links .section-inner{max-width:1100px;margin:auto;padding:0 20px}.audit-internal-links h2{max-width:720px}.audit-link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}.audit-link-grid a{display:block;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:10px;text-decoration:none}.whatsapp-lead-form{display:grid;gap:10px;max-width:620px}.whatsapp-lead-form h3{margin:0 0 4px}.whatsapp-lead-form p{margin:0 0 10px}.whatsapp-lead-form input,.whatsapp-lead-form select{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(0,0,0,.18);border-radius:8px;font:inherit;background:#fff}.whatsapp-lead-form label{font-weight:600;margin-top:4px}.whatsapp-lead-button{border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer}.lead-privacy{font-size:.82rem;opacity:.72}@media(max-width:700px){.audit-internal-links{padding:44px 0}.audit-link-grid{grid-template-columns:1fr}.whatsapp-lead-form{width:100%}}
+
+
+/* UX polish: clearer hierarchy, comfortable touch targets, and visible interaction states.
+   Uses existing brand tokens and leaves all photography/assets untouched. */
+html { scroll-padding-top: 88px; }
+section[id], footer[id] { scroll-margin-top: 88px; }
+a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--pk, #D81B60);
+  outline-offset: 3px;
+}
+.whatsapp-lead-form { gap: 12px; }
+.whatsapp-lead-form label:not(.lead-consent) { display:block; line-height:1.45; }
+.whatsapp-lead-form input, .whatsapp-lead-form select,
+.whatsapp-lead-form textarea {
+  min-height: 48px;
+  padding: 13px 15px;
+  border-radius: 10px;
+  transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.whatsapp-lead-form textarea { min-height: 112px; resize: vertical; }
+.whatsapp-lead-form input:focus, .whatsapp-lead-form select:focus,
+.whatsapp-lead-form textarea:focus {
+  border-color: var(--pk, #D81B60);
+  box-shadow: 0 0 0 3px rgba(216,27,96,.12);
+}
+.whatsapp-lead-form input:invalid:not(:placeholder-shown),
+.whatsapp-lead-form select:invalid {
+  border-color: #b42318;
+}
+.whatsapp-lead-form .lead-consent {
+  display:flex; align-items:flex-start; gap:10px; line-height:1.55;
+}
+.whatsapp-lead-form .lead-consent input {
+  width:20px; min-width:20px; height:20px; min-height:20px;
+  margin:2px 0 0; accent-color:var(--pk, #D81B60);
+}
+.whatsapp-lead-button {
+  min-height:50px;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.whatsapp-lead-button:hover { transform:translateY(-1px); }
+.whatsapp-lead-button:active { transform:translateY(0); }
+.filter-row { display:flex; flex-wrap:wrap; gap:10px; }
+.filter-row .chip { min-height:44px; padding-inline:16px; cursor:pointer; }
+.filter-row .chip:focus-visible { outline-offset:3px; }
+.service-discovery-grid a { transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.service-discovery-grid a:hover { transform:translateY(-2px); border-color:rgba(216,27,96,.28); box-shadow:0 12px 30px rgba(48,30,46,.08); }
+@media (max-width: 600px) {
+  html { scroll-padding-top:72px; }
+  section[id], footer[id] { scroll-margin-top:72px; }
+  .whatsapp-lead-form { gap:10px; }
+  .whatsapp-lead-button { width:100%; padding-inline:16px; line-height:1.4; }
+  .filter-row { gap:8px; }
+  .filter-row .chip { flex:1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-discovery-grid a, .whatsapp-lead-button { transition:none; }
+  .service-discovery-grid a:hover, .whatsapp-lead-button:hover { transform:none; }
+}
