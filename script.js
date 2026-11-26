@@ -356,4 +356,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+
+  /* ── EXIT-INTENT REMINDER (desktop only) ─────── */
+  const exitNudge = document.getElementById('exitNudge');
+  if (exitNudge && window.matchMedia('(min-width: 601px) and (hover: hover) and (pointer: fine)').matches) {
+    let dismissed = false;
+    let lastFocused = null;
+    const closeNudge = () => {
+      if (exitNudge.hidden) return;
+      exitNudge.hidden = true;
+      dismissed = true;
+      try { sessionStorage.setItem('ip_exit_nudge_seen', '1'); } catch (_) {}
+      if (lastFocused) lastFocused.focus();
+    };
+    const alreadySeen = (() => { try { return sessionStorage.getItem('ip_exit_nudge_seen') === '1'; } catch (_) { return false; } })();
+    const showNudge = () => {
+      if (dismissed || alreadySeen || !exitNudge.hidden) return;
+      if (document.querySelector('#whatsappLeadForm [name="website"]')?.value) return;
+      if (document.querySelector('#whatsappLeadForm input:focus, #whatsappLeadForm textarea:focus')) return;
+      lastFocused = document.activeElement;
+      exitNudge.hidden = false;
+      exitNudge.querySelector('.exit-nudge-close')?.focus();
+      try { sessionStorage.setItem('ip_exit_nudge_seen', '1'); } catch (_) {}
+    };
+    document.addEventListener('mouseout', event => {
+      if (event.relatedTarget === null && event.clientY <= 0) showNudge();
+    });
+    exitNudge.querySelector('.exit-nudge-close')?.addEventListener('click', closeNudge);
+    exitNudge.addEventListener('click', event => { if (event.target === exitNudge) closeNudge(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeNudge(); });
+    exitNudge.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      dismissed = true;
+      try { sessionStorage.setItem('ip_exit_nudge_seen', '1'); } catch (_) {}
+    }));
+  }
+
+
 });
