@@ -61,3 +61,22 @@ textarea:focus-visible, [tabindex]:focus-visible {
   .service-discovery-grid a, .whatsapp-lead-button { transition:none; }
   .service-discovery-grid a:hover, .whatsapp-lead-button:hover { transform:none; }
 }
+
+/* Lead capture: compact first step, optional details on demand, and mobile thumb CTA. */
+.lead-optional-details { margin: 4px 0 2px; border: 1px solid rgba(216,27,96,.16); border-radius: 12px; background: #fff; }
+.lead-optional-details summary { cursor:pointer; min-height:48px; display:flex; align-items:center; padding:12px 15px; color:var(--ink,#241b29); font-weight:650; line-height:1.4; }
+.lead-optional-details summary::marker { color:var(--pk,#D81B60); }
+.lead-optional-fields { display:grid; gap:10px; padding:0 14px 15px; }
+.mobile-inquire-cta { display:none; }
+@media(max-width:700px) {
+  body { padding-bottom:calc(68px + env(safe-area-inset-bottom)); }
+  .mobile-inquire-cta {
+    position:fixed; z-index:900; left:12px; right:12px; bottom:calc(10px + env(safe-area-inset-bottom));
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    min-height:50px; padding:12px 18px; border-radius:999px;
+    background:var(--pk,#D81B60); color:#fff; text-decoration:none;
+    font-weight:750; box-shadow:0 8px 26px rgba(216,27,96,.24);
+  }
+  .mobile-inquire-cta:focus-visible { outline:3px solid var(--ink,#241b29); outline-offset:3px; }
+}
+@media(prefers-reduced-motion:reduce) { .mobile-inquire-cta { transition:none; } }
